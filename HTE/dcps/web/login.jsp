@@ -9,25 +9,18 @@
 <%@page errorPage="webErrorPage.jsp" isErrorPage="false"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
+
+
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT">
 
-<!-- pop CDN -->
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-	
 <fmt:requestEncoding value="UTF-8" />
 <html>
 <%@ page import="org.springframework.security.AuthenticationException"%>
 <%@ page
 	import="org.springframework.security.ui.AbstractProcessingFilter"%>
+	<%@ page import="com.tcs.sgv.common.constant.RandomStringGenerator"%>
 <fmt:setLocale value="en_US" scope="page" />
 <fmt:setBundle basename="resources.CommonLables_en_US"
 	var="englishLabels" scope="application" />
@@ -37,16 +30,32 @@
 	scope="request" />
 
 
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 <%
-	String flag = (String) request.getAttribute("captchaValidateFlag");
-String userName = (String) request.getAttribute("userName");
-String pwd = (String) request.getAttribute("pwd");
+	String alphaNumericString = RandomStringGenerator
+			.getAlphaNumericString(20);
+	session.setAttribute("randomString", alphaNumericString);
+%>
+
+
+
+<%
+	String flag = (String)request.getAttribute("captchaValidateFlag");
+	String userName = (String)request.getAttribute("userName");
+	String pwd = (String)request.getAttribute("pwd");
+	String captcha =(String)session.getAttribute("captcha123");
+	
+	
+	
+	
 %>
 
 <c:set value="<%=flag%>" var="flag"></c:set>
 <c:set value="<%=userName%>" var="userName"></c:set>
 <c:set value="<%=pwd%>" var="pwd"></c:set>
+<c:set value="<%=captcha%>" var="captcha"></c:set>
 
 <fmt:message var="digitalSignature" key="ENABLE_DIGITAL_SIGNATURE"
 	bundle="${constant}" />
@@ -62,7 +71,11 @@ String pwd = (String) request.getAttribute("pwd");
 	href='<c:url value="/themes/ifmsblue/statusbar.css"/>' type="text/css">
 <link rel="stylesheet"
 	href='<c:url value="/themes/ifmsblue/exprcpt.css"/>' type="text/css" />
-
+<style>
+marquee {
+    max-height: 50vh;
+}
+</style>
 <script type="text/javascript"
 	src='<c:url value="/script/login/statusbar.js"/>'></script>
 <script type="text/javascript"
@@ -72,17 +85,16 @@ String pwd = (String) request.getAttribute("pwd");
 <script type="text/javascript"
 	src="<c:url value="/script/login/frmUtils_1.0.js"/>"></script>
 
-<link rel="stylesheet" type="text/css"
-	href='<c:url value="/themes/mahakosh.css"/>' />
+<link rel="stylesheet" type="text/css" href='<c:url value="/themes/mahakosh.css"/>' />
 <script type="text/javascript"
 	src="<c:url value="/script/login/getLoginWindow.js"/>"></script>
 <script type="text/javascript"
 	src='<c:url value="/script/pensionpay/PensionersCorner.js"/>'></script>
-
+	
 
 <script type="text/javascript"
 	src="<c:url value="/script/login/md5.js"/>"></script>
-
+	
 <script type="text/javascript">
 	function getLoginPage() {
 		openLoginWindow();
@@ -303,8 +315,8 @@ function goToCOntroller()
 {
 	document.getElementById('captcha_code').value='';
 	 var text = "";
-	 var possible = "023456789";
-	//ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz
+	 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
 	 for( var i=0; i < 6; i++ )
 	    text += possible.charAt(Math.floor(Math.random() * possible.length))+' ';
 
@@ -336,6 +348,9 @@ function ValidCaptcha(){
 	if(str2Len >=str1Len){
     
     if (str1 == str2) {
+    	
+    	
+    	
         return true;
         document.getElementById('divCaptchaMsg').style.visibility='hidden';
     }
@@ -394,41 +409,44 @@ document.getElementById("captchaImageNew").src="./CaptchaServlet?"+Math.random()
 
 </script>
 <style type="text/css">
-.textboxSTyle {
-	border: 1px solid #848484;
-	-webkit-border-radius: 30px;
-	-moz-border-radius: 30px;
-	border-radius: 30px;
-	outline: 0;
-	height: 25px;
-	width: 275px;
-	padding-left: 10px;
-	padding-right: 10px;
+ .textboxSTyle { 
+     border: 1px solid #848484; 
+    -webkit-border-radius: 30px; 
+    -moz-border-radius: 30px; 
+    border-radius: 30px; 
+    outline:0; 
+    height:25px; 
+    width: 275px; 
+    padding-left:10px; 
+    padding-right:10px; 
+ } 
+.input_img 
+{
+ background-image: url("images/bgcolor.gif"); 
+text-align: center;
+ border: medium none;
+  font-weight: bold;
+  color: red;
+  font-family: Modern;
+  height: 27px;
+ width: 135px;
+ font-size: 20px;
 }
 
-.input_img {
-	background-image: url("images/bgcolor.gif");
-	text-align: center;
-	border: medium none;
-	font-weight: bold;
-	color: red;
-	font-family: arial;
-	height: 27px;
-	width: 135px;
-	font-size: 20px;
-}
 
-.align {
+.align
+{
 	margin: 0 auto;
 	width: 250px;
-}
-
+	 
+	}
+	
 .bigbutton {
 	padding: 2px;
 	background: #FFF url(themes/ifmsblue/images/wintop.jpg) repeat;
 	border: 1px solid black;
 	color: white;
-	font-family: 'arial';
+	font-family: 'verdana';
 	font-weight: bold;
 	font-size: 11px;
 }
@@ -437,84 +455,36 @@ document.getElementById("captchaImageNew").src="./CaptchaServlet?"+Math.random()
 	border-width: 5px 1px 1px 1px;
 	border-color: #c06f20; /*change*/
 	border-style: solid;
-	padding: 0px;
+	padding: 0px; 
 }
 
-#MainTable {
-	/* background-color: burlywood; */
-	/* background-image: linear-gradient(60deg, #a9c3c7, #cebae1); */
-	/* background-image: linear-gradient(0deg, #ccc, #b2ad6b); */
-	background-image: linear-gradient(0deg, #fff, #ff8e00);
-	/* 		background-image: linear-gradient(180deg, #fff, #ff8e00); */
-}
 
-.inputField {
-	height: 24px !important;
-	border: 10px;
-	border-radius: 5px;
-	box-shadow: 0px 0px 2px #817d7d;
-}
 
-.noticeText {
-	border: 1px solid #00137b;
-	border-radius: 5px;
-	padding: 2px;
-}
-
-.FaqBtn {
-	padding: 2px 10px;
-	font-size: 10px;
-	text-decoration: none !important;
-}
-
-body * {
-	font-family: arial;
-}
-
-.tbl-h {
-	font-size: 16px;
-}
-
-.sideBarNotice {
-	background-color: #824000;
-}
 </style>
 
 <style>
-.blink {
-	animation: blinker 0.6s linear infinite;
-	color: #1c87c9;
-}
-blink {
-	animation: blinker 0.6s linear infinite;
-	color: #1c87c9;
-}
-
-@keyframes blinker { 50% {
-	opacity: 0;
-}
-
-}
-.blink-one {
-	animation: blinker-one 1s linear infinite;
-}
-
-@keyframes blinker-one { 0% {
-	opacity: 0;
-}
-
-}
-.blink-two {
-	animation: blinker-two 1.4s linear infinite;
-}
-
-@keyframes blinker-two { 100% {
-	opacity: 0;
-}
-}
+      blink {
+        animation: blinker 0.6s linear infinite;
+        color: #1c87c9;
+       }
+      @keyframes blinker {  
+        50% { opacity: 0; }
+       }
+       .blink-one {
+         animation: blinker-one 1s linear infinite;
+       }
+       @keyframes blinker-one {  
+         0% { opacity: 0; }
+       }
+       .blink-two {
+         animation: blinker-two 1.4s linear infinite;
+       }
+       @keyframes blinker-two {  
+         100% { opacity: 0; }
+       }
 </style>
 
-
+ 
 <%
 	String notice = request.getParameter("n");
 %>
@@ -524,341 +494,310 @@ blink {
 
 
 
-<body onbeforeunload="Close()" onunload="HandleOnClose()" onload=""
-	oncontextmenu="return false" onselectstart="return false"
-	ondragstart="return false">
-	<form name="loginForm" autocomplete="off"
-		action="<c:url value='j_spring_security_check'/>" method="POST">
+<body onbeforeunload="Close()"  onload="javascript: goToCOntroller();"  onunload="HandleOnClose()" onload="" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
+<form name="loginForm" autocomplete="off" 
+			action="<c:url value='j_spring_security_check'/>" method="POST">
+			<input type="hidden" value="<%=alphaNumericString%>" id="alphaNumericString" name="alphaNumericString"/>
 
-		<input type="hidden" value="${flag}" id="flag"> <input
-			type="hidden" value="${userName}" id="userName"> <input
-			type="hidden" value="${pwd}" id="pwd">
-
+<input type="hidden" value="${flag}" id="flag">
+<input type="hidden" value="${userName}" id="userName">
+<input type="hidden" value="${pwd}" id="pwd">
 
 
-		<c:if test="${notice == null}">
 
-			<center>
-				<br /> <br /> <br />
-				<fieldset class="tabstyle"
-					style="width: 85%; background-color: #E4E5ED;">
-					<table id="MainTable" width="100%" border="0">
-						<tr>
-							<td colspan="3">
-								<!--<div class="firsttext">Integrated Financial Management System - Mahakosh </div>
+<c:if test="${notice == null}">
+
+<center>
+<br/><br/><br/>
+<fieldset class="tabstyle"
+	style="width: 85%; background-color: #E4E5ED;">
+<table id="MainTable" width="100%" border="0">
+	<tr>
+		<td colspan="3"><!--<div class="firsttext">Integrated Financial Management System - Mahakosh </div>
 		     <div class="secondtext">Finance Department, Government of Maharashtra</div>-->
-								<img src="images/HomePageImages/FianlHomePG_1_11.jpg" width=100%
-								style="background-repeat: no-repeat;"></img>
-							</td>
-						</tr>
-						<!-- <tr>
+		<img src="images/HomePageImages/FianlHomePG_1_11.jpg" width=100%
+			style="background-repeat: no-repeat;"></img></td>
+	</tr>
+	<!-- <tr>
 	  <td colspan="3"><div><font color="red"> Important Notice : Please untick component GIS Arrear recovery from Employee Eligibility for Allowances and Deductions screen in Assistant login and tick to
 					GIS Arrear on the same screen. Last date for this is 16th December 2013.</font></div><br/> 
 	</td>
 	</tr> -->
-						<tr>
-							<td colspan="3" style="background-color: #ffe8ca;"><marquee
-									style="font-size: small" width="100%">
-									<b> <font style="font-family: arial; color: #a50000;">
-											Notice:- Revision of 6th to 7th PC has been started. for more
-											details click on "Revision 6th PC to 7th PC User
-											Manual".(सहाव्या ते सातव्या पीसीचे पुनरावलोकन सुरू झाले आहे.
-											अधिक माहितीसाठी रिव्हिजन 6 व्या पीसी ते 7 व्या पीसी यूजर
-											मॅन्युअल वर क्लिक करा.)</font>
+	<!-- <tr>
+		<td colspan="3"><div style='text-align: center'>
+									<b> <font
+										style="font-family: arial; color: #a50000; font-size: 16px;">
+											Note: This application is ONLY compatible for Internet
+											Explorer browser  (à¤¹à¥‡ à¤¸à¤‚à¤•à¥‡à¤¤à¤¸à¥à¤¥à¤³ à¤«à¤•à¥à¤¤ à¤‡à¤‚à¤Ÿà¤°à¤¨à¥‡à¤Ÿ à¤à¤•à¥à¤¸à¤ªà¥à¤²à¥‹à¤°à¤°
+											à¤¬à¥à¤°à¤¾à¤‰à¤à¤°à¤¸à¤¾à¤ à¥€ à¤¸à¥à¤¸à¤‚à¤—à¤¤ à¤†à¤¹à¥‡) </font>
 									</b>
-								</marquee></td>
+								</div>
+</td>
+	</tr> -->
 
-						</tr>
-						<tr class="sideBarNotice">
-							<td style="width: 30%" align='center' class="tbl-h ">HTESevaarth
-								Login</td>
-							<td style="width: 40%" align='center' class="tbl-h ">About
-								HTESevaarth</td>
-							<td style="width: 30%;" align='center' class="tbl-h ">Notice
-								Board</td>
-						</tr>
 
-						<tr>
+	<tr class="sideBarNotice">
+		<td style="width: 30%" align='center'>HTESevaarth Login</td>
+		<td style="width: 40%" align='center'>About HTESevaarth</td>
+		<td style="width: 30%;" align='center'>Notice Board</td>
+	</tr>
+	
+	<tr>
+		
+<td style="width: 30%" align="left" bordercolor="#c06f20" valign="top">
+		<div style="overflow-y:auto;height:250px">
+			
+		<ul>
+			<table>
+			<tr></tr><tr></tr><tr>
+			<td colspan="6" align="center"><font
+					style="font-size: 13px; font-weight: bold; color: #FF3333;">
+				<%
+										session.setAttribute("mainFunc","SetNormalWin");
+										// error1 = Your IP Address is blocked.
+										String errors[] = request.getParameterValues("error"); 
+										if(errors != null && errors.length > 0)
+										{
+											for(int x=0;x<errors.length;x++)
+											{
+												if(errors[x].equals("error1"))
+												{
+											    	out.print("Your IP Address is blocked.");						    			
+											    }
+											}
+										}
+										else
+										{
+											AuthenticationException authenticationException=(AuthenticationException)session.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
+									
+										    if(authenticationException!=null)
+											{
+										%> <%=authenticationException.getMessage()%> <%
+											} 
+										}
+										%> </font>
+										</td>
+			</tr>
+			<tr><td>
+			<input type="hidden" name="capLength" id="capLength" >
+			<input type="hidden" name="captcha" id="captcha"  >
+			<input type="hidden" name="pass1" id="pass1">
+			</td></tr>
+			<tr>
+			
+			
+			</tr><tr>
 
-							<td style="width: 30%" align="left" bordercolor="#c06f20"
-								valign="top">
-								<div style="overflow-y: auto; height: 250px">
-
-									<ul>
-										<table>
-											<tr></tr>
-											<tr></tr>
-											<tr>
-												<td colspan="6" align="center"><font
-													style="font-size: 13px; font-weight: bold; color: #FF3333;">
-														<%
-															session.setAttribute("mainFunc", "SetNormalWin");
-														// error1 = Your IP Address is blocked.
-														String errors[] = request.getParameterValues("error");
-														if (errors != null && errors.length > 0) {
-															for (int x = 0; x < errors.length; x++) {
-																if (errors[x].equals("error1")) {
-															out.print("Your IP Address is blocked.");
-																}
-															}
-														} else {
-															AuthenticationException authenticationException = (AuthenticationException) session
-															.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
-
-															if (authenticationException != null) {
-														%> <%=authenticationException.getMessage()%> <%
- 	}
- }
- %>
-												</font></td>
-											</tr>
-											<tr>
-												<td><input type="hidden" name="capLength"
-													id="capLength"> <input type="hidden" name="captcha"
-													id="captcha"></td>
-											</tr>
-											<!--<tr>
-			<td>Captcha</td>
-			<td><img src="./CaptchaServlet">session.getAttribute("captcha123")3") %> </td>
+			<td>User Name</td><td><input type="text" id="username" value=""  name="username" color="black"  maxlength="18" style="width: 136px; height: 17px; border: 10px;" onkeypress="javascript: checkEnterForLogin();">
+					
+					</td></tr>
+			<tr>
+			</tr><tr>
+			<td>Password</td><td><input type="password" id="password"  name="password" maxlength="16"  value=""
+					class="keyboardInput"
+					style="width: 136px; height: 17px; border: none;" 
+					onkeypress="capLock(event);checkEnterForLogin();" ></td></tr>
+				
+				<tr><td>Captcha</td>             
+                    <!-- <td><img id="captchaImageNew" src="./CaptchaServlet"><img src="images/rr.gif" onclick="refresh();" title="Click here to refresh the image"></td> -->
+                    
+                    	<td><font color="red"><b><label
+															id="txtCaptcha" class="input_img" /></label></b> </font>
+															<img
+													src="images/rr.gif" onclick="goToCOntroller();"
+													title="Click here to refresh the image"></td>
+				</tr>  
+                    <tr><td>&nbsp;</td>
+                    <td><input type="text" id="captcha_code" onblur="" name="captcha_code" title="Enter Captcha here." class="required" value=""  style="width: 136px; height: 17px; border: 10px;"/></td>
+                            </tr>
+                            
+            <tr><td>
+            
+            
+            
+            </td><td>
+				<div id="divCaptchaMsg"><font color="yellow" style="font-family: Arial; font-size: 11px;"> <b><strong><label id="errorLabel">
+				</label></strong></b></font>
+				</div></td>
 			</tr>
 			
-			-->
-											<tr>
-
-
-											</tr>
-											<tr>
-
-												<td><span style="font-size: 13px; font-weight: bold;">User
-														Name</span></td>
-												<td><input class="inputField" type="text" id="username"
-													value="" name="username" color="black" maxlength="18"
-													style="width: 136px; height: 17px; border: 10px;"
-													onkeypress="javascript: checkEnterForLogin();"></td>
-											</tr>
-											<tr>
-											</tr>
-											<tr>
-												<td><span style="font-size: 13px; font-weight: bold;">Password</span></td>
-												<td><input type="password" id="password"
-													name="password" maxlength="16" value=""
-													class="keyboardInput inputField"
-													style="width: 136px; height: 17px; border: none;"
-													onkeypress="capLock(event);checkEnterForLogin();"></td>
-											</tr>
-
-											<tr>
-												<td><span style="font-size: 13px; font-weight: bold;">Captcha</span></td>
-												<td><img id="captchaImageNew" src="./CaptchaServlet"><img
-													src="images/rr.gif" onclick="refresh();"
-													title="Click here to refresh the image"></td>
-											</tr>
-											<tr>
-												<td>&nbsp;</td>
-												<td><input type="text" id="captcha_code" onblur=""
-													name="captcha_code" title="Enter Captcha here."
-													class="required inputField" value=""
-													style="width: 136px; height: 17px; border: 10px;" /></td>
-											</tr>
-
-											<tr>
-												<td></td>
-												<td>
-													<div id="divCaptchaMsg">
-														<font color="yellow"
-															style="font-family: Arial; font-size: 11px;"> <b><strong><label
-																	id="errorLabel"> </label></strong></b></font>
-													</div>
-												</td>
-											</tr>
-
-											<tr style="">
-												<td colspan="5"><font class="Labelerrormsg"><a
-														href="#"
-														style="padding-left: 80px; text-decoration: none; color: black; font-size: 13px; font-weight: bold;"
-														onclick="alert('Please contact support staff to update password');">
-															Forgot Password </a></font></td>
-											</tr>
-											<tr>
-												<td></td>
-												<td>
-													<div id="divErrorMsg">
-														<font color="yellow"
-															style="font-family: Arial; font-size: 11px;"> <b><strong><label
-																	id="errorLabel"> </label></strong></b></font>
-													</div>
-												</td>
-											</tr>
-											<tr>
-												<td colspan="3" align="center"><input type="button"
-													value="Submit" name="btnSubmit" class="buttontag"
-													onclick="validateCaptcha();"> <input type="button"
-													value="Reset" class="buttontag"
-													onclick="javascript : resetAll();"></td>
-											</tr>
-
-										</table>
-									</ul>
-
-
-
-								</div>
-
-
-
-							</td>
-							<td
-								style="width: 40%; height: 250px; text-align: justify; padding-top: 20px; font-weight: bold; font-size: 14px; font-family: arial; color: #442200;"
-								align="justify" bordercolor="#c06f20" valign="top">
-								HTESevaarth is a centralized web based Integrated System of
-								personnel information and Payroll for Grant-in-Aid Institution
-								in Maharashtra. It is an important component of IFMS
-								(Intregrated Finance Management System) with facility for data
-								exchange with other important modules of Directorate of Accounts
-								and Treasuries. It is the first step in the direction of
-								achieving the aim of paper less electronic payroll system i.e.
-								paybill generation, electronic submission, electronic audit and
-								electronic payment to employees along with e-payslips. <br /> <br />
-								<center>
-									<span>View FAQs in</span> <a href="images/FAQ_English.pdf"
-										target="_blank" class="buttontag FaqBtn">English</a> <a
-										href="images/FAQ_marathi.pdf" target="_blank"
-										class="buttontag FaqBtn">मराठी</a>
-								</center>
-							</td>
-							<td style="width: 22%" bordercolor="#c06f20" valign="middle">
-								<marquee direction="up" SCROLLDELAY=6 scrollamount="2.5"
-									behavior="scroll" onmouseover="stop()" onmouseout="start()">
-									<ul>
-
-										<li class="noticeText"><h4><font color="#736AFF" style="font-style: verdana"><b>Note - Update CSRF Form and Nps File Generate tab is available in respective JD under " Worklist  > NPS > Pran Registration " </b></font></h4></li>
-
-<li><h4><font color="#736AFF" style="font-style: verdana"><b>Note - Update Pran No tab is available in respective JD under " Worklist  > NPS > Pran Registration " </b></font></h4></li>
-
-										<li class="noticeText">
-											
-												<font color="#736AFF" style="font-style: verdana"><b>Note
-														- Revision of 6th to 7th PC has been started. for more
-														details click on "Revision 6th PC to 7th PC User
-														Manual".(सहाव्या ते सातव्या पीसीचे पुनरावलोकन सुरू झाले
-														आहे. अधिक माहितीसाठी रिव्हिजन 6 व्या पीसी ते 7 व्या पीसी
-														यूजर मॅन्युअल वर क्लिक करा.)</b></font>
-											
-
-										</li>
-
-
-
-
-
-
-									</ul>
-
-									<span> </span>
-									</div>
-								</marquee>
-							</td>
-
-
-
-						</tr>
-						<tr class="sideBarNotice">
-							<td style="width: 30%" align='center'>7th Pay Comission</td>
-							<td style="width: 40%" align='center'>Important Links/Level
-								Matrix</td>
-							<td style="width: 30%;" align='center'>Useful Documents</td>
-
-
-
-
-						</tr>
-						<tr align="left">
-							<td style="width: 30%" bordercolor="#c06f20" valign="top">
-								<ul>
-									<li>
-										<!-- 				<a href="images/Support_Staff_Link_7.pdf" target="_blank" >Support Staff Link</a> -->
-										<a href="images/Revision_6PC_To_7PC_HTE_Sevaarth.pdf"
-										target="_blank" style="font-size: 14px; font-weight: bold;" class="blink">Revision
-												6th PC to 7th PC User Manual</a>
-									</li>
-									<!--<li>
- 			<a href="images/MasterTrainers.pdf"target="_blank" style="font-size: 12px; font-weight: bold;">District Master Trainers Support Staff Team</a> 
-			</li> -->
-
-								</ul>
-							</td>
-							<td style="width: 30%" bordercolor="#c06f20" valign="top">
-
-								<ul>
-
-									<li><a href="http://finance.maharashtra.gov.in"
-										target="_blank" style="font-size: 14px; font-weight: bold;">http://finance.maharashtra.gov.in</a></li>
-									<li><a href="mailto:htesevaarth1@gmail.com"
-										style="font-size: 14px; font-weight: bold;"><font
-											color="#066fcc">Level 1 Helpdesk e-mail -
-												htesevaarth2@gmail.com</font></a></li>
-									<li><a href="mailto:ba.sevaarth@gmail.com" class="underline" style="font-size: 14px; font-weight: bold; text-decoration: none;">Level
-											No 2:<br> ba.sevaarth@gmail.com/ ba.sevaarth@mahait.org
-									</a></li>
-<li><font color="#066fcc" style="font-size: 14px; font-weight: bold;">Nodal Officer Details:- <br><a href="mailto:do.asthahte-mh@gov.in" style="font-size: 14px; font-weight: bold;"> Amol Ugalmugale - amol.ugalmugale@gov.in </a> <br> 
-                      <a href="mailto:desk16@dvet.gov.in" style="font-size: 14px; font-weight: bold;">  R. V. Vasave   desk16@dvet.gov.in </a></font></label></li>
-								</ul>
-
-							</td>
-
-							<td style="width: 30%" valign="top" style="padding-left:5px;">
-
-
-
-
-								<ul>
-
-
-									<li><a href="images/StepsUsingTribal.pdf" target="_blank"
-										style="font-size: 14px; font-weight: bold;">Step wise use
-											of application</a></li>
-
-									<!-- 	<li><a href="images/FAQ.pdf" target="_blank" style="font-size: 14px; font-weight: bold;">Frequently
-											Asked Questions</a></li> -->
-
-									<li><a href="#" onclick="javascript:getDashBoard()"
-										style="font-size: 14px; font-weight: bold;">Graphical
-											Summary</a></li>
-
-
-
-								</ul>
-							</td>
-						</tr>
-
-
-					</table>
-				</fieldset>
-			</center>
-		</c:if>
-
-
-		<body onbeforeunload="Close()" onunload="HandleOnClose()"
-			onload="javascript: startLogin()">
-			<script type="text/javascript"
-				src='<c:url value="/script/common/wz_tooltip.js"/>'></script>
-			<script type="text/javascript"
-				src='<c:url value="/script/common/tip_balloon.js"/>'></script>
-			<div id='statusbar'>
-				<table style="font-family: arial;">
+				<!-- <tr style=""><td colspan="5"><font class="Labelerrormsg"><a
+					href="#"
+					style="padding-left:80px; font-size: 10pt; text-decoration: none; color: black;"
+					onclick="alert('Please contact support staff to update password');" >Forgot Password </a></font>
+				</td></tr> -->
+			<tr><td></td><td>
+				<div id="divErrorMsg"><font color="yellow" style="font-family: Arial; font-size: 11px;"> <b><strong><label id="errorLabel">
+				</label></strong></b></font>
+				</div></td>
+			</tr>
 					<tr>
-						<td id='imgtd'>&nbsp;</td>
-						<td align='left' valign='middle' id='statuBarTd1'></td>
-					</tr>
-				</table>
-			</div>
-			<!--<div style="width: 100%; text-align: center;">-->
-			<!--	 <a style="font-size: 10pt;font-weight: boldl;font-family:verdana;" href="javascript:openFaq();">-->
-			<!--	 	<b>Shalarth Frequently Asked Questions - Updated on (22/08/2012)</b>-->
-			<!--	 </a>-->
-			<!--	<sup><blink><b style="color: red;font-size: 14">New</b></blink></sup>-->
-			<!--</div>-->
-			<!--
+					<td colspan="3" align="center">
+				<input type="button" value="Submit" name="btnSubmit"
+					class="buttontag" onclick="startLoginInShalarth();"> <input
+					type="button" value="Reset" class="buttontag"
+					onclick="javascript : resetAll();"></td></tr>
+		
+			</table></ul>
+			
+		
+		
+		</div>
+		
+	
+		
+		</td>
+		<td style="width: 40%;height:250px;text-align:justify;padding=10px" align="justify" bordercolor="#c06f20" valign="top" >
+		HTESevaarth is a centralized web based Integrated 
+		System of personnel information and Payroll for    
+		Grant-in-Aid Institution in Maharashtra. It is 
+		an important component of IFMS (Intregrated Finance
+		Management System) with facility for data exchange
+		with other important modules of Directorate of 
+		Accounts and Treasuries. It is the first step in the direction 
+		of achieving the aim of paper less electronic payroll 
+		system i.e. paybill generation, electronic submission,
+		electronic audit and electronic payment to employees 
+		along with e-payslips.
+		
+		<br/><br/>
+		
+		</td>
+	<td style="width: 22%" bordercolor="#c06f20" valign="middle">
+		  <marquee direction="up" SCROLLDELAY=6 scrollamount="2.5" behavior="scroll" onmouseover="stop()" onmouseout="start()"> 
+	<ul>
+ 
+			<li><h4><font color="#736AFF" style="font-style: verdana"><b>Note - Update CSRF Form and Nps File Generate tab is available in respective JD under " Worklist  > NPS > Pran Registration " </b></font></h4></li>
+
+<li><h4><font color="#736AFF" style="font-style: verdana"><b>Note - Update Pran No tab is available in respective JD under " Worklist  > NPS  " </b></font></h4></li>
+			<li><h4><font color="#736AFF" style="font-style: verdana"><b>Note - DTO Registration Details Report is available in respective JD under "Report >> DTO Registration Details" </b></font></h4></li>
+			<li><h4><font color="#736AFF" style="font-style: verdana"><b>Note - Revision of 6th to 7th PC has been started. for more details click on "Revision 6th PC to 7th PC User Manual".</b></font></h4></li>
+			<li><h4><font color="#736AFF" style="font-style: verdana"><b>Note -6 PC employee use Traveling allowances(TA) and 7PC employee use Traveling allowances(7PC TA).Traveling allowances seperated for 6pc and 7pc Employees. So, we need to map for 7pc separately.
+.</b></font></h4></li>
+			<li>
+			<h4><font color="#736AFF" style="font-style: verdana">
+				<b>As per instruction from departmenrt we Updated TA. For any one have query related to TA check the employee statistics and change in pay post TAB then generate the Pay Bill.</b>
+			</font></h4>
+			
+			</li>
+			
+			
+ 
+
+			
+			
+	</ul>
+
+	<span>
+	
+	</span>
+	</div>
+		</marquee>  
+		</td>
+		
+	
+	
+	</tr>
+	<tr class="sideBarNotice" >
+	<td style="width: 30%" align='center'>7th Pay Comission</td>
+	<td style="width: 40%" align='center'>Important Links/Level Matrix</td>
+		<td style="width: 30%;" align='center'>Useful Documents</td>
+
+		
+
+		
+	</tr>
+	<tr align="left">
+	<td style="width: 30%" bordercolor="#c06f20" valign="top">
+		<ul>
+			<li>
+<!-- 				<a href="images/Support_Staff_Link_7.pdf" target="_blank" >Support Staff Link</a> -->
+				<a href="images/Revision_6PC_To_7PC_HTE_Sevaarth.pdf" target="_blank" ><blink>Revision 6th PC to 7th PC User Manual</blink></a>
+			</li>
+				<!--<li>
+ 			<a href="images/MasterTrainers.pdf"target="_blank">District Master Trainers Support Staff Team</a> 
+			</li> -->
+			
+		</ul>
+		</td>
+		<td style="width: 30%" bordercolor="#c06f20" valign="top">
+		
+		<ul>
+			
+			<li><a href="http://finance.maharashtra.gov.in" target="_blank">http://finance.maharashtra.gov.in</a></li>
+			<li><label><font color="#066fcc">Level 1 Helpdesk e-mail - htesevaarth2[at]gmail[dot]com</font></label></li>
+			  <li><label><font color="#066fcc">Level 1 Helpdesk LandLine - 022-61316426 </font></label></li>  
+						
+                      <!--  <li><label><font color="#066fcc">Calling time (10am to 1.30pm & 2.30pm to 6pm) <br> Lunch time (1.30pm to 2.30pm)</font></label></li> -->
+                        <li><label><font color="#066fcc">Nodal Officer Details: <br> Mr. Hemant Pathak:- hemant[dot]pathak[at]nic[dot]in <br> or mashi2-hted[at]mah[dot]gov[dot]in  <br> 
+                        desk5[at]dvet[dot]gov[dot]in <br>
+			 <!--  022-61316426  --> </font></label></li>
+
+
+			
+		</ul>
+		
+		</td>
+	
+		<td style="width: 30%" valign="top" style="padding-left:5px;"> 
+		
+	
+	
+	
+		<ul>
+
+			<li>
+				<a href="images/HTE_PRAN Update Utilities24_05-23.pdf" target="_blank">Pran Update Utility</a> 
+			</li>
+
+			<li>
+				<a href="images/StepsUsingTribal.pdf" target="_blank">Step wise use of application</a> 
+			</li>
+				
+			<li>
+				<a href="images/FAQ.pdf" target="_blank">Frequently Asked Questions</a>
+			</li>
+	
+			
+	 	<li>
+				<a href="#"  onclick="javascript:getDashBoard()" >Graphical Summary</a>
+			
+			</li>	
+		<li><a href="images/User Guide for Issue Ticketing.pdf"target="_blank">User Guide for Issue Ticketing</a></li>
+			
+		
+				
+		</ul>
+</td>	
+	</tr>
+	
+	
+</table>
+</fieldset>
+</center>
+</c:if>
+
+
+<body onbeforeunload="Close()" onunload="HandleOnClose()" onload="javascript: startLogin()">
+<script type="text/javascript"
+	src='<c:url value="/script/common/wz_tooltip.js"/>'></script>
+<script type="text/javascript"
+	src='<c:url value="/script/common/tip_balloon.js"/>'></script>
+<div id='statusbar'>
+<table style="font-family: arial;">
+	<tr>
+		<td id='imgtd'>&nbsp;</td>
+		<td align='left' valign='middle' id='statuBarTd1'></td>
+	</tr>
+</table>
+</div>
+<!--<div style="width: 100%; text-align: center;">-->
+<!--	 <a style="font-size: 10pt;font-weight: boldl;font-family:verdana;" href="javascript:openFaq();">-->
+<!--	 	<b>Shalarth Frequently Asked Questions - Updated on (22/08/2012)</b>-->
+<!--	 </a>-->
+<!--	<sup><blink><b style="color: red;font-size: 14">New</b></blink></sup>-->
+<!--</div>-->
+<!--
 <div style="width: 100%; text-align: center;">
 
 	<sup><blink><b style="color: red;font-size: 10pt;font-family:verdana;">Coming Soon</b></blink></sup>
@@ -894,10 +833,7 @@ blink {
 	
 </div>
 -->
-			<br />
-			<br />
-			<br />
-			<br />
+<br/><br/><br/><br/>
 
 
 
@@ -906,308 +842,298 @@ blink {
 
 
 
-			<br />
-			<br />
-			<table border=0 cellspacing=0 cellpadding=0
-				style="font-family: arial; vertical-align: middle;" align="center"
-				border=1 style="display:none">
-				<tr>
-
-					<td id=loginControlsTD style="display: ''">
-
-
-
+<br/><br/>
+<table border=0 cellspacing=0 cellpadding=0
+	style="font-family: arial; vertical-align: middle;"  align="center" border = 1 style="display:none">
+	<tr>
+		
+		<td id=loginControlsTD style="display: ''">
+		
+			
+			
 
 
 
-						<table align="center" id="Table_01" border="0" cellpadding="0"
-							cellspacing="0" style="display: none">
-							<tr>
-								<td colspan="6" align="center"><font
-									style="font-size: 13px; font-weight: bold; color: #FF3333;">
-										<%
-											session.setAttribute("mainFunc", "SetNormalWin");
+		<table align="center" id="Table_01" border="0" cellpadding="0"
+			cellspacing="0" style="display:none">
+			<tr>
+				<td colspan="6" align="center"><font
+					style="font-size: 13px; font-weight: bold; color: #FF3333;">
+				<%
+										session.setAttribute("mainFunc","SetNormalWin");
 										// error1 = Your IP Address is blocked.
-										String errors[] = request.getParameterValues("error");
-										if (errors != null && errors.length > 0) {
-											for (int x = 0; x < errors.length; x++) {
-												if (errors[x].equals("error1")) {
-											out.print("Your IP Address is blocked.");
-												}
+										String errors[] = request.getParameterValues("error"); 
+										if(errors != null && errors.length > 0)
+										{
+											for(int x=0;x<errors.length;x++)
+											{
+												if(errors[x].equals("error1"))
+												{
+											    	out.print("Your IP Address is blocked.");						    			
+											    }
 											}
-										} else {
-											AuthenticationException authenticationException = (AuthenticationException) session
-											.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
-
-											if (authenticationException != null) {
+										}
+										else
+										{
+											AuthenticationException authenticationException=(AuthenticationException)session.getAttribute(AbstractProcessingFilter.SPRING_SECURITY_LAST_EXCEPTION_KEY);
+									
+										    if(authenticationException!=null)
+											{
 										%> <%=authenticationException.getMessage()%> <%
- 	}
- }
- %>
-								</font></td>
-
-							</tr>
-							<tr>
-								<td></td>
-							</tr>
-
-							<tr>
-								<td colspan="7" style="padding-left: 0px;"><img
-									src="images/loginImg/Login_img_2_01.gif" width="643"
-									height="191" alt=""></td>
-							</tr>
-							<tr>
-								<td rowspan="7"><img
-									src="images/loginImg/Login_img_2_020.gif" width="291"
-									height="284" alt=""></td>
-								<td><img src="images/loginImg/Login_img_2_03.gif"
-									width="81" height="21" alt=""></td>
-								<td width="139" height="21"><input type="text"
-									value="<%=request.getParameter("userName")%>" name="j_username"
-									maxlength="18"
-									style="width: 136px; height: 17px; border: none;"
-									onkeyup="javascript: checkEnter();"> <script
-										type="text/javascript" language="JavaScript">
+											} 
+										}
+										%> </font>
+										</td>
+															
+			</tr>	
+			<tr><td></td></tr>
+			
+			<tr>
+				<td colspan="7" style="padding-left:0px;"><img src="images/loginImg/Login_img_2_01.gif"
+					width="643" height="191" alt=""></td>
+			</tr>
+			<tr>
+				<td rowspan="7"><img src="images/loginImg/Login_img_2_020.gif"
+					width="291" height="284" alt=""></td>
+				<td><img src="images/loginImg/Login_img_2_03.gif" width="81"
+					height="21" alt=""></td>
+				<td width="139" height="21"><input type="text" 
+					value="<%=request.getParameter("userName") %>" name="j_username" maxlength="18"
+					style="width: 136px; height: 17px; border: none;"
+					onkeyup="javascript: checkEnter();"> <script
+					type="text/javascript" language="JavaScript">
 										document.forms[0].j_username.focus();
 									</script></td>
-								<td colspan="3"><img
-									src="images/loginImg/Login_img_2_05.gif" width="132"
-									height="21" alt=""></td>
-							</tr>
-							<tr>
-								<td colspan="5"><img
-									src="images/loginImg/Login_img_2_06.gif" width="352" height="9"
-									alt=""></td>
-							</tr>
-							<tr>
-								<td><img src="images/loginImg/Login_img_2_07.gif"
-									width="81" height="23" alt=""></td>
-								<td width="139" height="23" id="td_txtPassword"><input
-									type="password" value="<%=request.getParameter("password")%>"
-									name="j_password" maxlength="16" class="keyboardInput"
-									style="width: 136px; height: 17px; border: none;"
-									onkeypress="capLock(event);checkEnter();"></td>
-								<td colspan="3"><img
-									src="images/loginImg/Login_img_2_09.gif" width="132"
-									height="23" alt=""></td>
-							</tr>
-							</br>
-							</br>
-							<tr>
-								<td colspan="5" background="images/loginImg/Login_img_2_10.gif"
-									height="19" alt="" align="left" id="vKeyboard"><font
-									style="padding-left: 80px; padding-top: 50px; font-size: 12px; font-weight: bold; color: #006699;">Use
-										Virtual Keyboard</font></td>
-							</tr>
-							<tr>
-								<td><img src="images/loginImg/Login_img_2_11.jpg"
-									width="81" height="21" alt=""></td>
+				<td colspan="3"><img src="images/loginImg/Login_img_2_05.gif"
+					width="132" height="21" alt=""></td>
+			</tr>
+			<tr>
+				<td colspan="5"><img src="images/loginImg/Login_img_2_06.gif"
+					width="352" height="9" alt=""></td>
+			</tr>
+			<tr>
+				<td><img src="images/loginImg/Login_img_2_07.gif" width="81"
+					height="23" alt=""></td>
+				<td width="139" height="23" id="td_txtPassword"><input
+					type="password" value="<%=request.getParameter("password") %>" name="j_password" maxlength="16"
+					class="keyboardInput"
+					style="width: 136px; height: 17px; border: none;"
+					onkeypress="capLock(event);checkEnter();" ></td>
+				<td colspan="3"><img src="images/loginImg/Login_img_2_09.gif"
+					width="132" height="23" alt=""></td>
+			</tr>
+			</br></br>
+			<tr>
+				<td colspan="5" background="images/loginImg/Login_img_2_10.gif"
+					height="19" alt="" align="left" id="vKeyboard">
+				<font style="padding-left:80px; padding-top:50px; font-size: 12px; font-weight: bold; color: #006699;">Use Virtual Keyboard</font></td>
+			</tr>
+			<tr>
+				<td><img src="images/loginImg/Login_img_2_11.jpg" width="81"
+					height="21" alt=""></td>
 
-								<td colspan="3"
-									style="background-image: url('images/loginImg/Login_img_2_12.gif');">
-									<input type="radio" style="visibility: hidden;" name="locale"
-									value="gu" onkeyup="javascript: checkEnter();"> <input
-									type="radio" name="locale" style="visibility: hidden;"
-									value="en_US" onkeyup="javascript: checkEnter();"
-									checked="checked">
-								</td>
-								<td><img src="images/loginImg/Login_img_2_13.gif"
-									width="99" height="21" alt=""></td>
-							</tr>
-							<tr>
-								<td colspan="3" align="center"
-									style="background-image: url('images/loginImg/Login_img_2_14.gif');">
-									<input type="button" value="Submit" name="btnSubmit"
-									class="buttontag" onclick="javascript: startLogin();">
-									<input type="reset" value="Reset" class="buttontag"
-									onclick="javascript : resetFields();">
-								</td>
-								<td><img src="images/loginImg/Login_img_2_15.gif"
-									width="19" height="30" alt=""></td>
-								<td><img src="images/loginImg/Login_img_2_16.gif"
-									width="99" height="30" alt=""></td>
-							</tr>
+				<td colspan="3"
+					style="background-image: url('images/loginImg/Login_img_2_12.gif');">
+				 <input type="radio" style="visibility:hidden;" name="locale" value="gu"
+					onkeyup="javascript: checkEnter();">  <input type="radio"
+					name="locale" style="visibility:hidden;" value="en_US" onkeyup="javascript: checkEnter();"
+					checked="checked"> </td>
+				<td><img src="images/loginImg/Login_img_2_13.gif" width="99"
+					height="21" alt=""></td>
+			</tr>
+			<tr>
+				<td colspan="3" align="center"
+					style="background-image: url('images/loginImg/Login_img_2_14.gif');">
+				<input type="button" value="Submit" name="btnSubmit"
+					class="buttontag" onclick="javascript: startLogin();"> <input
+					type="reset" value="Reset" class="buttontag"
+					onclick="javascript : resetFields();"></td>
+				<td><img src="images/loginImg/Login_img_2_15.gif" width="19"
+					height="30" alt=""></td>
+				<td><img src="images/loginImg/Login_img_2_16.gif" width="99"
+					height="30" alt=""></td>
+			</tr>
 
-							<tr valign="top">
-								<td colspan="5"
-									style="background-image: url('images/loginImg/Login_img_2_017.gif');"
-									width="352" height="161"><font class="Labelerrormsg"><a
-										href="#"
-										style="padding-left: 80px; font-size: 10pt; text-decoration: none; color: black;"
-										onclick="forgotPassword();">Forgot Password </a></font> <c:if
-										test="${digitalSignature eq 'Y'}"> 
+			<tr valign="top">
+				<td colspan="5"
+					style="background-image: url('images/loginImg/Login_img_2_017.gif');"
+					width="352" height="161"><font class="Labelerrormsg"><a
+					href="#"
+					style="padding-left:80px; font-size: 10pt; text-decoration: none; color: black;"
+					onclick="forgotPassword();" >Forgot Password </a></font>
+				<c:if test="${digitalSignature eq 'Y'}"> 
 										    &nbsp;&nbsp;&nbsp;&nbsp;
 											<A href="#"
-											style="font-size: 10pt; text-decoration: none; color: black;"
-											onclick="loginWithSignature()">Login Using Digital
-											Signature</A>
-										<input style="display: none;" type="hidden"
-											name="loginSignature" value="loginSignature">
-										<input style="display: none;" type="hidden"
-											name="loginRandomNumber" value="123">
-									</c:if> <%-- New tr added to Login with Digital Signature ... end --%></td>
-							</tr>
-							<tr>
-								<td><img src="images/loginImg/spacer.gif" width="288"
-									height="1" alt=""></td>
-								<td><img src="images/loginImg/spacer.gif" width="81"
-									height="1" alt=""></td>
-								<td><img src="images/loginImg/spacer.gif" width="139"
-									height="1" alt=""></td>
-								<td><img src="images/loginImg/spacer.gif" width="14"
-									height="1" alt=""></td>
-								<td><img src="images/loginImg/spacer.gif" width="19"
-									height="1" alt=""></td>
-								<td><img src="images/loginImg/spacer.gif" width="99"
-									height="1" alt=""></td>
-							</tr>
-							<tr align="center">
-								<td align="center">
-									<div id="divErrorMsg">
-										<font color="yellow"
-											style="font-family: Arial; font-size: 11px;"> <strong><label
-												id="errorLabel"> </label></strong></font>
-									</div>
-								</td>
-							</tr>
-						</table>
-						</form>
-					</td>
+						style="font-size: 10pt; text-decoration: none; color: black;"
+						onclick="loginWithSignature()">Login Using Digital Signature</A>
+					<input style="display: none;" type="hidden" name="loginSignature"
+						value="loginSignature">
+					<input style="display: none;" type="hidden"
+						name="loginRandomNumber" value="123">
+				</c:if> <%-- New tr added to Login with Digital Signature ... end --%></td>
+			</tr>
+			<tr>
+				<td><img src="images/loginImg/spacer.gif" width="288"
+					height="1" alt=""></td>
+				<td><img src="images/loginImg/spacer.gif" width="81" height="1"
+					alt=""></td>
+				<td><img src="images/loginImg/spacer.gif" width="139"
+					height="1" alt=""></td>
+				<td><img src="images/loginImg/spacer.gif" width="14" height="1"
+					alt=""></td>
+				<td><img src="images/loginImg/spacer.gif" width="19" height="1"
+					alt=""></td>
+				<td><img src="images/loginImg/spacer.gif" width="99" height="1"
+					alt=""></td>
+			</tr>
+			<tr align="center">
+	<td align="center">
+	<div id="divErrorMsg"><font color="yellow" style="font-family: Arial; font-size: 11px;"> <strong><label id="errorLabel">
+				</label></strong></font>
+				</div>
+	</td>
+	</tr>
+		</table>
+		</form>
+		</td>
+	
+
+	
+	</tr>
+	
+</table>
 
 
-
-				</tr>
-
-			</table>
-
-
-			<!--<a id="userManual" onclick="userManual(divUserManual)" style="size:15px; color:#FF4000;"><u>User Manual (04-02-2013)</u></a>
--->
-			<div id="divUserManual" style="display: none">
-				<fieldset class="tabstyle">
-					<table align="center" width="70%" border="1" style="display: none">
+<!--<a id="userManual" onclick="userManual(divUserManual)" style="size:15px; color:#FF4000;"><u>User Manual (04-02-2013)</u></a>
+--><div id="divUserManual" style="display: none">
+	<fieldset class="tabstyle">
+<table align="center" width="70%" border="1" style="display:none">
 
 
-						<tr>
-							<td width="30%">MUNICIPAL CORPORATION/COUNCIL SCHOOLS</td>
-							<td width="30%">PRIVATE AIDED SCHOOLS</td>
-							<td width="30%">ZILLA PARISHAD SCHOOLS</td>
-						</tr>
-						<tr>
+	<tr>
+	<td width="30%">MUNICIPAL CORPORATION/COUNCIL SCHOOLS</td>
+	<td width="30%">PRIVATE AIDED SCHOOLS </td>
+	<td width="30%">ZILLA PARISHAD SCHOOLS</td>
+	</tr>
+	<tr>
+	
+	<td width="20%">
+		<a href="images/tree_images/1 Configuring the Institution.pdf" target="_blank">Configuring the Institution</a>
+	</td>
+	
+		<td width="20%">
+		<a href="images/portletImages/1 Configuring the Institution.pdf" target="_blank">Configuring the Institution</a>
+	</td>
+		
+	
+		<td width="15%">
+		<a href="images/loginImg/1 Configuring the Institution.pdf" target="_blank">Configuring the Institution</a>
+	
+		</td>
+		
+	</tr>
+	
 
-							<td width="20%"><a
-								href="images/tree_images/1 Configuring the Institution.pdf"
-								target="_blank">Configuring the Institution</a></td>
+	<tr width="20%">
+	
+	<td width="20%">
+		<a href="images/tree_images/2 Process of Configuration.pdf" target="_blank">Process of Configration</a>
+	</td>
+	<td width="20%">
+		<a href="images/portletImages/2 Process of Configuration.pdf" target="_blank">Process of Configration</a>
+	</td>
+	<td width="20%">
+		<a href="images/loginImg/2 Process of Configuration.pdf" target="_blank">Process of Configration</a>
+	</td>
+	
+	</tr>
 
-							<td width="20%"><a
-								href="images/portletImages/1 Configuring the Institution.pdf"
-								target="_blank">Configuring the Institution</a></td>
+	
+	<tr width="20%">
+	
+	<td width="20%">
+		<a href="images/tree_images/3 Entering Data of Institution.pdf" target="_blank">Entering Data of Institution</a>
+	</td>
+	<td width="20%">
+		<a href="images/portletImages/3 Entering Data of Institution.pdf" target="_blank">Entering Data of Institution</a>
+	</td>
+	<td width="20%">
+		<a href="images/loginImg/3 Entering Data of Institution.pdf" target="_blank">Entering Data of Institution</a>
+	</td>
+	
+	
+	
+	
+	</tr>
+	
 
+	<tr width="20%">
+	
+	<td  width="20%">
+		<a href="images/tree_images/4 Entry of Posts.pdf" target="_blank">Entry of Posts</a>
+	</td>
+	<td  width="20%">
+		<a href="images/portletImages/4 Entry of Posts.pdf" target="_blank">Entry of Posts</a>
+	</td>
+	<td  width="20%">
+		<a href="images/loginImg/4 Entry of Posts.pdf" target="_blank">Entry of Posts</a>
+	</td>
+	
+	
+	
+	
+	
+	</tr>
+	
+	
+	<tr width="20%">
+	
+	<td width="20%">
+		<a href="images/tree_images/5 Entry of Employee Details.pdf" target="_blank">Entry of Employee Details</a>
+	</td>
+	<td width="20%">
+		<a href="images/portletImages/5 Entry of Employee Details.pdf" target="_blank">Entry of Employee Details</a>
+	</td>
+	<td width="20%">
+		<a href="images/loginImg/5 Entry of Employee Details.pdf" target="_blank">Entry of Employee Details</a>
+	</td>
+	
+	
+	
+	
+	</tr>
+	<tr width="20%">
+	
+	<td width="20%">
+		<a href="images/loginImg/Master_Data_Configuration.pdf" target="_blank">Master Data Configuration</a>
+	
+		</td>
+	
+	<td width="20%">
+		<a href="images/loginImg/Master_Data_Configuration.pdf" target="_blank">Master Data Configuration</a>
+	
+		</td>
+	
+	<td width="20%">
+		<a href="images/loginImg/Master_Data_Configuration.pdf" target="_blank">Master Data Configuration</a>
+	
+		</td>
+	
+	
+	
+	
+	</tr>
+	
+	
+	
+</table>
+</fieldset>
+	</div>
+	
+	
+	
 
-							<td width="15%"><a
-								href="images/loginImg/1 Configuring the Institution.pdf"
-								target="_blank">Configuring the Institution</a></td>
-
-						</tr>
-
-
-						<tr width="20%">
-
-							<td width="20%"><a
-								href="images/tree_images/2 Process of Configuration.pdf"
-								target="_blank">Process of Configration</a></td>
-							<td width="20%"><a
-								href="images/portletImages/2 Process of Configuration.pdf"
-								target="_blank">Process of Configration</a></td>
-							<td width="20%"><a
-								href="images/loginImg/2 Process of Configuration.pdf"
-								target="_blank">Process of Configration</a></td>
-
-						</tr>
-
-
-						<tr width="20%">
-
-							<td width="20%"><a
-								href="images/tree_images/3 Entering Data of Institution.pdf"
-								target="_blank">Entering Data of Institution</a></td>
-							<td width="20%"><a
-								href="images/portletImages/3 Entering Data of Institution.pdf"
-								target="_blank">Entering Data of Institution</a></td>
-							<td width="20%"><a
-								href="images/loginImg/3 Entering Data of Institution.pdf"
-								target="_blank">Entering Data of Institution</a></td>
-
-
-
-
-						</tr>
-
-
-						<tr width="20%">
-
-							<td width="20%"><a
-								href="images/tree_images/4 Entry of Posts.pdf" target="_blank">Entry
-									of Posts</a></td>
-							<td width="20%"><a
-								href="images/portletImages/4 Entry of Posts.pdf" target="_blank">Entry
-									of Posts</a></td>
-							<td width="20%"><a
-								href="images/loginImg/4 Entry of Posts.pdf" target="_blank">Entry
-									of Posts</a></td>
-
-
-
-
-
-						</tr>
-
-
-						<tr width="20%">
-
-							<td width="20%"><a
-								href="images/tree_images/5 Entry of Employee Details.pdf"
-								target="_blank">Entry of Employee Details</a></td>
-							<td width="20%"><a
-								href="images/portletImages/5 Entry of Employee Details.pdf"
-								target="_blank">Entry of Employee Details</a></td>
-							<td width="20%"><a
-								href="images/loginImg/5 Entry of Employee Details.pdf"
-								target="_blank">Entry of Employee Details</a></td>
-
-
-
-
-						</tr>
-						<tr width="20%">
-
-							<td width="20%"><a
-								href="images/loginImg/Master_Data_Configuration.pdf"
-								target="_blank">Master Data Configuration</a></td>
-
-							<td width="20%"><a
-								href="images/loginImg/Master_Data_Configuration.pdf"
-								target="_blank">Master Data Configuration</a></td>
-
-							<td width="20%"><a
-								href="images/loginImg/Master_Data_Configuration.pdf"
-								target="_blank">Master Data Configuration</a></td>
-
-
-
-
-						</tr>
-
-
-
-					</table>
-				</fieldset>
-			</div>
-
-
-
-
-			<!--
+	<!--
 	
 	
 	
@@ -1229,29 +1155,26 @@ blink {
 
 
 
--->
-			<!--<B>HttpSession Information:</B> -->
-			<!-- <UL>
- <LI>Served From Server instance: <bSystem.getProperty("com.sun.aas.instanceName")e") %></b></LI>
-<LI>Executed Server IP Address: <bjava.net.InetAddress.getLocalHost().getHostAddress()s() %></b></LI> 
+--><!--<B>HttpSession Information:</B> -->
+<!-- <UL>
+ <LI>Served From Server instance: <b><%= System.getProperty("com.sun.aas.instanceName") %></b></LI>
+<LI>Executed Server IP Address: <b><%= java.net.InetAddress.getLocalHost().getHostAddress() %></b></LI> 
 <LI>Executed From Server Port: <b><%= request.getServerPort()%></b></LI>
 </UL>
 -->
-			<!-- Copyright & Disclaimer -->
+<!-- Copyright & Disclaimer -->
 
 
 
 
-			<table cellpadding="0" cellspacing="0" width="770"
-				class="CopyrightLine" border="0" align="center"
-				style="display: none">
-				<tr>
-
-				</tr>
-				<%--
+<table cellpadding="0" cellspacing="0" width="770" class="CopyrightLine"
+	border="0" align="center" style="display:none">
+	<tr>
+	
+	</tr><%--
 
 	<tr valign="middle">
-		<td align="center" class="Label" style="color:#848484;">Copyright Â© 2012 Tata Consultancy Services Limited
+		<td align="center" class="Label" style="color:#848484;">Copyright Ã‚Â© 2012 Tata Consultancy Services Limited
 	</tr>
 
 	<tr valign="bottom">
@@ -1263,35 +1186,35 @@ blink {
 	<tr><td></td></tr>
 	
 	--%>
-
-			</table>
-
-
+	
+</table>
 
 
 
-			<!-- Added for Digital Singature  start..... -->
-			<c:if test="${digitalSignature eq 'Y'}">
-				<OBJECT style="LEFT: 0px; TOP: 0px"
-					CLASSID="clsid:5220CB21-C88D-11cf-B347-00AA00A28331">
-					<PARAM NAME="LPKPath" VALUE="tcssigner/TCSSigner.lpk">
-				</OBJECT>
-				<OBJECT id=TCSSigner1 style="LEFT: 0px; TOP: 0px"
-					codeBase="tcssigner/TCSSigner.cab#Version=6,1,0,0"
-					classid="clsid:AD1959BC-3260-4003-AEF1-8C845E82EEB5" VIEWASTEXT>
-					<PARAM NAME="_Version" VALUE="65536">
-					<PARAM NAME="_ExtentX" VALUE="2646">
-					<PARAM NAME="_ExtentY" VALUE="1323">
-					<PARAM NAME="_StockProps" VALUE="0">
-				</OBJECT>
-				<script type="text/javascript" language="javascript">
+
+
+<!-- Added for Digital Singature  start..... -->
+<c:if test="${digitalSignature eq 'Y'}">
+	<OBJECT style="LEFT: 0px; TOP: 0px"
+		CLASSID="clsid:5220CB21-C88D-11cf-B347-00AA00A28331">
+		<PARAM NAME="LPKPath" VALUE="tcssigner/TCSSigner.lpk">
+	</OBJECT>
+	<OBJECT id=TCSSigner1 style="LEFT: 0px; TOP: 0px"
+		codeBase="tcssigner/TCSSigner.cab#Version=6,1,0,0"
+		classid="clsid:AD1959BC-3260-4003-AEF1-8C845E82EEB5" VIEWASTEXT>
+		<PARAM NAME="_Version" VALUE="65536">
+		<PARAM NAME="_ExtentX" VALUE="2646">
+		<PARAM NAME="_ExtentY" VALUE="1323">
+		<PARAM NAME="_StockProps" VALUE="0">
+	</OBJECT>
+	<script type="text/javascript" language="javascript">
 		generateRandomNoForDigiLogin('${pageContext.request.contextPath}');
 	</script>
-			</c:if>
-			<!--- Added for Digital Signature end..... -->
+</c:if>
+<!--- Added for Digital Signature end..... -->
 
-			<input type="hidden" name="show_menu" value="Y" style="display: none">
-			<script type="text/javascript" language="javascript">
+<input type="hidden" name="show_menu" value="Y" style="display: none">
+<script type="text/javascript" language="javascript">
 	init();
 	Browser();
 	setInterval('blinkIt()',300);
@@ -1333,59 +1256,53 @@ blink {
 </script>
 
 
-			<%--START added for forgot password--%>
+<%--START added for forgot password--%>
 
-			<CENTER>
-				<fieldset class="tabstyle"
-					style="width: 85%; background-color: #F6F7F9;">
-					<table id="ForgotPwdTable" width="100%" border="0"
-						style="display: none;">
-						<tr>
-							<td width="100%" colspan="3"><img width="100%"
-								style="background-repeat: no-repeat;"
-								src="images/HomePageImages/FianlHomePG_1_11.jpg" /></td>
-						</tr>
+<CENTER>
+<fieldset class="tabstyle" style="width: 85%; background-color: #F6F7F9;">
+<table id="ForgotPwdTable" width="100%" border="0" style="display: none;">
+<tr><td width="100%" colspan="3">
+<img width="100%" style="background-repeat: no-repeat;" src="images/HomePageImages/FianlHomePG_1_11.jpg" />
+</td></tr>
 
-						<tr>
-							<td width="20%">User Name:</td>
-							<td width="30%" align="left"><input type="text"></td>
-							<td width="50%">&nbsp;</td>
-							<td></td>
-						</tr>
+<tr>
+<td width="20%">User Name:</td>
+<td width="30%" align="left"><input type="text"> </td>
+<td width="50%">&nbsp;</td>
+<td></td>
+</tr>
 
-						<tr>
-							<td width="20%">Mobile Number:</td>
-							<td width="30%" align="left"><input type="text"></td>
-							<td width="50%">&nbsp;</td>
-						</tr>
+<tr>
+<td width="20%">Mobile Number:</td>
+<td width="30%" align="left"><input type="text"> </td>
+<td width="50%">&nbsp;</td>
+</tr>
 
-						<tr>
-							<td width="20%">TAN Number:</td>
-							<td width="30%" align="left"><input type="text"></td>
-							<td width="50%">&nbsp;</td>
-						</tr>
+<tr>
+<td width="20%">TAN Number:</td>
+<td width="30%" align="left"><input type="text"> </td>
+<td width="50%">&nbsp;</td>
+</tr>
 
-						<tr>
-							<td width="100%" colspan="3" align="center"><hdiits:button
-									name="BTN.BACK" id="Back" type="button" captionid="BTN.BACK"
-									bundle="${englishLabels}" onclick="backToLogin();"
-									style="width:15%" />&nbsp;</td>
-						</tr>
-					</table>
-					</fieldst>
-			</CENTER>
+<tr>
+<td width="100%" colspan="3" align="center">
+<hdiits:button	name="BTN.BACK" id="Back" type="button" captionid="BTN.BACK" bundle="${englishLabels}" onclick="backToLogin();" style="width:15%"/>&nbsp; </td>
+</tr>
+</table>
+</fieldst>
+</CENTER>
 
-			<%--END added for forgot password--%>
+<%--END added for forgot password--%>
 
 
 
-			<%
-				//out.print("SessionID : " + session.getId());
-			session.removeAttribute("locale");
-			session.removeAttribute("loginVO");
-			session.removeAttribute("loginDetailsMap");
-			%>
-			<script>
+<%
+	//out.print("SessionID : " + session.getId());
+	session.removeAttribute("locale");
+	session.removeAttribute("loginVO");
+	session.removeAttribute("loginDetailsMap");
+%>
+<script>
 if(document.getElementById("flag").value == 'N'){
 
 	alert("Captcha Not matched.");
@@ -1404,61 +1321,227 @@ if(document.getElementById("flag").value == 'Y'){
 }
 
 </script>
-		<div class="container">
-				<!--  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-    Open modal
-  </button>  -->
 
-				<!-- The Modal -->
-				<!-- <div class="modal" id="myModal">
-					<div class="modal-dialog"
-						style="margin-top: 13% !important; box-shadow: 2px 2px 7px #000; border: 1px solid #824000;">
-						<div class="modal-content" style="background-color: #f8efef;">
+<script type="text/javascript">
 
-							Modal Header
-							<div class="modal-header"
-								style="background: #d76f14; color: #fff;">
-								<h4 class="modal-title">
-									Important Instruction <i class='fa fa-user'
-										style='font-size: 48px; color: red'></i>
-								</h4>
-								<button type="button" class="close" data-dismiss="modal"
-									onClick="closeModal();" style="color: #fff">&times;</button>
-							</div>
+var _keySize = 256;
+var _ivSize = 128;
+var _iterationCount = 1989;
 
-							Modal body
-							<div class="modal-body">
-								<h4 class="text-center">Update the DDO details, DDO Bank
-									balance details and cash flow carry forward for every month at
-									BEAMS portal to avoid bds rejection.</h4>
-								<br> <br>
-								<h4 class="text-center">बीडीएस नकार टाळण्यासाठी डीडीओ
-									तपशील, डीडीओ बँक शिल्लक तपशील आणि रोख प्रवाह दरमहासाठी बीएएमएस
-									पोर्टलवर अद्यतनित करा.</h4>
-							</div>
+     function  generateKey(salt, passPhrase) {
+	    return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+	      keySize: _keySize / 32,
+	      iterations: _iterationCount
+	    })
+	  }
 
-							Modal footer
-							<div class="modal-footer">
-								<button type="button" class="btn" data-dismiss="modal"
-									onClick="closeModal();"
-									style="background: #d76f14; color: #fff;">OK</button>
-							</div>
+     function   encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+	    var key =generateKey(salt, passPhrase);
+	    var encrypted = CryptoJS.AES.encrypt(plainText, key, {
+	      iv: CryptoJS.enc.Hex.parse(iv)
+	    });
+	    return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+	  }
 
-						</div>
-					</div>
-				</div> -->
+     function  decryptWithIvSalt(salt, iv, passPhrase, cipherText) {
+		  var key = generateKey(salt, passPhrase);
+		  var cipherParams = CryptoJS.lib.CipherParams.create({
+	      ciphertext: CryptoJS.enc.Base64.parse(cipherText)
+	    });
+		  var decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
+	      iv: CryptoJS.enc.Hex.parse(iv)
+	    });
+	    return decrypted.toString(CryptoJS.enc.Utf8);
+	  }
 
-			</div>
-			<script>
-function myFunction() {
-  /*alert("hhh");*/
-  document.getElementById("myModal").style.display="block";	
-}
-document.getElementById("demo").innerHTML = myFunction();
-function closeModal() {
-	  /*alert("hhh");*/
-	  document.getElementById("myModal").style.display="none";	
-	}
+     function encrypt(passPhrase, plainText) {
+    	//  alert("Welcome"); 
+		  var iv = CryptoJS.lib.WordArray.random(_ivSize / 8).toString(CryptoJS.enc.Hex);
+		  var salt = CryptoJS.lib.WordArray.random(_keySize / 8).toString(CryptoJS.enc.Hex);
+		  var ciphertext = encryptWithIvSalt(salt, iv, passPhrase, plainText);
+	    return salt + iv + ciphertext;
+	  }
+
+     function decrypt(passPhrase, cipherText) {
+		  var ivLength = _ivSize / 4;
+		  var saltLength = _keySize / 4;
+		  var salt = cipherText.substr(0, saltLength);
+		  var iv = cipherText.substr(saltLength, ivLength);
+		  var encrypted = cipherText.substring(ivLength + saltLength);
+	    return decryptWithIvSalt(salt, iv, passPhrase, encrypted);
+	  }
+
+     
+
+     function startLoginInShalarth()
+     {
+     	//alert("username is *****");
+     	
+     	 var str2 = document.getElementById('captcha_code').value;
+     	 str2=str2.split(' ').join('');
+     	 var str1=document.getElementById('captcha').value;
+     	 str1=str1.split(' ').join('');
+     	if(str1==str2){
+     	var userName = document.getElementById('username').value;
+     	//alert("username is *****"+userName);
+     	var pwd = document.getElementById('password').value;
+     	//alert("pwd is *****"+pwd);
+     	//alert(document.forms[0].j_username.value);
+     	if(userName==""){
+     	alert("Please Enter User Name.");
+     	return false;
+     	}
+     	if(pwd==""){
+     		alert("Please Enter Password.");
+     		return false;
+     	}
+     	document.forms[0].j_username.value=userName;
+     	document.forms[0].j_password.value=pwd;
+     	
+     	//alert(document.forms[0].j_username.value);
+
+     	pwd=document.forms[0].j_password.value;
+     	
+     	var pwd1=pwd;
+     	
+     	//var pwd1=CryptoJS.MD5(pwd).toString();
+     	//document.forms[0].j_password.value=pwd1;
+     	
+     	var captcha=trim(document.getElementById("txtCaptcha").innerHTML);
+     	
+     			
+     	 var encKey='<%=session.getAttribute("randomString")%>';
+
+     			var UID1Encrypted = encrypt(encKey, pwd1);
+
+     			document.getElementById("captcha_code").value = encrypt(encKey,
+     					captcha);
+     			// document.getElementById("randomString").value=encKey;
+
+     			document.getElementById("pass1").value = encrypt("Message", captcha);
+
+     			document.getElementById("password").value = UID1Encrypted;
+     			//alert(document.forms[0].j_username.value);
+     			document.forms[0].j_password.value = UID1Encrypted;
+
+     			//document.getElementById("captcha_code").value='';
+     			document.getElementById("captcha").value = encrypt(encKey, captcha);
+
+     			document.forms[0].btnSubmit.disabled = true;
+
+     			showProgressbar_login("Please wait<br>While Your Request is in Progress ...");
+
+     			window.setTimeout('document.forms[0].submit();', 500);
+
+     		}
+
+     		else if (str2.length > 0) {
+
+     			document.getElementById('captcha_code').value = '';
+     			document.getElementById('divCaptchaMsg').innerHTML = 'Please enter correct captcha. <br>';
+     			document.getElementById('divCaptchaMsg').style.fontFamily = 'arial';
+     			document.getElementById('divCaptchaMsg').style.fontSize = '11px';
+     			document.getElementById('divCaptchaMsg').style.fontWeight = '900';
+     			document.getElementById('divCaptchaMsg').style.color = 'red';
+     			document.getElementById('divCaptchaMsg').style.display = 'inline';
+     			document.getElementById('divCaptchaMsg').style.visibility = 'visible';
+
+     		} else {
+     			document.getElementById('divCaptchaMsg').innerHTML = 'Please enter captcha. <br>';
+     			document.getElementById('divCaptchaMsg').style.fontFamily = 'arial';
+     			document.getElementById('divCaptchaMsg').style.fontSize = '11px';
+     			document.getElementById('divCaptchaMsg').style.fontWeight = '900';
+     			document.getElementById('divCaptchaMsg').style.color = 'red';
+     			document.getElementById('divCaptchaMsg').style.display = 'inline';
+     			document.getElementById('divCaptchaMsg').style.visibility = 'visible';
+     		}
+
+     	}
+     
+     function forgotPassword()
+     {
+     	showProgressbar_login('Please wait...<br>Your Request is in Progress.');
+
+     	/*var varLocale = "";
+     	
+     	if(document.forms[0].locale[0].checked == true) varLocale = document.forms[0].locale[0].value;
+     	else varLocale = document.forms[0].locale[1].value;	*/
+     	
+     	
+     	 var str2 = document.getElementById('captcha_code').value;
+     	 str2=str2.split(' ').join('');
+     	 var str1=document.getElementById('captcha').value;
+     	 str1=str1.split(' ').join('');
+     	var userName = document.getElementById('username').value;
+     	var pwd = document.getElementById('password').value;
+
+     	document.forms[0].j_username.value=userName;
+     	document.forms[0].j_password.value=pwd;
+     	
+     	//alert(document.forms[0].j_username.value);
+
+     	pwd=document.forms[0].j_password.value;
+     	
+     	var pwd1=pwd;
+     	var captcha=trim(document.getElementById("txtCaptcha").innerHTML);
+     	
+     			
+     	 var encKey='<%=session.getAttribute("randomString")%>';
+     	 
+     		
+     	 var UID1Encrypted = encrypt(encKey,pwd1);
+     	
+     	 document.getElementById("captcha_code").value=encrypt(encKey,captcha);
+     	// document.getElementById("randomString").value=encKey;
+     	 
+     	 document.getElementById("pass1").value=encrypt("Message",captcha);
+     	 
+     	document.getElementById("password").value=UID1Encrypted;
+     	//alert(document.forms[0].j_username.value);
+     	document.forms[0].j_password.value=UID1Encrypted;
+     	
+     	//document.getElementById("captcha_code").value='';
+     	document.getElementById("captcha").value=encrypt(encKey,captcha);
+
+     	
+     	
+     	
+     	
+     	
+     	//document.forms[0].action = "hdiits.htm?viewName=acl-forgotPassword&locale="+varLocale;
+     	document.forms[0].action = "hdiits.htm?viewName=forgotPasswordRedirect";
+     	document.forms[0].submit();
+     }
+
+
 </script>
-		</body>
+
+
+   <script>
+   function goToCOntroller()
+   {
+   	document.getElementById('captcha_code').value='';
+   	 var text = "";
+   	 var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+   	 for( var i=0; i < 6; i++ )
+   	    text += possible.charAt(Math.floor(Math.random() * possible.length))+' ';
+
+      // var g = Math.ceil(Math.random() * 10)+ '';  
+      	var code = text;
+      //var code="1"; 
+       document.getElementById("txtCaptcha").innerHTML = code;
+       document.getElementById("captcha").value=code;
+       
+     //  document.getElementById("txtCaptcha").style.color  = "red";
+      // alert(code.split(' ').join('').length);
+       document.getElementById("capLength").value = code.split(' ').join('').length;
+   }
+    </script>
+    
+    
+
+</body>
+
+
 </html>

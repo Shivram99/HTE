@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> -->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "file:///C:\Users\Shivram.Mane\Downloads/spring-beans.dtd">
   <!-- 
       Author:nishant.vaidya@tcs.com
       version:1.0
@@ -13,9 +14,9 @@
 		<property name="filterInvocationDefinitionSource">
 			<value><![CDATA[
 				CONVERT_URL_TO_LOWERCASE_BEFORE_COMPARISON
-				/index.jsp=anonymousProcessingFilter,ROBORequestFilter,blackListedIPFilter
+				/index.jsp=anonymousProcessingFilter,ROBORequestFilter,blackListedIPFilter,xssFilter
 				/webinfopage.jsp.*=anonymousProcessingFilter
-				/login.jsp.*=anonymousProcessingFilter,ROBORequestFilter,blackListedIPFilter
+				/login.jsp.*=anonymousProcessingFilter,ROBORequestFilter,blackListedIPFilter,xssFilter
 				
 				/CaptchaServlet=anonymousProcessingFilter,ROBORequestFilter,blackListedIPFilter
 				
@@ -51,10 +52,17 @@
 				
 				/[a-zA-Z]*.htm\?.*actionflag=getdisplaymessage.*=anonymousProcessingFilter
 				/[a-zA-Z]*.htm\?actionflag=getuserfromusername.*=anonymousProcessingFilter
-				/.*=reAuthenticationProcessingFilter,ROBORequestFilter,dashBoard,captchaValidate,concurrentSessionFilter,sessionFixationProtectionFilter,httpSessionContextIntegrationFilter,authenticationProcessingFilter,x509ProcessingFilter,blackListedIPFilter,applicationContextIntegrationFilter,logoutFilter,securityContextHolderAwareRequestFilter
+				/.*=cSRFProcessingFilter,decryptPasswordFilter,reAuthenticationProcessingFilter,ROBORequestFilter,dashBoard,captchaValidate,concurrentSessionFilter,sessionFixationProtectionFilter,httpSessionContextIntegrationFilter,authenticationProcessingFilter,x509ProcessingFilter,blackListedIPFilter,applicationContextIntegrationFilter,logoutFilter,securityContextHolderAwareRequestFilter,xssFilter
 				
                 ]]></value>
 		</property>		
+	</bean>
+	
+	<bean id="xssFilter" class="com.tcs.sgv.filter.XSSFilterImpl">
+		<property name="multipartResolver">
+			<ref local="multipartResolver" />
+		</property>
+		<property name="errorPage" value="/${ErrorPage}" />
 	</bean>
 	
 	<bean id="applicationContextIntegrationFilter" class="com.tcs.sgv.acl.acegilogin.filter.ApplicationContextIntegrationFilter" ></bean>
@@ -394,5 +402,14 @@
 			</list>
 		</property>
 	</bean>
+	
+	<bean id="decryptPasswordFilter" class="com.tcs.sgv.common.helper.DecryptPasswordFilter">
+	</bean>
+
+	<bean id="cSRFProcessingFilter" class="com.tcs.sgv.common.helper.CSRFProcessingFilter">
+	</bean>
+
+	<!-- <bean id="priveledgeFilterImpl" class="com.tcs.sgv.filter.service.PriveledgeFilterImpl">
+	</bean> -->
 
 </beans>

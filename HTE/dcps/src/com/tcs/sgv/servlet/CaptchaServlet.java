@@ -35,11 +35,10 @@ public class CaptchaServlet extends HttpServlet {
         { 'j', 'e', 'e' }
     };*/
 
-    String data1="111";    //new BigInteger(130, random).toString(32).substring(0, 5); // chaged by teju
+    String data1= new BigInteger(130, random).toString(32).substring(0, 5); 
 
-    char data[][]={
-    		{data1.charAt(0),data1.charAt(1),data1.charAt(2)}
-    };
+    char[][] data = {
+    	      { data1.charAt(0), data1.charAt(1), data1.charAt(2), data1.charAt(3), data1.charAt(4) } };
     
     BufferedImage bufferedImage = new BufferedImage(width, height, 
                   BufferedImage.TYPE_INT_RGB);
