@@ -503,8 +503,6 @@ text-align: center;
 <input type="hidden" value="${userName}" id="userName">
 <input type="hidden" value="${pwd}" id="pwd">
 
-
-
 <c:if test="${notice == null}">
 
 <center>
