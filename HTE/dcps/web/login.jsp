@@ -36,7 +36,6 @@
 	session.setAttribute("randomString", alphaNumericString);
 %>
 
-
 <%
 	String flag = (String)request.getAttribute("captchaValidateFlag");
 	String userName = (String)request.getAttribute("userName");
