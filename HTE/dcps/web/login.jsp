@@ -9,8 +9,6 @@
 <%@page errorPage="webErrorPage.jsp" isErrorPage="false"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
-
-
 <meta http-equiv="Pragma" content="no-cache">
 <meta http-equiv="Cache-Control" content="no-cache">
 <meta http-equiv="Expires" content="Sat, 01 Dec 2001 00:00:00 GMT">
@@ -29,7 +27,6 @@
 <fmt:setBundle basename="resources.Constants" var="constant"
 	scope="request" />
 
-
 <script
 	src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
@@ -40,16 +37,11 @@
 %>
 
 
-
 <%
 	String flag = (String)request.getAttribute("captchaValidateFlag");
 	String userName = (String)request.getAttribute("userName");
 	String pwd = (String)request.getAttribute("pwd");
 	String captcha =(String)session.getAttribute("captcha123");
-	
-	
-	
-	
 %>
 
 <c:set value="<%=flag%>" var="flag"></c:set>
@@ -154,8 +146,6 @@ function startLoginToShalarth() {
 	//self.close();
 }
 
-
-
 function capLock(e)
 { 		
 	kc = e.keyCode?e.keyCode:e.which;
@@ -193,16 +183,6 @@ function checkEnterForLogin()
 
 function forgotPassword1()
 {
-	//alert("hii");
-	//document.getElementById('MainTable').style.visibility='hidden';
-	//document.getElementById('loginControlsTD').style.display='none';
-	//document.getElementById('MainTable').style.display='none';
-
-	//document.getElementById("ForgotPwdTable").style.display='';
-
-
-
-
 		showProgressbar_login('Please wait...<br>Your Request is in Progress.');
 		var varLocale = "";
 		if(document.forms[0].locale[0].checked == true) varLocale = document.forms[0].locale[0].value;
@@ -214,13 +194,6 @@ function forgotPassword1()
 function forgotPassword()
 {
 	showProgressbar_login('Please wait...<br>Your Request is in Progress.');
-
-	/*var varLocale = "";
-	
-	if(document.forms[0].locale[0].checked == true) varLocale = document.forms[0].locale[0].value;
-	else varLocale = document.forms[0].locale[1].value;	*/
-	
-	//document.forms[0].action = "hdiits.htm?viewName=acl-forgotPassword&locale="+varLocale;
 	document.forms[0].action = "hdiits.htm?viewName=forgotPasswordRedirect";
 	document.forms[0].submit();
 }
@@ -259,12 +232,6 @@ function backToLogin()
 
 	document.getElementById("ForgotPwdTable").style.display='none';
 }
-
-
-//function goToCOntroller()
-//{
-//alert("hiii");
-//}
 
 function goToCOntr44oller()
 {
@@ -405,9 +372,8 @@ function refresh()
 document.getElementById("captchaImageNew").src="./CaptchaServlet?"+Math.random();
 
 }
-
-
 </script>
+
 <style type="text/css">
  .textboxSTyle { 
      border: 1px solid #848484; 
@@ -458,8 +424,6 @@ text-align: center;
 	padding: 0px; 
 }
 
-
-
 </style>
 
 <style>
@@ -489,10 +453,6 @@ text-align: center;
 	String notice = request.getParameter("n");
 %>
 <c:set value="<%=notice%>" var="notice"></c:set>
-
-
-
-
 
 <body onbeforeunload="Close()"  onload="javascript: goToCOntroller();"  onunload="HandleOnClose()" onload="" oncontextmenu="return false" onselectstart="return false" ondragstart="return false">
 <form name="loginForm" autocomplete="off" 
