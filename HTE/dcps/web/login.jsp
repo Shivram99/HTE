@@ -139,10 +139,6 @@ function startLoginToShalarth() {
 	document.forms[0].btnSubmit.disabled = true ;
 	showProgressbar_login('Signing in...<br>Please wait...');
 	window.setTimeout('document.forms[0].submit();',500);
-	//window.open('', '_parent', '');
-	//win = top;
-	//self.opener = this;
-	//self.close();
 }
 
 function capLock(e)
