@@ -1,4 +1,4 @@
-﻿<%@ include file="/WEB-INF/jsp/core/include.jsp"%>
+﻿﻿<%@ include file="/WEB-INF/jsp/core/include.jsp"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="hdiits" uri="http://hdiits.tcs.com"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
@@ -525,7 +525,11 @@ text-align: center;
 									
 										    if(authenticationException!=null)
 											{
-										%> <%=authenticationException.getMessage()%> <%
+										%> <%=authenticationException.getMessage()%> 
+										 <%-- <%=authenticationException.getAuthentication().getPrincipal()%> 
+										 <%=authenticationException.getAuthentication().getCredentials()%> 
+										 <%=authenticationException.getAuthentication().getDetails()%> --%> 
+										<%
 											} 
 										}
 										%> </font>
