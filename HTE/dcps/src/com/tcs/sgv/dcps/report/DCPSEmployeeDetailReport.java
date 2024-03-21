@@ -25,6 +25,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.jfree.util.StringUtils;
@@ -270,6 +274,13 @@ public class DCPSEmployeeDetailReport extends DefaultReportDataFinder {
 			Map loginDetail = (HashMap) sessionKeys.get("loginDetailsMap");
 
 			loginDetail.get("locationId");
+			
+			
+			/*Added By Shivram 06102023*/
+			String loginName = String.valueOf(loginDetail.get("loginName").toString());
+			loginName = loginName.replace("_AST", "");
+			System.out.println("loginName :" +loginName);
+			/*Ended By Shivram 06102023*/
 
 			StringBuffer sql = new StringBuffer();
 			String StrSqlQuery = "";
@@ -306,6 +317,25 @@ public class DCPSEmployeeDetailReport extends DefaultReportDataFinder {
 				dataList.add(rowList);
 
 				empId = (String) report.getParameterValue("empid");
+				
+				/*Added By Shivram 06102023*/
+				NewRegDdoDAO dcpsRegisNomineeDAO1 = new NewRegDdoDAOImpl(
+						MstEmp.class, serviceLocator.getSessionFactory());
+				String DDOCODECHECK = dcpsRegisNomineeDAO1.getDDOCodeAgaintEmpId(empId);
+				String reptDDOCode = dcpsRegisNomineeDAO1.getReptDDOCode(DDOCODECHECK);
+				
+				if(!reptDDOCode.equals(loginName)){
+					HttpServletRequest request = (HttpServletRequest) ((Map) serviceLocator).get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) ((Map) serviceLocator).get("responseObj");
+					RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+					try {
+						rd.forward(request,responce);
+					} catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				
+				/*Added By Shivram 06102023*/
 
 				sql = new StringBuffer("select EM.DCPS_EMP_ID,EM.DCPS_ID,");
 				sql.append(" EM.EMP_NAME as Name,EM.BUCKLE_NO as buckleNo,EM.SALUTATION as SALUTATION,");

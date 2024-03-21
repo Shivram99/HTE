@@ -171,6 +171,14 @@ public class DdoBillGroupServiceImpl extends ServiceImpl implements DdoBillGroup
 		Boolean lBlEmpsInBGOrNot = null;
 		List postTypeListForBG=null;
 		Boolean VacantPostsInBGOrNot = null;
+		
+		/*Added By Shivram 11082023*/
+	    Map loginMap = (Map) inputMap.get("baseLoginMap");
+	    String loginName = String.valueOf(loginMap.get("loginName").toString());
+	    logger.info("loginName"+loginName);
+	    loginName = loginName.replace("_AST", "");
+	    logger.info("loginNameWithReplaceAST "+loginName);
+	    /*Ended By Shivram 11082023*/
 
 		try {
 
@@ -181,6 +189,17 @@ public class DdoBillGroupServiceImpl extends ServiceImpl implements DdoBillGroup
 			DdoBillGroupDAO lObjDdoBillGroupDAO = new DdoBillGroupDAOImpl(MstDcpsBillGroup.class, serv.getSessionFactory());
 			
 			Long lLongBillGroupId = Long.valueOf(StringUtility.getParameter("billGroupId", request).trim());
+			
+			 /*Added By Shivram 11082023*/
+		      String getDdoCode = DcpsCommonDAOObj.getDdoCodeforLoginName(lLongBillGroupId);
+		      
+		      if(!getDdoCode.equals(loginName)){
+		    	  resObj.setResultValue(null);
+		          resObj.setResultCode(-1);
+		          resObj.setViewName("errorPage");
+		    	  return resObj;
+		      }
+		      /*Ended By Shivram 11082023*/
 
 			MstDcpsBillGroup lObjMstDcpsBillGroup = lObjDdoBillGroupDAO.getBillGroupDtlsForBillGroupId(lLongBillGroupId);
 

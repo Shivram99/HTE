@@ -14,7 +14,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ajaxtags.xml.AjaxXmlBuilder;
@@ -564,6 +566,12 @@ public class NewRegDdoServiceImpl extends ServiceImpl implements NewRegDdoServic
 		gLogger.error(" INSIDE  popUpEmpDtls: ");
 
 		ResultObject resObj = new ResultObject(ErrorConstants.SUCCESS, "FAIL");
+		
+		/* Added By Shivram 05072023 */
+		Map loginMap = (Map) inputMap.get("baseLoginMap");
+		String loginName = String.valueOf(loginMap.get("loginName").toString());
+		loginName = loginName.replace("_AST", "");
+		/* Ended By Shivram 05072023 */
 
 		String lStrEmpId = null;
 		MstEmp MstEmpObj = null;
@@ -597,9 +605,27 @@ public class NewRegDdoServiceImpl extends ServiceImpl implements NewRegDdoServic
 				lStrEmpId = StringUtility.getParameter("empId", request).trim();
 
 				NewRegDdoDAOImpl lObjNewRegDDODAO = new NewRegDdoDAOImpl(MstEmp.class, serv.getSessionFactory());
-				List lListLocationCode = lObjNewRegDDODAO.getLocationCodeForward(lStrEmpId);
+				
+				  List lListLocationCode = lObjNewRegDDODAO.getLocationCodeForward(lStrEmpId);
+				 
+					/*
+					 * List lListLocationCode = lObjNewRegDDODAO.getLocationCodeForward(lStrEmpId,
+					 * loginName);
+					 */
 				LocZP = (String) lListLocationCode.get(0);
-
+				
+				/* Added By Shivram 05072023 */
+				if (LocZP == null || LocZP.isEmpty()) {
+					request = (HttpServletRequest) inputMap.get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) inputMap
+							.get("responseObj");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("/login.jsp");
+					rd.forward(request, responce);
+				}
+				/* Ended By Shivram 05072023 */
+				
+				
 				if (!lStrEmpId.equals(""))
 				{
 					Long lLngEmpID = Long.parseLong(lStrEmpId);
@@ -619,6 +645,22 @@ public class NewRegDdoServiceImpl extends ServiceImpl implements NewRegDdoServic
 
 				}
 			}
+			/* Added By Shivram 05072023 */
+			String allUser = request.getParameter("User");
+			System.out.println("All User : " + allUser);
+
+			if (allUser.equals("ZPDDOAsst")) {
+				String ddoCodeCheckAgaintEmpId = MstEmpObj.getDdoCode();
+				if (!ddoCodeCheckAgaintEmpId.equals(loginName)) {
+					request = (HttpServletRequest) inputMap.get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) inputMap
+							.get("responseObj");
+					RequestDispatcher rd = request
+							.getRequestDispatcher("/login.jsp");
+					rd.forward(request, responce);
+				}
+			}
+			/* Ended By Shivram 05072023 */
 
 			SimpleDateFormat lObjSimpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 

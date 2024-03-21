@@ -1,9 +1,11 @@
 package com.tcs.sgv.eis.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Query;
+import org.hibernate.SQLQuery;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
@@ -136,5 +138,23 @@ public class SchoolValidationReportDAOImpl extends GenericDaoHibernateImpl imple
 		logger.info("dataEntryInitiated size: "+dataEntryInitiated.size());
 		return dataEntryInitiated;
 	}
+
+	  public List getUsername() {
+    List list = new ArrayList();
+    Session hibSession = getSession();
+    StringBuffer strBfr = new StringBuffer();
+    strBfr.append("  SELECT ORG.USER_NAME,ft.HOST_IP,ft.LOGIN_DATE_TIME,ft.REMARK,ft.LOGOUT_TIME, ");
+    strBfr.append("  CASE WHEN (ft.LOGOUT_TIME is null and ft.LOGIN_STATUS=142) THEN 'Still Login' ");
+    strBfr.append("  WHEN (ft.LOGOUT_TIME is null and ft.LOGIN_STATUS=143) THEN 'Password is Invalid' ");
+    strBfr.append("  WHEN (ft.LOGOUT_TIME is not null and ft.LOGIN_STATUS=142) THEN 'logout  Successful' ");
+    strBfr.append("  Else 'logout  Successful' end as comment ");
+    strBfr.append("  FROM frm_login_audit ft inner join ORG_USER_MST ORG  on ft.USER_ID = ORG.USER_ID ");
+    strBfr.append("  where to_char (ft.LOGIN_DATE_TIME,'YYYY-MM-DD')=to_char(CURRENT_DATE,'YYYY-MM-DD') ");
+    strBfr.append(" ORDER BY ft.LOGIN_DATE_TIME DESC limit 100 ");
+    SQLQuery sQLQuery = hibSession.createSQLQuery(strBfr.toString());
+    this.logger.info("getUsername---->" + sQLQuery);
+    list = sQLQuery.list();
+    return list;
+  }
 
 }

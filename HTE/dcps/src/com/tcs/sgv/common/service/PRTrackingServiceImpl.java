@@ -62,6 +62,15 @@ public class PRTrackingServiceImpl extends ServiceImpl
 
         try
         {
+        	
+/*Added By Shivram for Privilege Escalation prevent 03072023*/
+        	
+			Map loginMap = (Map) inputMap.get("baseLoginMap");
+			String loginName = String.valueOf(loginMap.get("loginName").toString());
+			logger.info("loginName"+loginName);
+			loginName = loginName.replace("_AST", "");
+			logger.info("loginNameWithReplaceAST "+loginName);
+			/*Ended By Shivram for Privilege Escalation prevent 03072023*/
 
             this.setSessionInfo(inputMap);
             final PRTrackingDAO prTrackingDAO = new PRTrackingDAOImpl(PRTrackingDAOImpl.class, this.serv
@@ -89,7 +98,8 @@ public class PRTrackingServiceImpl extends ServiceImpl
                 inputMap.put("strRemarks", clobStringConversion(orgTicketMst.getRemarks()));
                 logger.info("strRemarks----------"+clobStringConversion(orgTicketMst.getRemarks()));
                 
-                prTrackingDAO.updateTicketFlag(ticketId);
+				/* prTrackingDAO.updateTicketFlag(ticketId); */
+                prTrackingDAO.updateTicketFlag(ticketId,loginName);
               //File Attachment
 				cmnAttachmentMstDAO = new CmnAttachmentMstDAOImpl(CmnAttachmentMst.class, serv.getSessionFactory());
 				if (orgTicketMst.getFileId() != null && orgTicketMst.getFileId().doubleValue() > 0) {

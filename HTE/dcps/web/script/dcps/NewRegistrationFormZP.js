@@ -1,3 +1,61 @@
+var _keySize = 256;
+var _ivSize = 128;
+var _iterationCount = 1989;
+
+function generateKey(salt, passPhrase) {
+	return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+		keySize : _keySize / 32,
+		iterations : _iterationCount
+	})
+}
+
+function encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+	var key = generateKey(salt, passPhrase);
+	var encrypted = CryptoJS.AES.encrypt(plainText, key, {
+		iv : CryptoJS.enc.Hex.parse(iv)
+	});
+	return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+}
+
+function decryptWithIvSalt(salt, iv, passPhrase, cipherText) {
+	var key = generateKey(salt, passPhrase);
+	var cipherParams = CryptoJS.lib.CipherParams.create({
+		ciphertext : CryptoJS.enc.Base64.parse(cipherText)
+	});
+	var decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
+		iv : CryptoJS.enc.Hex.parse(iv)
+	});
+	return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+/*
+ * function encrypt(passPhrase, plainText) { // alert("Welcome"); var iv =
+ * CryptoJS.lib.WordArray.random(_ivSize / 8).toString(CryptoJS.enc.Hex); var
+ * salt = CryptoJS.lib.WordArray.random(_keySize /
+ * 8).toString(CryptoJS.enc.Hex); var ciphertext = encryptWithIvSalt(salt, iv,
+ * passPhrase, plainText); return salt + iv + ciphertext; }
+ */
+
+function encrypt(passPhrase, plainText) {
+	// alert("Welcome");
+	var iv = CryptoJS.lib.WordArray.random(_ivSize / 8).toString(
+			CryptoJS.enc.Hex);
+	var salt = CryptoJS.lib.WordArray.random(_keySize / 8).toString(
+			CryptoJS.enc.Hex);
+	var ciphertext = encryptWithIvSalt(salt, iv, passPhrase, plainText);
+
+	return salt + iv + ciphertext;
+}
+
+function decrypt(passPhrase, cipherText) {
+	var ivLength = _ivSize / 4;
+	var saltLength = keySize / 4;
+	var salt = cipherText.substr(0, saltLength);
+	var iv = cipherText.substr(saltLength, ivLength);
+	var encrypted = cipherText.substring(ivLength + saltLength);
+	return decryptWithIvSalt(salt, iv, passPhrase, encrypted);
+}
+
 var defaultParentDpt = true;
 var saveOrUpdateFlag = 0;
 var emp_Id = "";
@@ -35,8 +93,6 @@ function popUpDcpsEmpData(dcpsEmpId, ddoFlag, ZPFormStatus) {
 	showProgressbar();
 	var lStrUserZP = document.getElementById("User").value;
 	var lStrUseZP = document.getElementById("Use").value;
-	// lStrUseZP=
-	// alert(lStrUseZP);
 	var empId = dcpsEmpId;
 
 	/*
@@ -119,10 +175,7 @@ function SaveDataUsingAjaxForDraft() {
 					if (nomineeSavedOrNot == 2 && serialNo > 1) {
 						alert('All the details except nominee details saved successfully');
 					}
-					// changeSaveOrUpdateBtn();
-
-					// self.location.href =
-					// "ifms.htm?actionFlag=loadRegistrationForm&User=ZPDDOAsst&elementId=700022";
+					alert('Employee Details saved successfully in draft.');
 					self.location.href = "ifms.htm?actionFlag=loadDCPSForm&User=ZPDDOAsst&elementId=700022";
 				}
 			}
@@ -132,7 +185,7 @@ function SaveDataUsingAjaxForDraft() {
 	xmlHttp.setRequestHeader("Content-type",
 			"application/x-www-form-urlencoded");
 	xmlHttp.send(url);
-	hideProgressbar();
+	// hideProgressbar();
 }
 
 function chkEmptyGender() {
@@ -222,7 +275,6 @@ function validateRegFormDataForDraft() {
 
 // Function to not allow user to click on other tabs
 function checkMinDtls() {
-
 	var name = document.getElementById("txtName").value;
 	var gender = document.getElementById("radioGender").value;
 	var dob = document.getElementById("txtBirthDate").value;
@@ -297,7 +349,6 @@ function rejectRequest(EmpId) {
 		xmlHttp.send(url);
 	}
 }
-
 // Function to save Data
 
 function validateRegFormData() {
@@ -490,7 +541,7 @@ function changeSaveOrUpdateBtn() {
 
 function SaveDataUsingAjax() {
 	// alert("SaveDataUsingAjax");
-	// showProgressbar();
+	showProgressbar();
 	if (!validateRegFormData()) {
 		// alert("SaveDataUsingAjax - > in ValidateForm");
 		hideProgressbar();
@@ -686,8 +737,35 @@ function updateDataUsingAJAXForUpdateTotally(empid) {
 }
 
 function ForwardRequest(empId, flag) {
-	// showProgressbar();
+	showProgressbar();
 	// alert("Change ForwardRequest Line 583"+empId);
+
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1 != null && txtUIDNo2 != null && txtUIDNo3 != null) {
+
+		if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4
+				|| txtUIDNo3.length == 4) {
+
+			var UID1Encrypted = encrypt("Message", txtUIDNo1);
+			var UID2Encrypted = encrypt("Message", txtUIDNo2);
+			var UID3Encrypted = encrypt("Message", txtUIDNo3);
+
+			document.getElementById("txtUIDNo1").value = trim(UID1Encrypted);
+			document.getElementById("txtUIDNo2").value = trim(UID2Encrypted);
+			document.getElementById("txtUIDNo3").value = trim(UID3Encrypted);
+		}
+
+	}
+
+	if (txtPANNo != null && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		document.getElementById("txtPANNo").value = trim(txtPANNo1);
+	}
+
 	var ForwardToPost = document.getElementById("ForwardToPost").value;
 	var ApproveToPost = document.getElementById("ApproveToPost").value;
 	// alert("ZPFormStatus Line
@@ -1046,7 +1124,41 @@ function updateAfterValidation() {
 
 function forwardRequestAfterValidation(flag) {
 
-	// alert("forwardRequestAfterValidation"+flag);
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
+		var UID1Encrypted = encrypt("Message", txtUIDNo1);
+		var UID2Encrypted = encrypt("Message", txtUIDNo2);
+		var UID3Encrypted = encrypt("Message", txtUIDNo3);
+		console.log("input txtUIDNo1 " + UID1Encrypted);
+		console.log("input txtUIDNo2 " + UID2Encrypted);
+		console.log("input txtUIDNo3 " + UID3Encrypted);
+
+		document.getElementById("txtUIDNo1").value = UID1Encrypted;
+		document.getElementById("txtUIDNo2").value = UID2Encrypted;
+		document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	}
+
+	if (txtPANNo != '' && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		console.log("input txtPANNo1 " + txtPANNo1);
+		document.getElementById("txtPANNo").value = txtPANNo1;
+	}
+
+	var commissionId = document.forms[0].elements['cmbPayCommission'].value
+			.trim();
+
+	if (commissionId == '700005') {
+		var curnsvnSelect = document.getElementById("cmbSvnBasic");
+		if (curnsvnSelect != undefined) {
+			var curntsvnText = curnsvnSelect.options[curnsvnSelect.selectedIndex].text;
+			document.getElementById("txtBasicPay").value = curntsvnText;
+
+		}
+	}
 	forwardFlag = true;
 
 	if (serialNo > 1) {
@@ -1076,7 +1188,22 @@ function forwardRequestAfterValidation(flag) {
 }
 
 function forwardRequestAfterValidationforUpdateTotally(empId, flag) {
-	showProgressbar();
+
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	var UID1Encrypted = encrypt("Message", txtUIDNo1);
+	var UID2Encrypted = encrypt("Message", txtUIDNo2);
+	var UID3Encrypted = encrypt("Message", txtUIDNo3);
+	var txtPANNo1 = encrypt("Message", txtPANNo);
+
+	document.getElementById("txtUIDNo1").value = UID1Encrypted;
+	document.getElementById("txtUIDNo2").value = UID2Encrypted;
+	document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	document.getElementById("txtPANNo").value = txtPANNo1;
+
 	forwardFlag = true;
 	// alert('CalledForward in JS Line NO:938'+empId);
 	if (serialNo > 1) {

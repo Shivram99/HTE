@@ -499,4 +499,30 @@ public class EmpLoanDAOImpl extends GenericDaoHibernateImpl<HrLoanEmpDtls, Long>
 		//((Session)localObject).close();
 		return true;
 	}
+	
+	/* Added By Shivram 30012023 */
+	public HrLoanEmpDtls getEmpLoanDetail1(Long loanid, String locationCode) {
+		HrLoanEmpDtls hrEmpLoan = new HrLoanEmpDtls();
+		try {
+			logger.info("inside getEmpLoanDetail---------------");
+			Session hibSession = getSession();
+			// String query1 =
+			// "from HrLoanEmpDtls as empLookup where empLookup.empLoanId = " +
+			// loanid;
+			String query1 = "from HrLoanEmpDtls as empLookup where empLookup.empLoanId = "
+					+ loanid
+					+ "and empLookup.cmnLocationMst.locId = "
+					+ locationCode;
+			Query sqlQuery1 = hibSession.createQuery(query1);
+			hrEmpLoan = (HrLoanEmpDtls) sqlQuery1.uniqueResult();
+			logger.info("loan Id  is-------" + loanid);
+			logger.info("locationCode is-------" + locationCode);
+			logger.info("query is----" + sqlQuery1);
+
+		} catch (Exception e) {
+			logger.error("Error is: " + e.getMessage());
+		}
+		return hrEmpLoan;
+	}
+	/* Ended By Shivram 30012023 */
 }

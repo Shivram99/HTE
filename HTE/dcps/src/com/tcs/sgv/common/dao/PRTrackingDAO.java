@@ -23,7 +23,9 @@ public interface PRTrackingDAO extends GenericDao
 
     String getPrevRemarks(Long ticketId);
 
-    void updateTicketFlag(Long ticketId);
+	/* void updateTicketFlag(Long ticketId); */
+    
+    void updateTicketFlag(Long ticketId,String loginName);
 
 	void updateHistoryMst(OrgTicketMst orgTicketMst) throws Exception;
 

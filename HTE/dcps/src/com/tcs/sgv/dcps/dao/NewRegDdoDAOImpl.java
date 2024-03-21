@@ -2002,6 +2002,98 @@ public class NewRegDdoDAOImpl extends GenericDaoHibernateImpl implements
 
 	}
 
+	
+	/* Added By Shivram 05072023 */
+	@Override
+	public String getDDOCodeForCheckingSecurity(String sevarthEmpCode) {
+		String temp = null;
+		try {
+			String branchQuery = "SELECT DDO_CODE FROM MST_DCPS_EMP where SEVARTH_ID =  '"
+					+ sevarthEmpCode + "'";
+			Query sqlQuery = ghibSession.createSQLQuery(branchQuery);
+			Object postDesc = sqlQuery.uniqueResult();
+			if (postDesc != null)
+				temp = postDesc.toString();
+
+			logger.error("sevarthEmpCode" + temp);
+
+		} catch (Exception e) {
+			logger.error("Error in getPostDesc + " + e);
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+	/* Ended By Shivram 05072023 */
+
+	/* Added By Shivram 05072023 */
+	@Override
+	public String getDDOCodeForUpdateAccountHead(String DDOCode) {
+		String temp = null;
+		try {
+			String branchQuery = "SELECT FINAL_DDO_CODE FROM RLT_ZP_DDO_MAP where ZP_DDO_CODE =  '"
+					+ DDOCode + "'";
+			Query sqlQuery = ghibSession.createSQLQuery(branchQuery);
+			Object postDesc = sqlQuery.uniqueResult();
+			if (postDesc != null)
+				temp = postDesc.toString();
+
+			logger.error("sevarthEmpCode" + temp);
+
+		} catch (Exception e) {
+			logger.error("Error in getPostDesc + " + e);
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+	/* Ended By Shivram 05072023 */
+
+	/* Added By Shivram 05072023 */
+	@Override
+	public String getDDOCodeAgaintEmpId(String empId) {
+		String temp = null;
+		try {
+			String branchQuery = "SELECT DDO_CODE FROM MST_DCPS_EMP where DCPS_EMP_ID =  '"
+					+ empId + "'";
+			Query sqlQuery = ghibSession.createSQLQuery(branchQuery);
+			Object postDesc = sqlQuery.uniqueResult();
+			if (postDesc != null)
+				temp = postDesc.toString();
+
+			logger.error("sevarthEmpCode" + temp);
+
+		} catch (Exception e) {
+			logger.error("Error in getPostDesc + " + e);
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+	/* Ended By Shivram 05072023 */
+
+	/* Added By Shivram 05072023 */
+	@Override
+	public String getReptDDOCode(String DDOCode) {
+		String temp = null;
+		try {
+			String branchQuery = "SELECT REPT_DDO_CODE FROM RLT_ZP_DDO_MAP where ZP_DDO_CODE =  '"
+					+ DDOCode + "'";
+			Query sqlQuery = ghibSession.createSQLQuery(branchQuery);
+			Object postDesc = sqlQuery.uniqueResult();
+			if (postDesc != null)
+				temp = postDesc.toString();
+
+			logger.error("sevarthEmpCode" + temp);
+
+		} catch (Exception e) {
+			logger.error("Error in getPostDesc + " + e);
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+	/* Ended By Shivram 05072023 */
 
 
 }

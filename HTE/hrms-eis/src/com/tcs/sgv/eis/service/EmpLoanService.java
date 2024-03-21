@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ajaxtags.xml.AjaxXmlBuilder;
@@ -701,7 +702,21 @@ public class EmpLoanService extends ServiceImpl
 				//String loanId=request.getParameter("empLoanId");
 				String loanId = (String) voToService.get("empLoanId");
 				long empLoanId = Long.parseLong(loanId);
-				HrLoanEmpDtls actionList = empLoanDAO.getEmpLoanDetail(empLoanId);
+				
+				
+				/* Added By Shivram 28112022 */
+				HrLoanEmpDtls actionList = empLoanDAO.getEmpLoanDetail1(
+						empLoanId, locationCode);
+
+				if (actionList == null) {
+
+					HttpServletResponse httpServletResponse = null;
+					httpServletResponse.sendRedirect("login.jsp");
+				}
+				/* Ended By Shivram 28112022 */
+				
+				
+				/* HrLoanEmpDtls actionList = empLoanDAO.getEmpLoanDetail(empLoanId); */
 
 				GenericDaoHibernateImpl princiGImpl = null;
 				princiGImpl = new GenericDaoHibernateImpl(HrLoanEmpPrinRecoverDtls.class);

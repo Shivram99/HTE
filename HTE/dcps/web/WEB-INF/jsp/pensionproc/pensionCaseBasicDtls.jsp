@@ -379,8 +379,8 @@ document.getElementById("cmbTargetBranchName").value="-1";
 	       <fmt:message key="PPROC.UIDNO" bundle="${pensionLabels}"></fmt:message>
 	    </td>	        
 	    <td width="30%">
-	       <input type="text" id="txtUidNo1" name="txtUidNo1" value="${fn:substring(lObjTrnPnsnProcPnsnrDtlsVO.uId,0,4)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="32" maxlength="4"/>
-	       <input type="text" id="txtUidNo2" name="txtUidNo2" value="${fn:substring(lObjTrnPnsnProcPnsnrDtlsVO.uId,4,8)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="33" maxlength="4"/>
+	       <input type="password" id="txtUidNo1" name="txtUidNo1" value="${fn:substring(lObjTrnPnsnProcPnsnrDtlsVO.uId,0,4)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="32" maxlength="4"/>
+	       <input type="password" id="txtUidNo2" name="txtUidNo2" value="${fn:substring(lObjTrnPnsnProcPnsnrDtlsVO.uId,4,8)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="33" maxlength="4"/>
 	       <input type="text" id="txtUidNo3" name="txtUidNo3" value="${fn:substring(lObjTrnPnsnProcPnsnrDtlsVO.uId,8,12)}" size="4" onKeyPress="numberFormat(this)"  onKeyUp="return autoTab(this, 4, event);" onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="34" maxlength="4"/>	  	     
 	    </td>
 	    <td width="20%">
@@ -396,7 +396,7 @@ document.getElementById("cmbTargetBranchName").value="-1";
 	       <fmt:message key="PPROC.PANNO" bundle="${pensionLabels}"></fmt:message>
 	    </td>	        
 	    <td width="30%">
-	       <input type="text" id="txtPANNo" name="txtPANNo" value="${lObjTrnPnsnProcPnsnrDtlsVO.panNo}" onKeyPress="" onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="" maxlength=""/>	       	  	     
+	       <input type="password" id="txtPANNo" name="txtPANNo" value="${lObjTrnPnsnProcPnsnrDtlsVO.panNo}" onKeyPress="" onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="" maxlength=""/>	       	  	     
 	    </td>
 		<td width="20%" align="left" >
 				<fmt:message key="PPROC.PERSONALREMARKS" bundle="${pensionLabels}"></fmt:message>

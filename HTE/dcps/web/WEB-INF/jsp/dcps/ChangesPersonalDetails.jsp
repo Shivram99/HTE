@@ -1031,8 +1031,8 @@ function getResponsePANNo(myAjax,panNo){
 		<tr>
 			<td width="15%" align="left"><fmt:message key="CMN.UIDNO"
 				bundle="${dcpsLables}"></fmt:message></td>
-			<td width="20%" align="left"><input type="text" id="txtUIDNo1"
-				size="4" maxlength="4"  name="txtUIDNo1" value="${UIDNO1}" onblur="IDValidation();" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);"  ${varDisabled} ${varUIDReadOnly } /> <input type="text" id="txtUIDNo2"
+			<td width="20%" align="left"><input type="password" id="txtUIDNo1"
+				size="4" maxlength="4"  name="txtUIDNo1" value="${UIDNO1}" onblur="IDValidation();" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);"  ${varDisabled} ${varUIDReadOnly } /> <input type="password" id="txtUIDNo2"
 				size="4"  maxlength="4" name="txtUIDNo2" value="${UIDNO2}" onblur="IDValidation();" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);"  ${varDisabled} ${varUIDReadOnly }/> <input type="text" id="txtUIDNo3"
 				size="4"  maxlength="4" name="txtUIDNo3" value="${UIDNO3}" onblur="IDValidation();" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);" ${varDisabled} ${varUIDReadOnly }/></td>
   
@@ -1368,7 +1368,7 @@ function getResponsePANNo(myAjax,panNo){
 		<tr>
 			<td width="15%" align="left"><fmt:message key="CMN.PANNO"
 				bundle="${dcpsLables}"></fmt:message></td>
-			<td width="20%" align="left"><input type="text" id="txtPANNo"
+			<td width="20%" align="left"><input type="password" id="txtPANNo"
 				size="30" name="txtPANNo" value="${EMPVO.PANNo}" ${varDisabled} onblur="panNoValidation();chkPANalreadyExists();"/></td>
 			<td></td>
 			<td></td>

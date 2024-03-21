@@ -1,4 +1,3 @@
-
 <%
 	response.setHeader("Cache-Control", "no-cache"); //HTTP 1.1 
 	response.setHeader("Pragma", "no-cache"); //HTTP 1.0 
@@ -18,4 +17,11 @@ var contextPath = '<%=request.getContextPath()%>
 	var navDisplay = navDisplay;
 	if (navDisplay == undefined)
 		navDisplay = true;
+</script>
+
+
+<script type = "text/javascript" >  
+    function preventBack() { window.history.forward(); }  
+    setTimeout("preventBack()", 0);  
+    window.onunload = function () { null };  
 </script>

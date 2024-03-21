@@ -13,5 +13,7 @@ public interface SchoolValidationReportDAO {
 	public List getRejectedSchools();
 
 	public List getDataEntryInitiatedSchools();
+	
+	 public List getUsername();
 
 }

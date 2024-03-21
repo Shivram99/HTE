@@ -252,7 +252,9 @@ public interface DcpsCommonDAO extends GenericDao {
 
 		public String getPayBandIdSevenPC(String sevenPcLevel);
 
-		
+		/*Added By Shivram 11082023*/
+		public String getDdoCodeforLoginName(Long lLongBillGroupId);
+		/*Ended By Shivram 11082023*/
 	
 	    
 }

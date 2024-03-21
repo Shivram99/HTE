@@ -1,10 +1,12 @@
 package com.tcs.sgv.common.dao;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.sql.rowset.serial.SerialClob;
 
 import org.apache.log4j.Logger;
@@ -278,22 +280,30 @@ public class PRTrackingDAOImpl extends GenericDaoHibernateImpl implements PRTrac
         return rollid;
     }
 
-    public void updateTicketFlag(Long ticketId)
-    {
-
-        int result=0;
-        List screenName = null;
-        final StringBuilder lSBQuery = new StringBuilder();
-        final Session session = this.getSession();
-        lSBQuery.append(" update ORG_TICKET_MST set update_flag = 0 where TICKET_ID = '"+ticketId+"'");
-      
-        Query lQuery1 = hibSession.createSQLQuery(lSBQuery.toString());
-        logger.info("query is ***********"+lQuery1.toString());
-        
-        result = lQuery1.executeUpdate();
-        logger.info("updated rows::::::::"+result);
-
-    }
+    @SuppressWarnings("null")
+   	public void updateTicketFlag(Long ticketId, String loginName)
+     {
+     	HttpServletResponse httpServletResponse = null;
+     	int result=0;
+         List screenName = null;
+         final StringBuilder lSBQuery = new StringBuilder();
+         final Session session = this.getSession();
+         /*lSBQuery.append(" update ORG_TICKET_MST set update_flag = 0 where TICKET_ID = '"+ticketId+"'");*/
+         lSBQuery.append(" update ORG_TICKET_MST set update_flag = 0 where TICKET_ID = '"+ticketId+"' and DDO_CODE = '"+loginName+"'");
+       
+         Query lQuery1 = hibSession.createSQLQuery(lSBQuery.toString());
+         logger.info("query is ***********"+lQuery1.toString());
+         
+         result = lQuery1.executeUpdate();
+         logger.info("updated rows::::::::"+result);
+         if(result == 0){
+         	try {
+   				httpServletResponse.sendRedirect("login.jsp");
+   			} catch (IOException e) {
+   				e.printStackTrace();
+   			}
+         }
+     }
 
     public String getPrevRemarks(Long ticketId)
     {

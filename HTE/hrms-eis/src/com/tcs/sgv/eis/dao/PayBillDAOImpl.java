@@ -7985,4 +7985,18 @@ public class PayBillDAOImpl extends GenericDaoHibernateImpl<HrPayPaybill, Long> 
 		return billType;
 	}
 	
+	/*Added By Shivram 11082023*/
+	public List getDDOCodeByLoggedInlocId1(long locId,String loginName) {
+		logger.info("Inside getDDOCodeByLoggedInPost");
+		List<OrgDdoMst> ddoList = null;
+		Session hibSession = getSession();
+		StringBuffer query = new StringBuffer();
+		query.append(" from OrgDdoMst as ddo where locationCode='" + locId+ "' and DDO_CODE= '"+loginName+"'");
+		Query sqlQuery = hibSession.createQuery(query.toString());
+		logger.info("Query to be executed is " + sqlQuery.toString());
+		ddoList = sqlQuery.list();
+		return ddoList;
+	}
+	/*Ended By Shivram 11082023*/
+	
 }

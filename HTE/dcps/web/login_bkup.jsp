@@ -373,14 +373,7 @@ background: orange
 
 
 
-<!--<B>HttpSession Information:</B> -->
-<!-- <UL>
- <LI>Served From Server instance: <b><%= System.getProperty("com.sun.aas.instanceName") %></b></LI>
-<LI>Executed Server IP Address: <b><%= java.net.InetAddress.getLocalHost().getHostAddress() %></b></LI> 
-<LI>Executed From Server Port: <b><%= request.getServerPort()%></b></LI>
-</UL>
--->
-<!-- Copyright & Disclaimer -->
+
 <hr color="#94532e" align="center" width="70%">
 <table cellpadding="0" cellspacing="0" width="770" class="CopyrightLine"
 	border="0" align="center">

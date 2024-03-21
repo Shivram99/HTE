@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ajaxtags.xml.AjaxXmlBuilder;
@@ -1214,6 +1216,36 @@ public class ZpDDOOfficeServiceImpl extends ServiceImpl implements
 				ZpAdminOfficeMst.class, serviceLocator.getSessionFactory());
 		ZpDepartmentDAOImpl getDept = new ZpDepartmentDAOImpl(
 				ZpDepartmentMst.class, serviceLocator.getSessionFactory());
+		
+		
+		/*Added By Shivram 30012023*/
+		 Map loginMap = (Map) objectArgs.get("baseLoginMap");
+		String loginName = String.valueOf(loginMap.get("loginName").toString());
+		logger.info("loginName"+loginName);
+		loginName = loginName.replace("_AST", "");
+		logger.info("loginNameWithReplaceAST "+loginName);
+		/*Ended By Shivram 30012023*/
+
+
+/*Added By Shivram 27032023*/
+				String userNameMDC = "MDC";
+				
+				if(!userNameMDC.equals(loginName)){
+					HttpServletRequest request = (HttpServletRequest) objectArgs.get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) objectArgs.get("responseObj");
+					RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+					try {
+						rd.forward(request,responce);
+					} catch(Exception e){
+						e.printStackTrace();
+					}
+				}
+				/*Ended By Shivram 27032023*/
+			
+		
+		
+		
+		
 
 		List t = hh.retriveOfcList("");
 

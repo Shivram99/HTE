@@ -10,7 +10,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.ajaxtags.xml.AjaxXmlBuilder;
 import org.apache.commons.logging.Log;
@@ -197,6 +199,17 @@ public class EmpCompMpgServiceImpl extends ServiceImpl {
 				}
 
 				logger.info("The Employee Id is:-" + empId);
+				
+				/*Added By Shivram 11082023*/
+				int count = empinfodao.read(empId,locationCode);
+				
+				if(count == 0){
+					request = (HttpServletRequest) objectArgs.get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) objectArgs.get("responseObj");
+					RequestDispatcher rd=request.getRequestDispatcher("/login.jsp");
+					rd.forward(request,responce);
+				}
+				/*Ended By Shivram 11082023*/
 
 				// List actionList = empinfodao.getEmpIdData(empId);
 				// PsrPostMpgDAOImpl psrDAOImp = new

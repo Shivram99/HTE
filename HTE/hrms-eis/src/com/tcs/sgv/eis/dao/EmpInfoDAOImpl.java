@@ -948,5 +948,16 @@ public class EmpInfoDAOImpl extends GenericDaoHibernateImpl<HrEisEmpMst, Long> i
 		return DesigName;
 
 	}
+	/*Added By Shivram 11082023*/
+	public int read(long empId, String locationCode) {
+		StringBuffer sb = new StringBuffer();
+		Session hibSession = getSession();
+		hibSession.flush();
+		sb.append("SELECT COUNT(*) FROM hr_eis_emp_mst where EMP_ID = "+empId+"  and LOC_ID = "+locationCode+"");
+		Query sqlQuery = hibSession.createSQLQuery(sb.toString());
+		int count = (int) sqlQuery.list().get(0);
+		return count;
+	}
+	/*Ended By Shivram 11082023*/
 
 }

@@ -1087,42 +1087,6 @@ text-align: center;
 </fieldset>
 	</div>
 	
-	
-	
-
-	<!--
-	
-	
-	
-	
-
-	
-	
-	
-	<table>
-		<tr><td><br></td></tr>
-		<tr align="center">
-		<td>
-			<a href="images/SupportStaffLink.pdf" target="_blank" style="size:15px; color:#FF4000; ">Support Staff Link</a>
-		</td>
-	</tr>
-</table>
-
-
-
-
-
---><!--<B>HttpSession Information:</B> -->
-<!-- <UL>
- <LI>Served From Server instance: <b><%= System.getProperty("com.sun.aas.instanceName") %></b></LI>
-<LI>Executed Server IP Address: <b><%= java.net.InetAddress.getLocalHost().getHostAddress() %></b></LI> 
-<LI>Executed From Server Port: <b><%= request.getServerPort()%></b></LI>
-</UL>
--->
-<!-- Copyright & Disclaimer -->
-
-
-
 
 <table cellpadding="0" cellspacing="0" width="770" class="CopyrightLine"
 	border="0" align="center" style="display:none">
@@ -1495,9 +1459,6 @@ var _iterationCount = 1989;
        document.getElementById("capLength").value = code.split(' ').join('').length;
    }
     </script>
-    
-    
-
 </body>
 
 

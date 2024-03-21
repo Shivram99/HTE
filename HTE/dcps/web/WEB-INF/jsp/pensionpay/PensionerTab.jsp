@@ -383,8 +383,8 @@ if(heightInInch == "N")
 	       <fmt:message key="PPMT.UIDNO" bundle="${pensionLabels}"></fmt:message>
 	    </td>	        
 	    <td width="35%">
-	       <input type="text" id="txtUidNo1" name="txtUidNo1" value="${fn:substring(mstPensionerHdrVO.uidNo,0,4)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="32" maxlength="4"/>
-	       <input type="text" id="txtUidNo2" name="txtUidNo2" value="${fn:substring(mstPensionerHdrVO.uidNo,4,8)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="33" maxlength="4"/>
+	       <input type="password" id="txtUidNo1" name="txtUidNo1" value="${fn:substring(mstPensionerHdrVO.uidNo,0,4)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="32" maxlength="4"/>
+	       <input type="password" id="txtUidNo2" name="txtUidNo2" value="${fn:substring(mstPensionerHdrVO.uidNo,4,8)}" size="4" onKeyPress="numberFormat(this)" onKeyUp="return autoTab(this, 4, event);"  onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="33" maxlength="4"/>
 	       <input type="text" id="txtUidNo3" name="txtUidNo3" value="${fn:substring(mstPensionerHdrVO.uidNo,8,12)}" size="4" onKeyPress="numberFormat(this)"  onKeyUp="return autoTab(this, 4, event);" onfocus="onFocus(this)"  onblur="onBlur(this)" tabindex="34" maxlength="4"/>	  	     
 	    </td>
 	    <td width="15%">

@@ -2905,7 +2905,17 @@ public String getPayBandIdSevenPC(String sevenPcLevel) {
     lStrFieldDept = selectQuery.list().get(0).toString();
     return lStrFieldDept;
 }
-
+/*Added By Shivram 11082023*/
+@Override
+public String getDdoCodeforLoginName(Long lLongBillGroupId) {
+	Session hibSession = getSession();
+	StringBuffer strBuff = new StringBuffer();
+	strBuff.append("SELECT DDO_CODE FROM MST_DCPS_BILL_GROUP where BILL_GROUP_ID = "+lLongBillGroupId);
+	Query query = hibSession.createSQLQuery(strBuff.toString());
+	logger.info("---- getDdoCodeforLoginName DAo---" + query.toString());
+	return  (String) query.list().get(0);
+}
+/*Ended By Shivram 11082023*/
 
 
 }

@@ -1230,14 +1230,7 @@ blink {
 
 
 -->
-			<!--<B>HttpSession Information:</B> -->
-			<!-- <UL>
- <LI>Served From Server instance: <bSystem.getProperty("com.sun.aas.instanceName")e") %></b></LI>
-<LI>Executed Server IP Address: <bjava.net.InetAddress.getLocalHost().getHostAddress()s() %></b></LI> 
-<LI>Executed From Server Port: <b><%= request.getServerPort()%></b></LI>
-</UL>
--->
-			<!-- Copyright & Disclaimer -->
+			
 
 
 

@@ -166,11 +166,11 @@ table.newregperDetailsTb td input {
 			<c:set var="UIDNO2" value="${fn:substring(EMPVO.UIDNo,4,8)}" />
 			<c:set var="UIDNO3" value="${fn:substring(EMPVO.UIDNo,8,12)}" />
 
-			<td width="35%" align="left"><input type="text" id="txtUIDNo1"
+			<td width="35%" align="left"><input type="password" id="txtUIDNo1"
 				size="4" maxlength="4" name="txtUIDNo1" value="${UIDNO1}"
 				onblur="IDValidation();" onkeypress="digitFormat(this);"
 				onKeyUp="return autoTab(this, 4, event);" ${varDisabled}
-				${varUIDReadOnly } /> <input type="text" id="txtUIDNo2" size="4"
+				${varUIDReadOnly } /> <input type="password" id="txtUIDNo2" size="4"
 				maxlength="4" name="txtUIDNo2" value="${UIDNO2}"
 				onblur="IDValidation();" onkeypress="digitFormat(this);"
 				onKeyUp="return autoTab(this, 4, event);" ${varDisabled}
@@ -600,7 +600,7 @@ table.newregperDetailsTb td input {
 
 			<td width="15%" align="left"><fmt:message key="CMN.PANNO"
 					bundle="${dcpsLables}"></fmt:message></td>
-			<td width="35%" align="left"><input type="text" id="txtPANNo"
+			<td width="35%" align="left"><input type="password" id="txtPANNo"
 				maxlength="10" size="48" name="txtPANNo" value="${EMPVO.PANNo}"
 				onblur="panNoValidation();chkPANalreadyExists();" ${varDisabled} />
 			</td>

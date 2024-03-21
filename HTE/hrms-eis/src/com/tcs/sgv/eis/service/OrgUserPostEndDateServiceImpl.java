@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -26,6 +28,7 @@ import com.tcs.sgv.core.dao.GenericDaoHibernateImpl;
 import com.tcs.sgv.core.service.ServiceImpl;
 import com.tcs.sgv.core.service.ServiceLocator;
 import com.tcs.sgv.core.valueobject.ResultObject;
+import com.tcs.sgv.dcps.valueobject.MstEmp;
 import com.tcs.sgv.eis.dao.BankMasterDAOImpl;
 import com.tcs.sgv.eis.dao.EmpCompMpgDAOImpl;
 import com.tcs.sgv.eis.dao.EmpGpfDtlsDAOImpl;
@@ -45,6 +48,8 @@ import com.tcs.sgv.ess.valueobject.OrgGradeMst;
 import com.tcs.sgv.ess.valueobject.OrgPostMst;
 import com.tcs.sgv.ess.valueobject.OrgUserMst;
 import com.tcs.sgv.ess.valueobject.OrgUserpostRlt;
+import com.tcs.sgv.dcps.dao.NewRegDdoDAO;
+import com.tcs.sgv.dcps.dao.NewRegDdoDAOImpl;
 
 public class OrgUserPostEndDateServiceImpl extends ServiceImpl {
 
@@ -57,6 +62,15 @@ public class OrgUserPostEndDateServiceImpl extends ServiceImpl {
 		ServiceLocator serv = (ServiceLocator) objectArgs.get("serviceLocator");
 		HttpServletRequest request = (HttpServletRequest) objectArgs
 				.get("requestObj");
+		
+		/*Added By Shivram 05072023*/
+		Map loginMap = (Map) objectArgs.get("baseLoginMap");
+		String loginName = String.valueOf(loginMap.get("loginName").toString());
+		logger.info("loginName"+loginName);
+		loginName = loginName.replace("_AST", "");
+		logger.info("loginNameWithReplaceAST "+loginName);
+		/*Ended By Shivram 05072023*/
+		
 		EmpCompMpgDAOImpl empCompMpgDAO = new EmpCompMpgDAOImpl(HrEisEmpCompMpg.class, serv.getSessionFactory());
 
 
@@ -197,6 +211,19 @@ public class OrgUserPostEndDateServiceImpl extends ServiceImpl {
 				if (empId != 0)
 					hreiempMst = empinfodao.read(empId);
 
+				/*Added By Shivram 05072023*/
+				NewRegDdoDAO lObjNewRegDdoDAO = new NewRegDdoDAOImpl(MstEmp.class,
+						serv.getSessionFactory());
+				String sevarthEmpCode = hreiempMst.getSevarthEmpCode();
+				String DDOCODECHECK = lObjNewRegDdoDAO.getDDOCodeForCheckingSecurity(sevarthEmpCode);
+				if(!DDOCODECHECK.equals(loginName)){
+					request = (HttpServletRequest) objectArgs.get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) objectArgs.get("responseObj");
+					RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+					rd.forward(request,responce);
+				}
+				/*Ended By Shivram 05072023*/
+				
 				OrgEmpMst orgEmpMstgu = new OrgEmpMst();
 				orgEmpMstgu.setEmpId(hreiempMst.getOrgEmpMst().getEmpId());
 				OrgGradeMst orgGradeMst = null;

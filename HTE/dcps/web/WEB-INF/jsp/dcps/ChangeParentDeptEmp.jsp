@@ -136,7 +136,7 @@
 					<td align="left" style="padding-left: 6%" >
 						<!--  don't delete below line -->
 						<input type="hidden" id="txtEIDNo" value="" />
-					<input type="text" id="txtUIDNo1"
+					<input type="text" id="password"
 						size="4" maxlength="4"  name="txtUIDNo1" value="" onblur="" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);"  /> <input type="text" id="txtUIDNo2"
 						size="4"  maxlength="4" name="txtUIDNo2" value="" onblur="" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);"  /> <input type="text" id="txtUIDNo3"
 						size="4"  maxlength="4" name="txtUIDNo3" value="" onblur="" onkeypress="digitFormat(this);"  onKeyUp="return autoTab(this, 4, event);" /></td>

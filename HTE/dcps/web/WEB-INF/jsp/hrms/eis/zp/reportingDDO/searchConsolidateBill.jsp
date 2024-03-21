@@ -190,7 +190,7 @@
 	<%
 	    int i = 0;
 	%>
-	<c:forEach var="entry" items="${list}">
+	<c:forEach var="entry" items="${list}" varStatus="loop">
 
 		<tr>
 
@@ -221,8 +221,13 @@
 			<c:choose>
 				<c:when test="${entry[6]!=null}">
 					<td align="center"><a href="#"
-						onclick="openAuthSlipPDF('${entry[6]}')">${entry[6]}</a> <hdiits:hidden
-						name="authNo<%=i%>" id="authNo<%=i%>" default="${entry[6]}" /></td>
+						onclick="openAuthSlipPDF('${entry[6]}')">${entry[6]}</a> 
+						<hdiits:hidden
+						<%-- name="authNo<%=i%>" id="authNo<%=i%>"  commented my shivram20032024--%>
+						name="authNo${loop.index}"   id="authNo${loop.index}" 
+						
+						 default="${entry[6]}" /></td>
+						
 				</c:when>
 				<c:otherwise>
 					<td align="center">-</td>

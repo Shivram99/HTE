@@ -1,9 +1,7 @@
 package com.tcs.sgv.common.helper;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.Base64;
+import java.util.Optional;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -11,10 +9,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.tcs.sgv.common.constant.AESUtil;
@@ -45,15 +41,19 @@ public class DecryptPasswordFilter implements Filter {
 		        				 
 		        				 String randomString=(String) session.getAttribute("randomString");
 		        				 
-		        				String oldCaptcha=aESUtil1.decrypt("Message", message); 
-		        				oldCaptcha = oldCaptcha.replaceAll(" ", "");
-		        				
-		        				
-		        				System.out.println(" oldCaptcha is : "+oldCaptcha); 
+		        				 Optional<String> check = Optional.ofNullable(randomString);
+		        				  
+		        			        if (!check.isPresent()) {
+		        			        	randomString = super.getParameter("alphaNumericString"); 
+		        			        }
+		        				 
+		        				 String oldCaptcha=aESUtil1.decrypt("Message", message); 
+		        				 oldCaptcha = oldCaptcha.replaceAll(" ", "");
 		        				
 		        				 String captchaCode=super.getParameter("captcha_code"); 
-		        				 captchaCode=aESUtil1.decrypt(randomString, captchaCode); 
-		        				 System.out.println(" captchaCode is : "+captchaCode);
+		        				 
+		        				 captchaCode=aESUtil1.decrypt(randomString, captchaCode);
+		        				 
 		        				 captchaCode = captchaCode.replaceAll(" ", "");
 		        					
 		        				 

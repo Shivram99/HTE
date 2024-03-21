@@ -185,4 +185,12 @@ public interface NewRegDdoDAO extends GenericDao {
 	public String chkempNameforPANalreadyExists(String panNo);
 
 	public Long chkPANalreadyExistsforCSRF(String panNo, String sevaarthId);
+	
+	
+	/*Added By Shivram 05072023*/
+	String getDDOCodeAgaintEmpId(String EmpId);
+	String getReptDDOCode(String DDOCode);
+	public String getDDOCodeForCheckingSecurity(String sevarthEmpCode);
+	public String getDDOCodeForUpdateAccountHead(String DDOCode);
+/*Ended By Shivram 05072023*/
 }

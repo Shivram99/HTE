@@ -12,7 +12,9 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.StringTokenizer;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -79,7 +81,14 @@ ReportDataFinder, ReportEventListener {
 		.get(IReportConstants.REQUEST_ATTRIBUTES);
 		final Map serviceMap = (Map) requestAttributes.get("serviceMap");
 		final Map baseLoginMap = (Map) serviceMap.get("baseLoginMap");
-
+		
+		/*Added By Shivram 11082023*/
+		String loginName = String.valueOf(baseLoginMap.get("loginName").toString());
+		logger.info("loginName"+loginName);
+		loginName = loginName.replace("_AST", "");
+		logger.info("loginNameWithReplaceAST "+loginName);
+		/*Ended By Shivram 11082023*/
+		
 		long locId = 0;
 		newReportColumns[0] = new ReportColumnVO();
 
@@ -233,15 +242,50 @@ ReportDataFinder, ReportEventListener {
 			logger.error("Exception occur in Paybill Inner " + e);
 		}
 
+		
 		String ddocode ="";
 		PayBillDAOImpl payBillDAO= new PayBillDAOImpl(HrPayPaybill.class,serv.getSessionFactory());
 		List<OrgDdoMst> ddoCodeList = payBillDAO.getDDOCodeByLoggedInlocId(locId);
 		//ADDED BY ROSHAN FOR REPORTS AT ALL LEVEL
 		
+		/*Added By Shivram 11082023*/
+		List<OrgDdoMst> ddoCodeList1 = payBillDAO
+				.getDDOCodeByLoggedInlocId1(locId,loginName);
+		
+		
+		if(ddoCodeList1 == null || ddoCodeList1.isEmpty()){
+			HttpServletRequest request = (HttpServletRequest) serviceMap.get("requestObj");
+			HttpServletResponse responce = (HttpServletResponse) serviceMap.get("responseObj");
+			RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+			try {
+				rd.forward(request,responce);
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		/*Ended By Shivram 11082023*/
+		
+		
 		if (billNo !=0){
 			locId=payBillDAO.getLocationCode(billNo);
 			logger.info("hii i m in mahapaybillinnerdao for inner.");
+			/*Added By Shivram 27032023*/
+			String convertBillNo = Long.toString(billNo);
+			System.out.println("convertBillNo " +convertBillNo);
+			String ddoCodeAgaintBillNo = payBillDAO.getddoCodeForBillId(convertBillNo);
 			
+			if(!ddoCodeAgaintBillNo.equals(loginName)){
+				HttpServletRequest request = (HttpServletRequest) serviceMap.get("requestObj");
+				HttpServletResponse responce = (HttpServletResponse) serviceMap.get("responseObj");
+				RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+				try {
+					rd.forward(request,responce);
+				} catch(Exception e){
+					e.printStackTrace();
+				}
+			}
+			
+			/*Ended BY Shivram 27032023*/
 		} 
 		//ended BY ROSHAN FOR REPORTS AT ALL LEVEL
 		if(ddoCodeList!=null)

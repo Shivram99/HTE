@@ -189,6 +189,7 @@ if(minChangePwddays)
 }
 %>
 <hdiits:form name="frmChangePassword" method="POST"  validate="true">  
+
 <div id="tabmenu"> <ul id="maintab" class="shadetabs"> 
 						<li class="selected" >  <a href="#" rel="tcontent1"> <hdiits:caption captionid="ChangePwdTitle" bundle="${aclLabels}"/> </a> </li>
                    </ul>

@@ -275,4 +275,27 @@ public class SchoolValidationReportServiceImpl extends ServiceImpl{
 				}
 				return resultObject;
 			}
+
+			/* Added for autrial report */
+	public ResultObject getauditrial(Map<String, List> objectArgs) {
+	    ResultObject resultObject = new ResultObject(0);
+	    ServiceLocator serv = (ServiceLocator)objectArgs.get("serviceLocator");
+	    HttpServletRequest request = (HttpServletRequest)objectArgs.get("requestObj");
+	    try {
+	      List AuditTrial = null;
+	      SchoolValidationReportDAOImpl schoolValidationReportDAO1 = new SchoolValidationReportDAOImpl(null, serv.getSessionFactory());
+	      AuditTrial = schoolValidationReportDAO1.getUsername();
+	      logger.info("AuditTrial " + AuditTrial);
+	      objectArgs.put("AuditTrial", AuditTrial);
+	      resultObject.setResultCode(0);
+	      resultObject.setResultValue(objectArgs);
+	      resultObject.setViewName("AuditTrial");
+	    } catch (Exception e) {
+	      logger.info("Null Pointer Exception Ocuures..schoolValidationReport of SchoolValidationReportServiceImpl");
+	      logger.error("Error is: " + e.getMessage());
+	      resultObject.setResultValue(objectArgs);
+	      resultObject.setViewName("errorInsert");
+	    } 
+	    return resultObject;
+	  }
 		}

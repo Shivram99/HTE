@@ -189,6 +189,7 @@ function getResponseUpdate(myAjax)
 <c:set var="resValue" value="${resultObj.resultValue}" />
 
 <hdiits:form name="FrmChngUname" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle"><legend><fmt:message key="CMN.DDODTLS" bundle="${dcpsLables}"></fmt:message></legend>
 
 <input type="hidden" id="hidPostId" name="hidPostId" value="${resValue.postId}" /> 
