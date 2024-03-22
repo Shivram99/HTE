@@ -46,6 +46,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import com.hhc.MultipartRequest;
+import com.tcs.sgv.common.constant.AESUtil;
 //import com.sun.jersey.api.client.Client;
 //import com.sun.jersey.api.client.WebResource;
 import com.tcs.sgv.common.helper.SessionHelper;
@@ -615,8 +616,18 @@ public class FormS1Update extends ServiceImpl {
 			empMaritalStatus = StringUtility.getParameter("empMaritalStatus", request);
 			DtoCode = StringUtility.getParameter("DtoCode", request);
 			empDdoCode = StringUtility.getParameter("hdnDDOCode", request);
+			
+			
+			
 			PanNo = StringUtility.getParameter("panNo", request);
 			String uidNo = StringUtility.getParameter("aadharNo", request);
+			
+			AESUtil aESUtil=new AESUtil();
+			
+			PanNo=aESUtil.decrypt("Message", PanNo);
+			uidNo=aESUtil.decrypt("Message", uidNo);
+			
+			
 			dateOfJoining = StringUtility.getParameter("DOJ", request);
 			dateOfRetire = StringUtility.getParameter("superAnnDate", request);
 			empClass = StringUtility.getParameter("empClass", request);

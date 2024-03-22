@@ -72,6 +72,66 @@
       }
 </style>
 <script type="text/javascript">
+
+var _keySize = 256;
+var _ivSize = 128;
+var _iterationCount = 1989;
+
+function generateKey(salt, passPhrase) {
+	return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+		keySize : _keySize / 32,
+		iterations : _iterationCount
+	})
+}
+
+function encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+	var key = generateKey(salt, passPhrase);
+	var encrypted = CryptoJS.AES.encrypt(plainText, key, {
+		iv : CryptoJS.enc.Hex.parse(iv)
+	});
+	return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+}
+
+function decryptWithIvSalt(salt, iv, passPhrase, cipherText) {
+	var key = generateKey(salt, passPhrase);
+	var cipherParams = CryptoJS.lib.CipherParams.create({
+		ciphertext : CryptoJS.enc.Base64.parse(cipherText)
+	});
+	var decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
+		iv : CryptoJS.enc.Hex.parse(iv)
+	});
+	return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+/*
+ * function encrypt(passPhrase, plainText) { // alert("Welcome"); var iv =
+ * CryptoJS.lib.WordArray.random(_ivSize / 8).toString(CryptoJS.enc.Hex); var
+ * salt = CryptoJS.lib.WordArray.random(_keySize /
+ * 8).toString(CryptoJS.enc.Hex); var ciphertext = encryptWithIvSalt(salt, iv,
+ * passPhrase, plainText); return salt + iv + ciphertext; }
+ */
+
+function encrypt(passPhrase, plainText) {
+	// alert("Welcome");
+	var iv = CryptoJS.lib.WordArray.random(_ivSize / 8).toString(
+			CryptoJS.enc.Hex);
+	var salt = CryptoJS.lib.WordArray.random(_keySize / 8).toString(
+			CryptoJS.enc.Hex);
+	var ciphertext = encryptWithIvSalt(salt, iv, passPhrase, plainText);
+
+	return salt + iv + ciphertext;
+}
+
+function decrypt(passPhrase, cipherText) {
+	var ivLength = _ivSize / 4;
+	var saltLength = keySize / 4;
+	var salt = cipherText.substr(0, saltLength);
+	var iv = cipherText.substr(saltLength, ivLength);
+	var encrypted = cipherText.substring(ivLength + saltLength);
+	return decryptWithIvSalt(salt, iv, passPhrase, encrypted);
+}
+
+
 function resetForm()
 {
 	//alert('inside reset');
@@ -119,8 +179,20 @@ function submitForm()
 	var empMotherName = document.getElementById("empMotherName").value.trim();
     var empDob	= document.getElementById("empDob").value.trim();
 // var empGender;
+	
 	var panNo=document.getElementById("panNo").value.trim();
 	var aadharNo=document.getElementById("uidNo").value.trim();
+	
+	var UID1Encrypted = encrypt("Message", panNo);
+	console.log("input panNo " + UID1Encrypted);
+	var UID2Encrypted = encrypt("Message", aadharNo);
+	console.log("input aadharNo " + UID2Encrypted);
+	
+
+	document.getElementById("panNo").value = UID1Encrypted;
+	document.getElementById("uidNo").value = UID2Encrypted;
+	
+	
 	var DOJ= document.getElementById("doj").value.trim();
 	var superAnnDate=document.getElementById("superAnnDate").value.trim();
 	var empClass= document.getElementById("empClass").value.trim();
@@ -1896,12 +1968,12 @@ function datediff(date1, date2)
 
 						<tr>
 							<td width="25%" align="left">PAN</td>
-							<td width="25%" align="left"><input type="text" name="panNo" onblur="panNoValidation();chkPANalreadyExists();"
+							<td width="25%" align="left"><input type="password" name="panNo" onblur="panNoValidation();chkPANalreadyExists();"
 								value="${empDetail[11]}" id="panNo" maxlength="99"
 								class="form-control"> <label class="mandatoryindicator">*</label>
 							</td>
 							<td width="25%" align="left">Aadhaar</td>
-							<td width="25%" align="left"><input type="text" name="uidNo"
+							<td width="25%" align="left"><input type="password" name="uidNo"
 								id="uidNo" value="${empDetail[12]}" maxlength="12"
 								class="form-control" onkeypress="return onlyNos(event,this);"
 								value="${empDetail[10]}"></td>
@@ -1931,9 +2003,9 @@ function datediff(date1, date2)
 							<td width="25%" align="left"><c:set var="classList"
 									value="${resValue.classList}"></c:set> <select name="empClass"
 								id="empClass">
-									<c:forEach items="${classList}" var="class">
-										<option value="${class[1]}"
-											<c:if test="${class[1] eq empDetail[15]}">selected</c:if>>${class[1]}</option>
+									<c:forEach items="${classList}" var="class1">
+										<option value="${class1[1]}"
+											<c:if test="${class1[1] eq empDetail[15]}">selected</c:if>>${class1[1]}</option>
 									</c:forEach>
 							</select> <label class="mandatoryindicator">*</label> <%-- <input type="text" name="empClass"  id="empClass" value="${empDetail[8]}" maxlength="3" class="form-control">
 			<label class="mandatoryindicator">*</label> --%></td>
