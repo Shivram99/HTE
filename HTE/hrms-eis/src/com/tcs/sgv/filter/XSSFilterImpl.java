@@ -82,8 +82,9 @@ public class XSSFilterImpl  extends MetaCharFilter implements Filter{
 	          }
 	        }
 	        
+	        if(cookieName != null && cookieValue != null) {
 	        CookieHelper.createSetCookieHeader(paramHttpServletResponse,cookieName,cookieValue,domain,path,sameSite,isSecure,isHttpOnly,maxAge,comment);
-		 
+	        }
 	        /*Added  14112022*/
 	        paramHttpServletResponse.setHeader("HttpOnly", "true");
 	        paramHttpServletResponse.setHeader("Secure", "true");

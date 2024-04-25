@@ -24,7 +24,9 @@ try {
 <fmt:setBundle basename="resources.onlinebillprep.CommonAlerts" var="onlinebillcmnAlerts" scope="application"/>
 <fmt:message var="created" key="created" bundle="${commonLable}" scope="request"> </fmt:message>
 <fmt:message var="approved" key="approved" bundle="${commonLable}" scope="request"> </fmt:message>
-<script src="http://code.jquery.com/jquery-1.4.3.min.js" type="text/javascript"></script> 
+<!-- <script src="http://code.jquery.com/jquery-1.4.3.min.js" type="text/javascript"></script> -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha384-KyZXEAg3QhqLMpG8r+Knujsl5/2+wnfSM9a/Bszl2njj6V6+o7Vn5+bx0IaR6Ikv" crossorigin="anonymous"></script>
+ 
 
 <c:set var="resultObj" value="${result}" > </c:set>
 <c:set var="resValue" value="${resultObj.resultValue}" > </c:set>	

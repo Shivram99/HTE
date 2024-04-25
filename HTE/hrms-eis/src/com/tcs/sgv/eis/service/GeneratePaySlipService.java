@@ -15,8 +15,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import com.tcs.sgv.dcps.service.DcpsCommonDAO;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.ajaxtags.xml.AjaxXmlBuilder;
@@ -43,6 +46,7 @@ import com.tcs.sgv.core.dao.GenericDaoHibernateImpl;
 import com.tcs.sgv.core.service.ServiceImpl;
 import com.tcs.sgv.core.service.ServiceLocator;
 import com.tcs.sgv.core.valueobject.ResultObject;
+import com.tcs.sgv.dcps.service.DcpsCommonDAOImpl;
 import com.tcs.sgv.dcps.service.OfflineContriServiceImpl;
 import com.tcs.sgv.dcps.valueobject.MstDcpsBillGroup;
 import com.tcs.sgv.eis.dao.EmpCompMpgDAOImpl;
@@ -1539,17 +1543,49 @@ public class GeneratePaySlipService extends ServiceImpl
 	public ResultObject generatePayslip(Map objectArgs)
 	{
 		ResultObject resultObject = new ResultObject(ErrorConstants.SUCCESS);
+		ServiceLocator serv = (ServiceLocator) objectArgs.get("serviceLocator");
 		logger.info("start time " + System.currentTimeMillis());
+		
+		HttpServletRequest request = (HttpServletRequest) objectArgs
+				.get("requestObj");
+		
+		/*Added By Shivram 11082023*/
+		ResultObject resObj = new ResultObject(ErrorConstants.SUCCESS, "FAIL");
+	    Map loginMap = (Map) objectArgs.get("baseLoginMap");
+	    String loginName = String.valueOf(loginMap.get("loginName").toString());
+	    logger.info("loginName"+loginName);
+	    loginName = loginName.replace("_AST", "");
+	    logger.info("loginNameWithReplaceAST "+loginName);
+	    /*Ended By Shivram 11082023*/
+	    
+		
 		logger.info("inside generatePayslip method of GeneratePayslipService class ");
+		DcpsCommonDAO DcpsCommonDAOObj = new DcpsCommonDAOImpl(null, serv.getSessionFactory());
 		try
 		{
-			ServiceLocator serv = (ServiceLocator) objectArgs.get("serviceLocator");
 			Map loginDetailsMap = (Map) objectArgs.get("baseLoginMap");
 			long locId = StringUtility.convertToLong(loginDetailsMap.get("locationId").toString());
-
 			int month = Integer.parseInt(objectArgs.get("month").toString());
 			int year = Integer.parseInt(objectArgs.get("year").toString());
 			long selectedBill = Long.parseLong(objectArgs.get("billNo").toString());
+			
+			 /*Added By Shivram 28032024*/
+		      String getDdoCode = DcpsCommonDAOObj.getDdoCodeforLoginName(selectedBill);
+		      
+		      if(!getDdoCode.equals(loginName)){
+		    	  
+		    	  request = (HttpServletRequest) objectArgs.get("requestObj");
+					HttpServletResponse responce = (HttpServletResponse) objectArgs.get("responseObj");
+					RequestDispatcher rd = request.getRequestDispatcher("/login.jsp");
+					rd.forward(request,responce);
+		    	  
+					/*
+					 * resObj.setResultValue(null); resObj.setResultCode(-1);
+					 * resObj.setViewName("errorPage"); return resObj;
+					 */
+		      }
+		      /*Ended By Shivram 28032024*/
+			
 			long dsgnIdFromBillNo = 0;
 			if (objectArgs.get("dsgnId") != null && !objectArgs.get("dsgnId").equals("") && !objectArgs.get("dsgnId").equals("-1"))
 			{

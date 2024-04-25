@@ -261,7 +261,7 @@
 		
 		</c:otherwise>
 	</c:choose>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 	<script type="text/javascript">
 	//Start Tab Content script for UL with id="maintab" Separate multiple ids each with a comma.
 	initializetabcontent("maintab")

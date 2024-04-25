@@ -1,3 +1,0 @@
-HbaView.attributesCSV=content\=[/WEB-INF/jsp/ess/hba/hba.jsp]
-HbaDtlsView.attributesCSV=css\=[dialogview],content\=[/WEB-INF/jsp/ess/hba/viewhba.jsp]
-CalculatorView.attributesCSV=css\=[dialogview],content\=[/WEB-INF/jsp/ess/Calculator.jsp]

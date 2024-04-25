@@ -89,6 +89,31 @@ function openPerformaB() {
 }
 
 function popUpDcpsEmpData(dcpsEmpId, ddoFlag, ZPFormStatus) {
+	
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
+		var UID1Encrypted = encrypt("Message", txtUIDNo1);
+		var UID2Encrypted = encrypt("Message", txtUIDNo2);
+		var UID3Encrypted = encrypt("Message", txtUIDNo3);
+		console.log("input txtUIDNo1 " + UID1Encrypted);
+		console.log("input txtUIDNo2 " + UID2Encrypted);
+		console.log("input txtUIDNo3 " + UID3Encrypted);
+
+		document.getElementById("txtUIDNo1").value = UID1Encrypted;
+		document.getElementById("txtUIDNo2").value = UID2Encrypted;
+		document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	}
+
+	if (txtPANNo != '' && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		console.log("input txtPANNo1 " + txtPANNo1);
+		document.getElementById("txtPANNo").value = txtPANNo1;
+	}
+	
 	// alert("I m here");
 	showProgressbar();
 	var lStrUserZP = document.getElementById("User").value;
@@ -541,6 +566,31 @@ function changeSaveOrUpdateBtn() {
 
 function SaveDataUsingAjax() {
 	// alert("SaveDataUsingAjax");
+	
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
+		var UID1Encrypted = encrypt("Message", txtUIDNo1);
+		var UID2Encrypted = encrypt("Message", txtUIDNo2);
+		var UID3Encrypted = encrypt("Message", txtUIDNo3);
+		console.log("input txtUIDNo1 " + UID1Encrypted);
+		console.log("input txtUIDNo2 " + UID2Encrypted);
+		console.log("input txtUIDNo3 " + UID3Encrypted);
+
+		document.getElementById("txtUIDNo1").value = UID1Encrypted;
+		document.getElementById("txtUIDNo2").value = UID2Encrypted;
+		document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	}
+
+	if (txtPANNo != '' && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		console.log("input txtPANNo1 " + txtPANNo1);
+		document.getElementById("txtPANNo").value = txtPANNo1;
+	}
+	
 	showProgressbar();
 	if (!validateRegFormData()) {
 		// alert("SaveDataUsingAjax - > in ValidateForm");
@@ -671,6 +721,32 @@ function UpdateDataUsingAjax() {
 
 function updateDataUsingAJAXForUpdateTotally(empid) {
 	// alert("updateDataUsingAJAXForUpdateTotally"+empid);
+	
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
+		var UID1Encrypted = encrypt("Message", txtUIDNo1);
+		var UID2Encrypted = encrypt("Message", txtUIDNo2);
+		var UID3Encrypted = encrypt("Message", txtUIDNo3);
+		console.log("input txtUIDNo1 " + UID1Encrypted);
+		console.log("input txtUIDNo2 " + UID2Encrypted);
+		console.log("input txtUIDNo3 " + UID3Encrypted);
+
+		document.getElementById("txtUIDNo1").value = UID1Encrypted;
+		document.getElementById("txtUIDNo2").value = UID2Encrypted;
+		document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	}
+
+	if (txtPANNo != '' && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		console.log("input txtPANNo1 " + txtPANNo1);
+		document.getElementById("txtPANNo").value = txtPANNo1;
+	}
+	
+	
 	showProgressbar();
 	var EmpId = empid;
 	var saveOrUpdateFlag = 2;
@@ -1234,7 +1310,33 @@ function forwardRequestAfterValidationforUpdateTotally(empId, flag) {
 	}
 }
 function updateAfterValidationForUpdateTotally(empid) {
-	// alert("updateAfterValidationForUpdateTotally"+empid);
+	 //alert("updateAfterValidationForUpdateTotally"+empid);
+	
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
+		var UID1Encrypted = encrypt("Message", txtUIDNo1);
+		var UID2Encrypted = encrypt("Message", txtUIDNo2);
+		var UID3Encrypted = encrypt("Message", txtUIDNo3);
+		console.log("input txtUIDNo1 " + UID1Encrypted);
+		console.log("input txtUIDNo2 " + UID2Encrypted);
+		console.log("input txtUIDNo3 " + UID3Encrypted);
+
+		document.getElementById("txtUIDNo1").value = UID1Encrypted;
+		document.getElementById("txtUIDNo2").value = UID2Encrypted;
+		document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	}
+
+	if (txtPANNo != '' && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		console.log("input txtPANNo1 " + txtPANNo1);
+		document.getElementById("txtPANNo").value = txtPANNo1;
+	}
+	
+	
 	showProgressbar();
 	if (saveOrFwdFlag == 0) {
 		if (validateRegFormDataForDraft()) {

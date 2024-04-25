@@ -27,8 +27,7 @@
 <fmt:setBundle basename="resources.Constants" var="constant"
 	scope="request" />
 
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+<script	src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
 <%
 	String alphaNumericString = RandomStringGenerator
