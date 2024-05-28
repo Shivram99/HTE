@@ -34,17 +34,17 @@ try {
 List dataList = (List) pageContext.getAttribute("dataList");
 int size = dataList.size();
 
-pageContext.setAttribute("listSize",size);
+pageContext.setAttribute("listSize", size);
 %>
 <html>
 <head>
 <style>
 span.pagebanner {
-display:none;
+	display: none;
 }
 
-span.pagelinks{
-display:none;
+span.pagelinks {
+	display: none;
 }
 </style>
 
@@ -88,7 +88,7 @@ display:none;
 			var entries = XMLDoc.getElementsByTagName('post-mapping');
 			var val = 0;
 			var text = '';
-			for ( var i = 0; i < entries.length; i++) {
+			for (var i = 0; i < entries.length; i++) {
 				val = entries[i].childNodes[0].text;
 				text = entries[i].childNodes[1].text;
 				var y = document.createElement('option')
@@ -155,7 +155,7 @@ display:none;
 			} else {
 				window.status = '';
 				var orderList = XMLDoc.getElementsByTagName('order-mapping');
-				for ( var i = 0; i < orderList.length; i++) {
+				for (var i = 0; i < orderList.length; i++) {
 					val = orderList[i].childNodes[0].text;
 					text = orderList[i].childNodes[1].text;
 					//     				    alert('Village val is:   ' + val + 'and text is:-   ' + text);
@@ -196,7 +196,7 @@ display:none;
 	}
 	function deleteData() {
 		var isChecked = false;
-		for ( var i = 0; i < document.forms[0].deletedata.length; i++) {
+		for (var i = 0; i < document.forms[0].deletedata.length; i++) {
 			if (document.forms[0].deletedata[i].checked) {
 				isChecked = true;
 			}
@@ -219,7 +219,8 @@ display:none;
 	function submitFormAuto() {
 		if (chkValue()) {
 			var empId = document.getElementById("Employee_ID_viewPostSearch").value;
-			document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&empId=' + empId;
+			document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&empId='
+					+ empId;
 			document.forms[0].submit();
 			//document.frmAdminCrtPostsearch.submit();
 		}
@@ -241,23 +242,27 @@ display:none;
 		var value = document.getElementById("value").value;
 		var option_selected = document.getElementById("option_selected").value;
 		if (option_selected == "Post") {
-			document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&Post=' + value;
+			document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&Post='
+					+ value;
 			document.forms[0].submit();
 		}
 		if (option_selected == "PsrNo") {
 			if (check4number(value)) {
-				document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&PsrNo=' + value;
+				document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&PsrNo='
+						+ value;
 				document.forms[0].submit();
 			}
 		}
 		if (option_selected == "BillNo") {
 			if (check4number(value)) {
-				document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&BillNo=' + value;
+				document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&BillNo='
+						+ value;
 				document.forms[0].submit();
 			}
 		}
 		if (option_selected == "Dsgn") {
-			document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&Dsgn=' + value;
+			document.forms[0].action = 'hdiits.htm?actionFlag=showAdminPostDtl&Dsgn='
+					+ value;
 			document.forms[0].submit();
 		}
 		if (option_selected == "")
@@ -296,17 +301,17 @@ display:none;
 		var billGrpId = document.getElementById('billCmb').value;
 
 		if (dsgnId > 0 && billGrpId > 0) {
-			var url = "./ifms.htm?actionFlag=searchDeletePostDtls&dsgnId=" + dsgnId
-					+ "&billGrpId=" + billGrpId + "&FieldDept=" + FieldDept
-					+ "&DdoDtl=" + DdoDtl;
+			var url = "./ifms.htm?actionFlag=searchDeletePostDtls&dsgnId="
+					+ dsgnId + "&billGrpId=" + billGrpId + "&FieldDept="
+					+ FieldDept + "&DdoDtl=" + DdoDtl;
 			document.frmAdminCrtPost.action = url;
 			document.frmAdminCrtPost.submit();
 			showProgressbar("Please wait...");
 			return true;
 		} else if (dsgnId > 0) {
 
-			var url = "./ifms.htm?actionFlag=searchDeletePostDtls&dsgnId=" + dsgnId
-					+ "&FieldDept=" + FieldDept + "&DdoDtl=" + DdoDtl;
+			var url = "./ifms.htm?actionFlag=searchDeletePostDtls&dsgnId="
+					+ dsgnId + "&FieldDept=" + FieldDept + "&DdoDtl=" + DdoDtl;
 			document.frmAdminCrtPost.action = url;
 			document.frmAdminCrtPost.submit();
 			showProgressbar("Please wait...");
@@ -344,13 +349,12 @@ display:none;
 		}
 	}
 
-
 	function DisplayOrderDate(i) {
-	
+
 		var xmlHttp = null;
-		var orderId = document.getElementById("orderCmb"+i).value;
-         if(orderId==-1)
-        	 document.getElementById("OrderDate"+i).value ="";
+		var orderId = document.getElementById("orderCmb" + i).value;
+		if (orderId == -1)
+			document.getElementById("OrderDate" + i).value = "";
 		var retValue = true;
 		if (orderId == "") {
 			alert("Please search the Order Name");
@@ -391,7 +395,7 @@ display:none;
 
 							orderDate = orderDate[0].childNodes[0].firstChild.nodeValue;
 
-							document.getElementById("OrderDate"+i).value = orderDate;
+							document.getElementById("OrderDate" + i).value = orderDate;
 						}
 					}
 				}
@@ -405,96 +409,88 @@ display:none;
 		}
 	}
 
-	function checkboxfunction()
-	{     
-	
-		
+	function checkboxfunction() {
+
 		var size = document.getElementById('datavalue').value;
-		 showProgressbar("Please wait...");
-		if(document.getElementById("mainchkbx").checked==true)
-		{
-		for ( var i = 0; i < size; i++) 
-	    {
-		document.getElementById("chkbx" + i).checked=true;
-		}
-		}
-		else if(document.getElementById("mainchkbx").checked==false)
-			for ( var j = 0; j < size; j++) 
-		    {
-			document.getElementById("chkbx" + j).checked=false;
+		showProgressbar("Please wait...");
+		if (document.getElementById("mainchkbx").checked == true) {
+			for (var i = 0; i < size; i++) {
+				document.getElementById("chkbx" + i).checked = true;
 			}
-	     
-		 hideProgressbar("Please wait...");
+		} else if (document.getElementById("mainchkbx").checked == false)
+			for (var j = 0; j < size; j++) {
+				document.getElementById("chkbx" + j).checked = false;
+			}
+
+		hideProgressbar("Please wait...");
 	}
 
 	function convertFunction() {
-		
 
 		var stringfor1 = null;
 		var totalString = null;
 		var size = document.getElementById('datavalue').value;
-		 var remark;
-		  var isChecked=false;
-		for ( var i = 0; i < size; i++) {
+		var remark;
+		var isChecked = false;
+		for (var i = 0; i < size; i++) {
 			if (document.getElementById("chkbx" + i).checked == true) {
-				  isChecked=true;   
+				isChecked = true;
 				var postId = document.getElementById("chkbx" + i).value;
 				var postType = document.getElementById("postType" + i).innerHTML;
-                var orderid=document.getElementById("orderCmb" + i).value;
-var rem=document.getElementById("Remarks" + i).value;
+				var orderid = document.getElementById("orderCmb" + i).value;
+				var rem = document.getElementById("Remarks" + i).value;
 
-                 if((document.getElementById("Remarks" + i)!=null)&&(document.getElementById("Remarks" + i).value.length!=0))
-                	 remark=document.getElementById("Remarks" + i).value;
-                 else{
-					remark="-";
-				     
-                     }
-                 
-                
-				stringfor1 = postId + "~" + postType+"~"+orderid+"~"+remark;
-				totalString= totalString+","+stringfor1;
+				if ((document.getElementById("Remarks" + i) != null)
+						&& (document.getElementById("Remarks" + i).value.length != 0))
+					remark = document.getElementById("Remarks" + i).value;
+				else {
+					remark = "-";
+
+				}
+
+				stringfor1 = postId + "~" + postType + "~" + orderid + "~"
+						+ remark;
+				totalString = totalString + "," + stringfor1;
 			}
 
 		}
-		
-		if(isChecked){
-		var uri = 'ifms.htm?actionFlag=saveDeletePostDtls&totalString=' + totalString;
 
-		var url="postId="+postId;
-		var myAjax = new Ajax.Request(uri,
-			       {
-			        method: 'post',
-			        asynchronous: true,
-			        parameters:url,
-			        onSuccess: function(myAjax) {
-						getCount(myAjax);
-					},
-			        onFailure: function(){ alert('Something went wrong...');} 
-			          } );
-     
-	}
-		else
-		{
+		if (isChecked) {
+			var uri = 'ifms.htm?actionFlag=saveDeletePostDtls&totalString='
+					+ totalString;
+
+			var url = "postId=" + postId;
+			var myAjax = new Ajax.Request(uri, {
+				method : 'post',
+				asynchronous : true,
+				parameters : url,
+				onSuccess : function(myAjax) {
+					getCount(myAjax);
+				},
+				onFailure : function() {
+					alert('Something went wrong...');
+				}
+			});
+
+		} else {
 			alert("Please select at least 1 post");
 			hideProgressbar("Please Wait......");
-				return 0;
+			return 0;
 		}
-		  hideProgressbar("Please Wait......");
+		hideProgressbar("Please Wait......");
 	}
-	function getCount(myAjax){
+	function getCount(myAjax) {
 		XMLDoc = myAjax.responseXML.documentElement;
 		var tempCount = XMLDoc.getElementsByTagName('tempCount');
 		var tCount = tempCount[0].firstChild.nodeValue;
 
-		alert(tCount+ ' post has been deleted' );
-var url="./ifms.htm?actionFlag=PostDeletion";
-		
-		document.frmAdminCrtPost.action = url ;
+		alert(tCount + ' post has been deleted');
+		var url = "./ifms.htm?actionFlag=PostDeletion";
+
+		document.frmAdminCrtPost.action = url;
 		document.frmAdminCrtPost.submit();
 
-		
 	}
-	
 
 	//document.frmAdminCrtPost.action = uri ;
 	//document.frmAdminCrtPost.submit();
@@ -502,231 +498,219 @@ var url="./ifms.htm?actionFlag=PostDeletion";
 </script>
 </head>
 <body>
-<c:set value="0" var="i"></c:set>
-<hdiits:form name="frmAdminCrtPost" validate="true" method="post"
-	encType="multipart/form-data">
-	
-	<br />
-	<br />
-	<fieldset class="tabstyle"><legend>Search Post
-	Details</legend>
-	<table width="100%">
-		<tr>
-			<td width="8%"></td>
-			<td width="10%"><fmt:message key="CMN.FIELDDEPT"
-				bundle="${dcpsLables}"></fmt:message></td>
-			<td width="30%"><select name="cmbFieldDept" id="cmbFieldDept"
-				style="width: 350px" disabled="disabled">
-				<option value="-1"><fmt:message
-					key="COMMON.DROPDOWN.SELECT" /></option>
-				<c:forEach var="FieldDept" items="${resValue.lLstFieldDept}">
-					<c:choose>
-						<c:when test="${resValue.FieldDeptCode == FieldDept.id}">
-							<option value="${FieldDept.id}" selected="selected"><c:out
-								value="${FieldDept.desc}"></c:out></option>
-						</c:when>
-						<c:otherwise>
-							<option value="${FieldDept.id}"><c:out
-								value="${FieldDept.desc}" /></option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</select></td>
-			<td width="15%">DDO</td>
-			<td width="35%"><select name="cmbDdoDtl" id="cmbDdoDtl"
-				onchange="showPostDtls();" style="width: 350px" disabled="disabled">
-				<c:if test="${resValue.lLstDdo == null}">
-					<option value="-1"><fmt:message
-						key="COMMON.DROPDOWN.SELECT" /></option>
-				</c:if>
-				<c:forEach var="DDO" items="${resValue.lLstDdo}">
-					<c:choose>
-						<c:when test="${resValue.DDOCode == DDO.id}">
-							<option value="${DDO.id}" selected="selected"><c:out
-								value="${DDO.desc}"></c:out></option>
-						</c:when>
-						<c:otherwise>
-							<option value="${DDO.id}"><c:out value="${DDO.desc}" />
-							${resValue.DDOCode}</option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-			</select></td>
-		</tr>
-		<tr>
-			<td></td>
-			<td class="fieldLabel"><b><hdiits:caption
-				captionid="admin.designation" bundle="${adminCreatePostLabel}" /></b></td>
-			<td class="fieldLabel"><hdiits:select name="designationCmb"
-				id="designationCmb" captionid="admin.designation"
-				bundle="${adminCreatePostLabel}" mandatory="false"
-				validation="sel.isrequired">
-				<hdiits:option value="">
-					<hdiits:caption captionid="admin.select"
-						bundle="${adminCreatePostLabel}"></hdiits:caption>
-				</hdiits:option>
-				<c:forEach items="${designation}" var="desi">
-					<option value="<c:out value="${desi.dsgnCode}"/>"><c:out
-						value="${desi.dsgnName}" /></option>
-				</c:forEach>
-			</hdiits:select></td>
+	<c:set value="0" var="i"></c:set>
+	<hdiits:form name="frmAdminCrtPost" validate="true" method="post"
+		encType="multipart/form-data">
 
-			<td class="fieldLabel">Scheme Code (<hdiits:caption
-				captionid="admin.bill" bundle="${adminCreatePostLabel}" />)</td>
-			<td class="fieldLabel"><select name="billCmb" id="billCmb"
-				captionid="admin.bill" style="width: 350px"
-				bundle="${adminCreatePostLabel}" mandatory="false"
-				validation="sel.isrequired">
-				<option value="-1"><fmt:message
-					key="COMMON.DROPDOWN.SELECT" /></option>
-				<c:forEach items="${billList}" var="billList">
-					<option value="<c:out value="${billList.dcpsDdoBillGroupId}"/>"
-						title="${billList.dcpsDdoBillDescription}"><c:out
-						value="${billList.dcpsDdoSchemeCode} (${billList.dcpsDdoBillDescription})" /></option>
-				</c:forEach>
-			</select></td>
-		</tr>
+		<br />
+		<br />
+		<fieldset class="tabstyle">
+			<legend>Search Post Details</legend>
+			<table width="100%">
+				<tr>
+					<td width="8%"></td>
+					<td width="10%"><fmt:message key="CMN.FIELDDEPT"
+							bundle="${dcpsLables}"></fmt:message></td>
+					<td width="30%"><select name="cmbFieldDept" id="cmbFieldDept"
+						style="width: 350px" disabled="disabled">
+							<option value="-1"><fmt:message
+									key="COMMON.DROPDOWN.SELECT" /></option>
+							<c:forEach var="FieldDept" items="${resValue.lLstFieldDept}">
+								<c:choose>
+									<c:when test="${resValue.FieldDeptCode == FieldDept.id}">
+										<option value="${FieldDept.id}" selected="selected"><c:out
+												value="${FieldDept.desc}"></c:out></option>
+									</c:when>
+									<c:otherwise>
+										<option value="${FieldDept.id}"><c:out
+												value="${FieldDept.desc}" /></option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+					</select></td>
+					<td width="15%">DDO</td>
+					<td width="35%"><select name="cmbDdoDtl" id="cmbDdoDtl"
+						onchange="showPostDtls();" style="width: 350px"
+						disabled="disabled">
+							<c:if test="${resValue.lLstDdo == null}">
+								<option value="-1"><fmt:message
+										key="COMMON.DROPDOWN.SELECT" /></option>
+							</c:if>
+							<c:forEach var="DDO" items="${resValue.lLstDdo}">
+								<c:choose>
+									<c:when test="${resValue.DDOCode == DDO.id}">
+										<option value="${DDO.id}" selected="selected"><c:out
+												value="${DDO.desc}"></c:out></option>
+									</c:when>
+									<c:otherwise>
+										<option value="${DDO.id}"><c:out value="${DDO.desc}" />
+											${resValue.DDOCode}
+										</option>
+									</c:otherwise>
+								</c:choose>
+							</c:forEach>
+					</select></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td class="fieldLabel"><b><hdiits:caption
+								captionid="admin.designation" bundle="${adminCreatePostLabel}" /></b></td>
+					<td class="fieldLabel"><hdiits:select name="designationCmb"
+							id="designationCmb" captionid="admin.designation"
+							bundle="${adminCreatePostLabel}" mandatory="false"
+							validation="sel.isrequired">
+							<hdiits:option value="">
+								<hdiits:caption captionid="admin.select"
+									bundle="${adminCreatePostLabel}"></hdiits:caption>
+							</hdiits:option>
+							<c:forEach items="${designation}" var="desi">
+								<option value="<c:out value="${desi.dsgnCode}"/>"><c:out
+										value="${desi.dsgnName}" /></option>
+							</c:forEach>
+						</hdiits:select></td>
 
-	</table>
-	<br>
-	<center><hdiits:button name="Search" id="Search" type="button"
-		value="Search" onclick="searchFunction();" /> <hdiits:button
-		name="btnBack" id="btnBack" type="button" value="Back"
-		onclick="backtoSearchPage();" /></center>
-	<br>
-	</fieldset>
-	<fieldset class="tabstyle"><legend>Delete Post
-	Details</legend>
-	<div id="combo" style="overflow: auto;height:350px;">
-	<table class="datatable">
-	<thead>
-	<tr>
-	<th class="datatableheader sortable" colspan="4">&nbsp;
-	</th>
-<th class="datatableheader sortable" colspan="4">
-Current Details 
-</th>
-<th class="datatableheader sortable" colspan="3">
-GR Details/Remarks for Deletion of Post(s)
-</th>
+					<td class="fieldLabel">Scheme Code (<hdiits:caption
+							captionid="admin.bill" bundle="${adminCreatePostLabel}" />)
+					</td>
+					<td class="fieldLabel"><select name="billCmb" id="billCmb"
+						captionid="admin.bill" style="width: 350px"
+						bundle="${adminCreatePostLabel}" mandatory="false"
+						validation="sel.isrequired">
+							<option value="-1"><fmt:message
+									key="COMMON.DROPDOWN.SELECT" /></option>
+							<c:forEach items="${billList}" var="billList">
+								<option value="<c:out value="${billList.dcpsDdoBillGroupId}"/>"
+									title="${billList.dcpsDdoBillDescription}"><c:out
+										value="${billList.dcpsDdoSchemeCode} (${billList.dcpsDdoBillDescription})" /></option>
+							</c:forEach>
+					</select></td>
+				</tr>
 
-</tr>
-	<tr>
-	<th class="datatableheader sortable">
-<input type="checkbox" id="mainchkbx" value="" onclick="checkboxfunction()" />
-</th>
-<th class="datatableheader sortable">
-Sr. No.
-</th>
-<th class="datatableheader">Designation</th>
-<th class="datatableheader">Post Name</th>
+			</table>
+			<br>
+			<center>
+				<hdiits:button name="Search" id="Search" type="button"
+					value="Search" onclick="searchFunction();" />
+				<hdiits:button name="btnBack" id="btnBack" type="button"
+					value="Back" onclick="backtoSearchPage();" />
+			</center>
+			<br>
+		</fieldset>
+		<fieldset class="tabstyle">
+			<legend>Delete Post Details</legend>
+			<div id="combo" style="overflow: auto; height: 350px;">
+				<table class="datatable">
+					<thead>
+						<tr>
+							<th class="datatableheader sortable" colspan="4">&nbsp;</th>
+							<th class="datatableheader sortable" colspan="4">Current
+								Details</th>
+							<th class="datatableheader sortable" colspan="3">GR
+								Details/Remarks for Deletion of Post(s)</th>
 
-<th class="datatableheader sortable">
-Post Type
-</th>
-<th class="datatableheader sortable">
-Post Start Date
-</th>
-<th class="datatableheader sortable">
-Post End Date
-</th>
+						</tr>
+						<tr>
+							<th class="datatableheader sortable"><input type="checkbox"
+								id="mainchkbx" value="" onclick="checkboxfunction()" /></th>
+							<th class="datatableheader sortable">Sr. No.</th>
+							<th class="datatableheader">Designation</th>
+							<th class="datatableheader">Post Name</th>
 
-<!--<th class="datatableheader sortable">
+							<th class="datatableheader sortable">Post Type</th>
+							<th class="datatableheader sortable">Post Start Date</th>
+							<th class="datatableheader sortable">Post End Date</th>
+
+							<!--<th class="datatableheader sortable">
 Bill Group
 </th>
---><th class="datatableheader sortable">
-GR No./GR Date
-</th>
-<th class="datatableheader sortable">
-GR No.
-</th>
-<th class="datatableheader sortable">
-GR Date
-</th>
-<th class="datatableheader sortable">
-Remarks
-</th>
+-->
+							<th class="datatableheader sortable">GR No./GR Date</th>
+							<th class="datatableheader sortable">GR No.</th>
+							<th class="datatableheader sortable">GR Date</th>
+							<th class="datatableheader sortable">Remarks</th>
 
-</tr>
-</thead>
-<tbody>
-<c:set var="i" value="0"/>
-<c:forEach items="${dataList}" var="row">
-<c:choose>
-<c:when test="${i%2==0}">
-<tr class="odd">
-</c:when>
-<c:otherwise>
-<tr class="even">
-</c:otherwise>
-</c:choose>
+						</tr>
+					</thead>
+					<tbody>
+						<c:set var="i" value="0" />
+						<c:forEach items="${dataList}" var="row">
+							<c:choose>
+								<c:when test="${i%2==0}">
+									<tr class="odd">
+								</c:when>
+								<c:otherwise>
+									<tr class="even">
+								</c:otherwise>
+							</c:choose>
 
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-<input type="checkbox" id="chkbx${i}" value="${row.postId}" />
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-<c:out value="${i+1}"></c:out>
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-${row.dsgnname}
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-		${row.postname}
-</td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><input
+								type="checkbox" id="chkbx${i}" value="${row.postId}" /></td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><c:out
+									value="${i+1}"></c:out></td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;">
+								${row.dsgnname}</td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;">
+								${row.postname}</td>
 
 
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-	<label id="postType${i}">${row.postType}</label>
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-<label></label>
-			<input type="hidden" id="startDate${i}" value="${row.startDate}" />
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-	${row.endDate}
-</td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><label
+								id="postType${i}">${row.postType}</label></td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><label></label>
+								<input type="hidden" id="startDate${i}" value="${row.startDate}" />
+							</td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;">
+								${row.endDate}</td>
 
 
-<!--<td class="tablecelltext" style="text-align: center; font-size: 12px;">
+							<!--<td class="tablecelltext" style="text-align: center; font-size: 12px;">
    	${row.billNo}
 </td>
---><td class="tablecelltext" style="text-align: center; font-size: 12px;">
-		${row.empFname}/&nbsp${row.empMname}
-</td>
-<!--<td class="tablecelltext" style="text-align: center; font-size: 12px;">
+-->
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;">
+								${row.empFname}/&nbsp${row.empMname}</td>
+							<!--<td class="tablecelltext" style="text-align: center; font-size: 12px;">
 
 
---><td class="tablecelltext" style="text-align: center; font-size: 12px;">
-<select name="orderCmb" id="orderCmb${i}" style="width: 230px"
-				onchange="DisplayOrderDate('${i}');">
-				<option value="-1"><fmt:message
-					key="COMMON.DROPDOWN.SELECT" /></option>
-				<c:forEach items="${resultObj.resultValue.orderList}" var="orderList">
-					<option value="<c:out value="${orderList.orderId}"/>"><c:out
-						value="${orderList.orderName}" /></option>
+-->
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><select
+								name="orderCmb" id="orderCmb${i}" style="width: 230px"
+								onchange="DisplayOrderDate('${i}');">
+									<option value="-1"><fmt:message
+											key="COMMON.DROPDOWN.SELECT" /></option>
+									<c:forEach items="${resultObj.resultValue.orderList}"
+										var="orderList">
+										<option value="<c:out value="${orderList.orderId}"/>"><c:out
+												value="${orderList.orderName}" /></option>
 
-				</c:forEach>
-			</select>
+									</c:forEach>
+							</select></td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><input
+								type="text" size="10" name="OrderDate" id="OrderDate${i}"
+								maxlength="10" onkeypress="digitFormat(this);dateFormat(this);"
+								onBlur="validateDate(this);" value="" disabled="disabled" /></td>
+							<td class="tablecelltext"
+								style="text-align: center; font-size: 12px;"><input
+								type="text" size="10" name="Remarks" id="Remarks${i}" /></td>
 
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
-<input type="text" size="10" name = "OrderDate" id="OrderDate${i}" maxlength="10" onkeypress="digitFormat(this);dateFormat(this);"
-															onBlur="validateDate(this);" value="" disabled="disabled"/> 
-</td>
-<td class="tablecelltext" style="text-align: center; font-size: 12px;">
- 	<input type="text" size="10" name ="Remarks" id="Remarks${i}" />         
+							</tr>
+							<c:set var="i" value="${i+1}" />
+						</c:forEach>
+					</tbody>
 
-</td>
 
-</tr>
-<c:set var="i" value="${i+1}"/>
-</c:forEach>
-</tbody>
+				</table>
 
-	
-		</table>
-	
-	<!--<display:table pagesize="1000" name="${dataList}" id="row"
+				<!--<display:table pagesize="1000" name="${dataList}" id="row"
 		export="false" requestURI="hrms.htm?actionFlag=showDeletePostDtl"
 		requestURIcontext="false"
 		decorator="com.tcs.sgv.user.service.AdminOrgPostDtlDecorator">
@@ -840,31 +824,34 @@ ${row.dsgnname}
 		<c:set var="i" value="${i+1}"></c:set>
 
 	</display:table>
-	--></div>
-	</fieldset>
-	<table width="100%">
-		<tr width="100%">
-			<td align="center"><%--	<hdiits:button name="addNewEntry_button" captionid="admin.AddEntry" bundle="${adminCreatePostLabel}" onclick="addNewEntry()" type="button"/> --%>
-			<%--	<hdiits:button captionid="admin.Delete" bundle="${adminCreatePostLabel}" onclick="deleteData()" name="cmdDel2" type="button"/> --%>
-			</td>
-		</tr>
-	</table>
-	<c:choose>
-		<c:when
-			test="${listSize eq 1 && empName != null && not empty empName }">
-			<script>
-	document.getElementById("otherLink${otherIdForLink}").click();
-</script>
-		</c:when>
-	</c:choose>
-	<input type="hidden" value="${datasize}" id="datavalue">
-	<center>
-	<c:if test="${datasize gt '0'}">
-	<hdiits:button name="Delete" id="Delete" type="button"
-		value="Delete" onclick="convertFunction();" />
-		</c:if>
+	-->
+			</div>
+		</fieldset>
+		<table width="100%">
+			<tr width="100%">
+				<td align="center">
+					<%--	<hdiits:button name="addNewEntry_button" captionid="admin.AddEntry" bundle="${adminCreatePostLabel}" onclick="addNewEntry()" type="button"/> --%>
+					<%--	<hdiits:button captionid="admin.Delete" bundle="${adminCreatePostLabel}" onclick="deleteData()" name="cmdDel2" type="button"/> --%>
+				</td>
+			</tr>
+		</table>
+		<c:choose>
+			<c:when
+				test="${listSize eq 1 && empName != null && not empty empName }">
+				<script>
+					document.getElementById("otherLink${otherIdForLink}")
+							.click();
+				</script>
+			</c:when>
+		</c:choose>
+		<input type="hidden" value="${datasize}" id="datavalue">
+		<center>
+			<c:if test="${datasize gt '0'}">
+				<hdiits:button name="Delete" id="Delete" type="button"
+					value="Delete" onclick="convertFunction();" />
+			</c:if>
 		</center>
-</hdiits:form>
+	</hdiits:form>
 
 
 
@@ -873,8 +860,9 @@ ${row.dsgnname}
 </body>
 </html>
 <%
+} catch (Exception e) {
+e.printStackTrace();
 }
-catch(Exception e) {e.printStackTrace();}
 %>
 
 <ajax:select

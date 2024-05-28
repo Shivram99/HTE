@@ -236,10 +236,41 @@ function updateMajorHeadCode()
 	}
 	alert("Head Code Updated Successfully");
 	//alert("sevarthID :"+sevarthID+"majorHeadCode :"+majorHeadCode);
-	var url;
+	
+	
+	/* var url;
 	url="./hrms.htm?actionFlag=updateMajorHead&sevarthID="+sevarthID+"&majorHeadCode="+majorHeadCode+"&flag=Y";
 	document.frmMajorHeadUpdation.action= url;
-	document.frmMajorHeadUpdation.submit();
+	document.frmMajorHeadUpdation.submit(); */
+	
+	var form = document.createElement("form");
+    form.setAttribute("method", "POST");
+    form.setAttribute("action", "./hrms.htm?actionFlag=updateMajorHead");
+
+    var inputBillType = document.createElement("input");
+    inputBillType.setAttribute("type", "hidden");
+    inputBillType.setAttribute("name", "sevarthID");
+    inputBillType.setAttribute("value", sevarthID);
+    
+    var inputSevaarthID = document.createElement("input");
+    inputSevaarthID.setAttribute("type", "hidden");
+    inputSevaarthID.setAttribute("name", "majorHeadCode");
+    inputSevaarthID.setAttribute("value", majorHeadCode);
+
+    var inputFlag = document.createElement("input");
+    inputFlag.setAttribute("type", "hidden");
+    inputFlag.setAttribute("name", "flag");
+    inputFlag.setAttribute("value", "Y");
+
+    // Append the hidden inputs to the form
+    form.appendChild(inputBillType);
+    form.appendChild(inputSevaarthID);
+    form.appendChild(inputFlag);
+
+    // Append the form to the body, submit it, and remove it from the body
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
 }
 
 </script>

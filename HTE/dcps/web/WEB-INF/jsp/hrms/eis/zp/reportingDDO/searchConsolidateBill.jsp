@@ -1,6 +1,6 @@
 
 <%
-    try {
+try {
 %>
 <%@ include file="../../../../core/include.jsp"%>
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
@@ -42,261 +42,175 @@
 
 </head>
 
-<hdiits:form name="frmReportingDDO" validate="true" method="post"
-	action="ifms.htm?actionFlag=viewConsolidatedBill">
-
-	<hdiits:hidden name="seladminDept" id="seladminDept" default="2" />
-	<div id="tabmenu">
-	<ul id="maintab" class="shadetabs">
-		<li class="selected"><a href="#" rel="tcontent1"><b>
-		Search consolidated Pay Bill </b></a></li>
-	</ul>
-	</div>
-	<br />
-	<div id="tcontent1"
-		style="background-color: #E8E3E3; border-style: inset; border-color: #B24700; border-width: thin">
-
-	<table width="100%">
-		<tr>
-			<td><b><hdiits:caption captionid="PR.MONTH"
-				bundle="${ReportingDDO}" /></b></td>
-
-			<td><select name="month" id="month" onchange="">
-				<option value="-1"><fmt:message key="EIS.Select"
-					bundle="${ReportingDDO}" /></option>
-				<c:forEach var="months" items="${month}">
-					<c:choose>
-						<c:when test="${selMonth==months.lookupShortName}">
-
-							<option selected="selected"
-								value="<c:out value="${months.lookupShortName}"  />"><c:out
-								value="${months.lookupDesc}" /></option>
-						</c:when>
-
-						<c:otherwise>
-							<option value="<c:out value="${months.lookupShortName}"  />">
-							<c:out value="${months.lookupDesc}" /></option>
-
-						</c:otherwise>
-
-					</c:choose>
-				</c:forEach>
-
-			</select></td>
-
-			<td><b><hdiits:caption captionid="PR.YEAR"
-				bundle="${ReportingDDO}" /></b></td>
-			<td><select name="year" id="year" onchange="">
-				<option value="-1"><fmt:message key="EIS.Select"
-					bundle="${ReportingDDO}" /></option>
-
-				<c:forEach var="years" items="${year}">
-					<c:choose>
-						<c:when test="${selYear==years.lookupName}">
-							<option selected="selected"
-								value="<c:out value="${years.lookupName}"/>"><c:out
-								value="${years.lookupDesc}" /></option>
-						</c:when>
-						<c:otherwise>
-							<option value="<c:out value="${years.lookupName}"/>"><c:out
-								value="${years.lookupDesc}" /></option>
-
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-
-			</select></td>
-
-
-
-			<td><b>Scheme Code</b></td>
-			<td><select name="schemecode" id="schemecode" onchange="">
-				<option value="-1">--select----</option>
-
-				<c:forEach var="schemes" items="${scheme}">
-					<c:choose>
-						<c:when test="${selSchemeCode==schemes[1]}">
-							<option value="<c:out value="${schemes[1]}"/>"><c:out
-								value="${schemes[2]}" /></option>
-						</c:when>
-						<c:otherwise>
-							<option value="<c:out value="${schemes[1]}"/>"><c:out
-								value="${schemes[2]}" /></option>
-						</c:otherwise>
-					</c:choose>
-				</c:forEach>
-
-			</select></td>
-
-
-		</tr>
-
-	</table>
-
-	<br>
-	<br>
-	<table align="center">
-		<tr>
-			<td align="center"><hdiits:submitbutton value="Search"
-				id="search" name="search" />
-		</tr>
-	</table>
-	<br>
-	<input type="hidden" value="yes" id="flag" name="flag"> <hdiits:validate
-		locale="${locale}" controlNames="" />
+<hdiits:form name="frmReportingDDO" validate="true" method="post" action="ifms.htm?actionFlag=viewConsolidatedBill">
+    <hdiits:hidden name="seladminDept" id="seladminDept" default="2" />
+    <div id="tabmenu">
+        <ul id="maintab" class="shadetabs">
+            <li class="selected">
+                <a href="#" rel="tcontent1"><b>Search consolidated Pay Bill</b></a>
+            </li>
+        </ul>
+    </div>
+    <br />
+    <div id="tcontent1" style="background-color: #E8E3E3; border-style: inset; border-color: #B24700; border-width: thin">
+        <table width="100%">
+            <tr>
+                <td><b><hdiits:caption captionid="PR.MONTH" bundle="${ReportingDDO}" /></b></td>
+                <td>
+                    <select name="month" id="month">
+                        <option value="-1"><fmt:message key="EIS.Select" bundle="${ReportingDDO}" /></option>
+                        <c:forEach var="months" items="${month}">
+                            <c:choose>
+                                <c:when test="${selMonth == months.lookupShortName}">
+                                    <option selected="selected" value="${months.lookupShortName}">
+                                        <c:out value="${months.lookupDesc}" />
+                                    </option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${months.lookupShortName}">
+                                        <c:out value="${months.lookupDesc}" />
+                                    </option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td><b><hdiits:caption captionid="PR.YEAR" bundle="${ReportingDDO}" /></b></td>
+                <td>
+                    <select name="year" id="year">
+                        <option value="-1"><fmt:message key="EIS.Select" bundle="${ReportingDDO}" /></option>
+                        <c:forEach var="years" items="${year}">
+                            <c:choose>
+                                <c:when test="${selYear == years.lookupName}">
+                                    <option selected="selected" value="${years.lookupName}">
+                                        <c:out value="${years.lookupDesc}" />
+                                    </option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${years.lookupName}">
+                                        <c:out value="${years.lookupDesc}" />
+                                    </option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td><b>Scheme Code</b></td>
+                <td>
+                    <select name="schemecode" id="schemecode">
+                        <option value="-1">--select----</option>
+                        <c:forEach var="schemes" items="${scheme}">
+                            <c:choose>
+                                <c:when test="${selSchemeCode == schemes[1]}">
+                                    <option selected="selected" value="${schemes[1]}">
+                                        <c:out value="${schemes[2]}" />
+                                    </option>
+                                </c:when>
+                                <c:otherwise>
+                                    <option value="${schemes[1]}">
+                                        <c:out value="${schemes[2]}" />
+                                    </option>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:forEach>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        <br><br>
+        <table align="center">
+            <tr>
+                <td align="center">
+                    <hdiits:submitbutton value="Search" id="search" name="search" />
+                </td>
+            </tr>
+        </table>
+        <br>
+        <input type="hidden" value="yes" id="flag" name="flag">
+        <hdiits:validate locale="${locale}" controlNames="" />
+    </div>
 </hdiits:form>
 
-
 <form name="frmDeletePaybill" method="post">
-<div id="tabmenu">
-<ul id="maintab" class="shadetabs">
-	<li><a href="#" rel="tcontent1" class="selected"><b>Consolidated
-	Pay Bills </b></a></li>
-</ul>
-</div>
+    <div id="tabmenu">
+        <ul id="maintab" class="shadetabs">
+            <li><a href="#" rel="tcontent1" class="selected"><b>Consolidated Pay Bills</b></a></li>
+        </ul>
+    </div>
 
-<div id="tcontent1"
-	style="background-color: #E8E3E3; border-style: inset; border-color: #B24700; border-width: thin">
-
-<table width="100%" border="1">
-
-	<tr>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
-		<b>Select</b></td>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold">
-		<b>Consolidated Bill Id</b></td>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold"><b>Scheme
-		Code</b></td>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold"><b>Sub Scheme
-		Code</b></td>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold"><b>Gross
-		Amount</b></td>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold"><b>Net
-		Amount</b></td>
-		<%--Added by roshan --%>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold"><b>Authorisation
-		number</b></td>
-		<%--Added by roshan --%>
-		<td align="center"
-			style="background-color: #F7E7D7; color: rgb(202, 97, 12); font-size: small; font-style: normal; font-weight: bold"><b>Status</b></td>
-	</tr>
-	<%
-	    int i = 0;
-	%>
-	<c:forEach var="entry" items="${list}" varStatus="loop">
-
-		<tr>
-
-			<td><%--
-			<c:if test="${entry[4]== '1'}">
-
-				<input type="radio" name="billno" id="billid<%=i%>"
-					value="${entry[0]}" onclick="approvedBill(this);"
-					disabled="disabled" />
-			</c:if> 
-			<c:if test="${entry[4]!= '1'}">
-				<input type="radio" name="billno" id="billid<%=i%>"
-					value="${entry[0]}" onclick="disableEnableBtn(${entry[4]});" />
-			</c:if>
-			--%> <input type="radio" name="billno" id="billid<%=i%>"
-				value="${entry[0]}" onclick="disableEnableBtn(${entry[4]});" /></td>
-
-			<td align="center"><a
-				href="ifms.htm?actionFlag=getConsolidatedReport&billId=${entry[0]}">${entry[0]}</a>
-
-			</td>
-
-			<td align="center"><c:out value='${entry[1]}' /></td>
-			<td align="center"><c:out value='${entry[5]}' /></td>
-			<td align="center"><c:out value='${entry[2]}' /></td>
-			<td align="center"><c:out value='${entry[3]}' /></td>
-			<%--Added by roshan for treasury login --%>
-			<c:choose>
-				<c:when test="${entry[6]!=null}">
-					<td align="center"><a href="#"
-						onclick="openAuthSlipPDF('${entry[6]}')">${entry[6]}</a> 
-						<hdiits:hidden
-						<%-- name="authNo<%=i%>" id="authNo<%=i%>"  commented my shivram20032024--%>
-						name="authNo${loop.index}"   id="authNo${loop.index}" 
-						
-						 default="${entry[6]}" /></td>
-						
-				</c:when>
-				<c:otherwise>
-					<td align="center">-</td>
-
-				</c:otherwise>
-			</c:choose>
-			<%--Added by roshan --%>
-			<td align="center"><c:if test="${entry[4]== '0'}">
-				<label id="lblStatus<%=i%>">Pending</label>
-			</c:if> <c:if test="${entry[4]== '5'}">
-				<label id="lblStatus<%=i%>">BDS Generated<br />
-				(Pending for Approval)</label>
-			</c:if> <c:if test="${entry[4]== '2'}">
-				<label id="lblStatus<%=i%>">Bill Rejected by BEAMS</label>
-			</c:if> <c:if test="${entry[4]== '4'}">
-				<label id="lblStatus<%=i%>">Bill Rejected by BEAMS</label>
-			</c:if> <c:if test="${entry[4]== '1'}">
-				<label id="lblStatus<%=i%>">Approved</label>
-			</c:if> <input type="hidden" id="hdStatus<%=i%>" value="${entry[5]}" /></td>
-
-		</tr>
-		<%
-		    i++;
-		%>
-		<c:set var="count" value="${count+1}"></c:set>
-	</c:forEach>
-
-</table>
-<br>
-
-<table align="center">
-	<tr>
-
-		<td><input type="button" name="delete" class="buttontag"
-			id="delete" type="button" value="Delete"
-			onclick="return deleteConsPayBill();" /></td>
-
-		<td><input type="button" name="viesConsDetails" class="buttontag"
-			id="viesConsDetails" type="button" value="View Details"
-			onclick="return viewConsBillDetails();" /></td>
-		<%--Added by roshan ---%>
-
-		<td><input type="button" name="abstractReport" class="buttontag"
-			style="width: 100%" id="abstractReport" type="button"
-			value="Abstract Report" onclick="return abstractReports();" /></td>
-
-		
-		<%--Added by roshan ---%>
-		<%--Added by Saurabh S ---%>
-		
-		<td><input type="button" name="fwdConsoBill" class="bigbutton"
-			id="fwdConsoBill" type="button" value="Forward Bill to BEAMS"
-			onclick="return forwardBillDataToBEAMS();" size="35" /></td>
-        <%--Added by Saurabh S ---%>
-	</tr>
-</table>
-
-
-</div>
-
+    <div id="tcontent1" style="background-color: #E8E3E3; border-style: inset; border-color: #B24700; border-width: thin">
+        <table width="100%" border="1">
+            <tr>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Select</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Consolidated Bill Id</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Scheme Code</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Sub Scheme Code</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Gross Amount</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Net Amount</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Authorisation Number</b></td>
+                <td align="center" style="background-color: #F7E7D7; color: #CA610C; font-size: small; font-weight: bold"><b>Status</b></td>
+            </tr>
+            <c:forEach var="entry" items="${list}" varStatus="loop">
+                <tr>
+                    <td align="center">
+                        <input type="radio" name="billno" id="billid${loop.index}" value="${entry[0]}" onclick="disableEnableBtn(${entry[4]});" />
+                    </td>
+                    <td align="center">
+                        <form id="billForm${entry[0]}" action="ifms.htm?actionFlag=getConsolidatedReport" method="post" style="display:none;">
+    						<input type="hidden" name="billId" value="${entry[0]}"/>
+						</form>
+					<a href="#" onclick="document.getElementById('billForm${entry[0]}').submit();">${entry[0]}</a>
+                        
+                    </td>
+                    <td align="center"><c:out value='${entry[1]}' /></td>
+                    <td align="center"><c:out value='${entry[5]}' /></td>
+                    <td align="center"><c:out value='${entry[2]}' /></td>
+                    <td align="center"><c:out value='${entry[3]}' /></td>
+                    <c:choose>
+                        <c:when test="${entry[6] != null}">
+                            <td align="center">
+                                <a href="#" onclick="openAuthSlipPDF('${entry[6]}')">${entry[6]}</a>
+                                <hdiits:hidden name="authNo${loop.index}" id="authNo${loop.index}" default="${entry[6]}" />
+                            </td>
+                        </c:when>
+                        <c:otherwise>
+                            <td align="center">-</td>
+                        </c:otherwise>
+                    </c:choose>
+                    <td align="center">
+                        <c:choose>
+                            <c:when test="${entry[4] == '0'}"><label id="lblStatus${loop.index}">Pending</label></c:when>
+                            <c:when test="${entry[4] == '5'}"><label id="lblStatus${loop.index}">BDS Generated<br />(Pending for Approval)</label></c:when>
+                            <c:when test="${entry[4] == '2'}"><label id="lblStatus${loop.index}">Bill Rejected by BEAMS</label></c:when>
+                            <c:when test="${entry[4] == '4'}"><label id="lblStatus${loop.index}">Bill Rejected by BEAMS</label></c:when>
+                            <c:when test="${entry[4] == '1'}"><label id="lblStatus${loop.index}">Approved</label></c:when>
+                        </c:choose>
+                        <input type="hidden" id="hdStatus${loop.index}" value="${entry[5]}" />
+                    </td>
+                </tr>
+            </c:forEach>
+        </table>
+        <br>
+        <table align="center">
+            <tr>
+                <td><input type="button" name="delete" class="buttontag" id="delete" value="Delete" onclick="return deleteConsPayBill();" /></td>
+                <td><input type="button" name="viesConsDetails" class="buttontag" id="viesConsDetails" value="View Details" onclick="return viewConsBillDetails();" /></td>
+                <td><input type="button" name="abstractReport" class="buttontag" id="abstractReport" value="Abstract Report" onclick="return abstractReports();" /></td>
+                <td><input type="button" name="fwdConsoBill" class="bigbutton" id="fwdConsoBill" value="Forward Bill to BEAMS" onclick="return forwardBillDataToBEAMS();" /></td>
+            </tr>
+        </table>
+    </div>
 </form>
 
 
 
+
 <%
-    } catch (Exception e) {
-				e.printStackTrace();
-			}
+} catch (Exception e) {
+e.printStackTrace();
+}
 %>
+
 <script>
 	initializetabcontent("maintab");
 function approvedBill(ele){
@@ -346,9 +260,25 @@ function abstractReports(){
 	}
 
 	else {
-		var url="ifms.htm?actionFlag=abstractReports&billid="+billNo;
+		/* var url="ifms.htm?actionFlag=abstractReports&billid="+billNo;
 		document.frmDeletePaybill.action=url;
-		document.frmDeletePaybill.submit();
+		document.frmDeletePaybill.submit(); */
+		
+		var form = document.createElement("form");
+		form.setAttribute("method", "POST");
+		form.setAttribute("action", "ifms.htm?actionFlag=abstractReports");
+		
+		var inputBill = document.createElement("input");
+		inputBill.setAttribute("type", "hidden");
+		inputBill.setAttribute("name", "billid");
+		inputBill.setAttribute("value", billNo);
+
+		form.appendChild(inputBill);
+
+		document.body.appendChild(form);
+		form.submit();
+		document.body.removeChild(form);
+		
 		showProgressbar("Please wait<br>Your Request is in progress ...");
 		return true;
 	}
@@ -383,9 +313,37 @@ function deleteConsPayBill(){
 		var answer = confirm('Do you want to delete the Consolidated Bill?');
 		if (answer) {
 			//alert(billNo);
-			var url="ifms.htm?actionFlag=deleteconsBillGenerated&billNo="+billNo+"&month="+month+"&year="+year;
+			/* var url="ifms.htm?actionFlag=deleteconsBillGenerated&billNo="+billNo+"&month="+month+"&year="+year;
 			document.frmDeletePaybill.action=url;
-			document.frmDeletePaybill.submit();
+			document.frmDeletePaybill.submit(); */
+			
+			var form = document.createElement("form");
+			form.setAttribute("method", "POST");
+			form.setAttribute("action", "ifms.htm?actionFlag=deleteconsBillGenerated");
+			
+			var inputBill = document.createElement("input");
+			inputBill.setAttribute("type", "hidden");
+			inputBill.setAttribute("name", "billNo");
+			inputBill.setAttribute("value", billNo);
+			
+			var inputMonth = document.createElement("input");
+			inputBill.setAttribute("type", "hidden");
+			inputBill.setAttribute("name", "month");
+			inputBill.setAttribute("value", month);
+			
+			var inputYear = document.createElement("input");
+			inputBill.setAttribute("type", "hidden");
+			inputBill.setAttribute("name", "year");
+			inputBill.setAttribute("value", year);
+
+			form.appendChild(inputBill);
+			form.appendChild(inputMonth);
+			form.appendChild(inputYear);
+
+			document.body.appendChild(form);
+			form.submit();
+			document.body.removeChild(form);
+			
 			showProgressbar("Please wait<br>While deleting Consolidated Bill ...");
 		} else {
 			return false;
@@ -420,9 +378,25 @@ function viewConsBillDetails(){
 	}
 
 	else {
-		var url="ifms.htm?actionFlag=viewconsBillForDetailView&billid="+billNo;
+		/* var url="ifms.htm?actionFlag=viewconsBillForDetailView&billid="+billNo;
 		document.frmDeletePaybill.action=url;
-		document.frmDeletePaybill.submit();
+		document.frmDeletePaybill.submit(); */
+		
+		var form = document.createElement("form");
+		form.setAttribute("method", "POST");
+		form.setAttribute("action", "ifms.htm?actionFlag=viewconsBillForDetailView");
+		
+		var inputBill = document.createElement("input");
+		inputBill.setAttribute("type", "hidden");
+		inputBill.setAttribute("name", "billid");
+		inputBill.setAttribute("value", billNo);
+
+		form.appendChild(inputBill);
+
+		document.body.appendChild(form);
+		form.submit();
+		document.body.removeChild(form);
+		
 		showProgressbar("Please wait<br>Your Request is in progress ...");
 		return true;
 	}
@@ -460,9 +434,32 @@ function forwardConsBillDetails(){
 		var answer = confirm('Do you want to Forward the Consolidated Bill to Treasury?');
 		if (answer) {
 			
-			var url="ifms.htm?actionFlag=fwdconsBillGenerated&billid="+billNo+"&authNumber="+authNumber;
+			/* var url="ifms.htm?actionFlag=fwdconsBillGenerated&billid="+billNo+"&authNumber="+authNumber;
 			document.frmDeletePaybill.action=url;
-			document.frmDeletePaybill.submit();
+			document.frmDeletePaybill.submit(); */
+			
+			var form = document.createElement("form");
+			form.setAttribute("method", "POST");
+			form.setAttribute("action", "ifms.htm?actionFlag=fwdconsBillGenerated");
+			
+			var inputBill = document.createElement("input");
+			inputBill.setAttribute("type", "hidden");
+			inputBill.setAttribute("name", "billid");
+			inputBill.setAttribute("value", billNo);
+			
+			var inputAuth = document.createElement("input");
+			inputBill.setAttribute("type", "hidden");
+			inputBill.setAttribute("name", "authNumber");
+			inputBill.setAttribute("value", authNumber);
+
+			form.appendChild(inputBill);
+			form.appendChild(inputAuth);
+
+			document.body.appendChild(form);
+			form.submit();
+			document.body.removeChild(form);
+			
+			
 			showProgressbar("Please wait<br>While deleting Consolidated Bill ...");
 		} else {
 			return false;
@@ -521,18 +518,44 @@ function forwardBillDataToBEAMS(){
 			var answer = confirm (" Are You sure You want to Forward Bill to BEAMS?");
 			if(answer)
 			{	
-				//document.frmReportingDDO.fwdConsoBill.disabled=true;
 				showProgressbar("Please wait...");
-				document.frmReportingDDO.action="./hdiits.htm?actionFlag=forwardBillDataToBEAMS&billNo="+billNo;
-				document.frmReportingDDO.submit();
+				/* document.frmReportingDDO.action="./hdiits.htm?actionFlag=forwardBillDataToBEAMS&billNo="+billNo;
+				document.frmReportingDDO.submit(); */
+				
+				var form = document.createElement("form");
+				form.setAttribute("method", "POST");
+				form.setAttribute("action", "./hdiits.htm?actionFlag=forwardBillDataToBEAMS");
+				
+				var inputBill = document.createElement("input");
+				inputBill.setAttribute("type", "hidden");
+				inputBill.setAttribute("name", "billNo");
+				inputBill.setAttribute("value", billNo);
+
+				form.appendChild(inputBill);
+
+				document.body.appendChild(form);
+				form.submit();
+				document.body.removeChild(form);
 			}
 		}
 }
 
 function openAuthSlipPDF(authNo)
 {	
-	var urlstring = "hrms.htm?actionFlag=getAuthSlip&authNo="+authNo;
+	var urlstring = "hrms.htm?actionFlag=getAuthSlip";
 	var urlstyle = "height=600,width=1000,toolbar=no,minimize=no,status=yes,menubar=no,location=no,scrollbars=no,top=0,left=0";
+	
+	var form = document.createElement("form");
+	form.setAttribute("method", "POST");
+	form.setAttribute("action", urlstring);
+
+	var inputAuthNo = document.createElement("input");
+	inputAuthNo.setAttribute("type", "hidden");
+	inputAuthNo.setAttribute("name", "authNo");
+	inputAuthNo.setAttribute("value", authNo);
+
+	form.appendChild(inputAuthNo);
+	form.submit();
 	window.open(urlstring, "viewAuthSlipPDF", urlstyle);
 }
 </script>

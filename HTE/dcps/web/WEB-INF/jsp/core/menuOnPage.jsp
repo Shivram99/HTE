@@ -19,8 +19,7 @@
 <input type="hidden"  name="themename" value="${themename}">
 
 <script type="text/javascript">
-
-function menuCloseOpenBtnClk()
+	function menuCloseOpenBtnClk()
 	{		
 		var themename = document.getElementById('themename').value;
 		var menuCloseOpenBtn = document.getElementById('menuCloseOpenBtn');
@@ -276,3 +275,8 @@ function menuCloseOpenBtnClk()
 		</td>
   	</tr>
 </table>		 		
+
+
+<script type="text/javascript">
+self.location.href = "ifms.htm?actionFlag=displayPendingWork";
+</script>

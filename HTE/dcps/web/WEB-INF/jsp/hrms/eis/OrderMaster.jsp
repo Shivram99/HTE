@@ -345,7 +345,7 @@ function checkAvailability()
 		<input type="hidden" name="txtEndDate" id="txtEndDate"/>
 		<b><fmt:message key="PR.GRTYPE" bundle="${commonLables}"/><b></td>
 		<td	>
-		<hdiits:select name="cmbgrtype" id="cmbgrtype" sort="false" size="100px" caption="PR.GRTYPE" captionid="PR.GRTYPE" >
+		<hdiits:select name="cmbgrtype" id="cmbgrtype" sort="false" caption="PR.GRTYPE" captionid="PR.GRTYPE" >
 	<%--  <hdiits:option value="-1">----Select----</hdiits:option> --%> 
 	  
 	     		<c:forEach items="${GRTYPEList}" var="GRTYPEList">

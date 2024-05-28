@@ -4,15 +4,15 @@ var _iterationCount = 1989;
 
 function generateKey(salt, passPhrase) {
 	return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
-		keySize : _keySize / 32,
-		iterations : _iterationCount
+		keySize: _keySize / 32,
+		iterations: _iterationCount
 	})
 }
 
 function encryptWithIvSalt(salt, iv, passPhrase, plainText) {
 	var key = generateKey(salt, passPhrase);
 	var encrypted = CryptoJS.AES.encrypt(plainText, key, {
-		iv : CryptoJS.enc.Hex.parse(iv)
+		iv: CryptoJS.enc.Hex.parse(iv)
 	});
 	return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
 }
@@ -20,10 +20,10 @@ function encryptWithIvSalt(salt, iv, passPhrase, plainText) {
 function decryptWithIvSalt(salt, iv, passPhrase, cipherText) {
 	var key = generateKey(salt, passPhrase);
 	var cipherParams = CryptoJS.lib.CipherParams.create({
-		ciphertext : CryptoJS.enc.Base64.parse(cipherText)
+		ciphertext: CryptoJS.enc.Base64.parse(cipherText)
 	});
 	var decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
-		iv : CryptoJS.enc.Hex.parse(iv)
+		iv: CryptoJS.enc.Hex.parse(iv)
 	});
 	return decrypted.toString(CryptoJS.enc.Utf8);
 }
@@ -39,9 +39,9 @@ function decryptWithIvSalt(salt, iv, passPhrase, cipherText) {
 function encrypt(passPhrase, plainText) {
 	// alert("Welcome");
 	var iv = CryptoJS.lib.WordArray.random(_ivSize / 8).toString(
-			CryptoJS.enc.Hex);
+		CryptoJS.enc.Hex);
 	var salt = CryptoJS.lib.WordArray.random(_keySize / 8).toString(
-			CryptoJS.enc.Hex);
+		CryptoJS.enc.Hex);
 	var ciphertext = encryptWithIvSalt(salt, iv, passPhrase, plainText);
 
 	return salt + iv + ciphertext;
@@ -67,69 +67,75 @@ function openPerformaA() {
 	var urlToOpen = 'images/Proforma A.pdf';
 	var mwname = 'IFMS';
 	var prop = 'width='
-			+ screen.availWidth
-			- 100
-			+ ',height='
-			+ screen.availHeight
-			- 100
-			+ ',top=0,left=0,resizable=no,menubar=no,scrollbars=yes,toolbar=no,location=no,status=no';
+		+ screen.availWidth
+		- 100
+		+ ',height='
+		+ screen.availHeight
+		- 100
+		+ ',top=0,left=0,resizable=no,menubar=no,scrollbars=yes,toolbar=no,location=no,status=no';
 	window.open(urlToOpen, mwname, prop);
 }
 function openPerformaB() {
 	var urlToOpen = 'images/Proforma B.pdf';
 	var mwname = 'IFMS';
 	var prop = 'width='
-			+ screen.availWidth
-			- 100
-			+ ',height='
-			+ screen.availHeight
-			- 100
-			+ ',top=0,left=0,resizable=no,menubar=no,scrollbars=yes,toolbar=no,location=no,status=no';
+		+ screen.availWidth
+		- 100
+		+ ',height='
+		+ screen.availHeight
+		- 100
+		+ ',top=0,left=0,resizable=no,menubar=no,scrollbars=yes,toolbar=no,location=no,status=no';
 	window.open(urlToOpen, mwname, prop);
 }
 
 function popUpDcpsEmpData(dcpsEmpId, ddoFlag, ZPFormStatus) {
-	
-	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
-	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
-	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
-	var txtPANNo = document.getElementById("txtPANNo").value;
 
-	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
-		var UID1Encrypted = encrypt("Message", txtUIDNo1);
-		var UID2Encrypted = encrypt("Message", txtUIDNo2);
-		var UID3Encrypted = encrypt("Message", txtUIDNo3);
-		console.log("input txtUIDNo1 " + UID1Encrypted);
-		console.log("input txtUIDNo2 " + UID2Encrypted);
-		console.log("input txtUIDNo3 " + UID3Encrypted);
-
-		document.getElementById("txtUIDNo1").value = UID1Encrypted;
-		document.getElementById("txtUIDNo2").value = UID2Encrypted;
-		document.getElementById("txtUIDNo3").value = UID3Encrypted;
-	}
-
-	if (txtPANNo != '' && txtPANNo.length == 10) {
-		var txtPANNo1 = encrypt("Message", txtPANNo);
-		console.log("input txtPANNo1 " + txtPANNo1);
-		document.getElementById("txtPANNo").value = txtPANNo1;
-	}
-	
-	// alert("I m here");
 	showProgressbar();
 	var lStrUserZP = document.getElementById("User").value;
 	var lStrUseZP = document.getElementById("Use").value;
 	var empId = dcpsEmpId;
 
-	/*
-	 * if (ddoFlag == "N") { User = "DDO"; } else { User = "Asst"; }
-	 */
+	 var form = document.createElement("form");
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", "ifms.htm?actionFlag=popUpEmpDtls&elementId=700159");
 
-	// url = "ifms.htm?actionFlag=popUpEmpDtls&elementId=700159&empId=" + empId
-	// + "&User=" + User;
-	url = "ifms.htm?actionFlag=popUpEmpDtls&elementId=700159&empId=" + empId
-			+ "&User=" + lStrUserZP + "&Use=" + lStrUseZP + "&ZPFormStatus="
-			+ ZPFormStatus;
-	self.location.href = url;
+        // Create hidden input for billGroupId
+        var inputBillType = document.createElement("input");
+        inputBillType.setAttribute("type", "hidden");
+        inputBillType.setAttribute("name", "empId");
+        inputBillType.setAttribute("value", empId);
+
+        // Create hidden input for typeOfAttachDetach
+        var inputUser = document.createElement("input");
+        inputUser.setAttribute("type", "hidden");
+        inputUser.setAttribute("name", "User");
+        inputUser.setAttribute("value", lStrUserZP);
+        
+        var inputUse = document.createElement("input");
+        inputUse.setAttribute("type", "hidden");
+        inputUse.setAttribute("name", "Use");
+        inputUse.setAttribute("value", lStrUseZP);
+        
+        var inputZpFormStatus = document.createElement("input");
+        inputZpFormStatus.setAttribute("type", "hidden");
+        inputZpFormStatus.setAttribute("name", "ZPFormStatus");
+        inputZpFormStatus.setAttribute("value", ZPFormStatus);
+
+        // Append the hidden inputs to the form
+        form.appendChild(inputBillType);
+        form.appendChild(inputUser);
+        form.appendChild(inputUse);
+        form.appendChild(inputZpFormStatus);
+
+        // Append the form to the body, submit it, and remove it from the body
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+
+	/*url = "ifms.htm?actionFlag=popUpEmpDtls&elementId=700159&empId=" + empId
+		+ "&User=" + lStrUserZP + "&Use=" + lStrUseZP + "&ZPFormStatus="
+		+ ZPFormStatus;
+	self.location.href = url;*/
 
 }
 
@@ -160,6 +166,32 @@ function onchangevalues() {
 // added by Demolisher
 
 function SaveDataUsingAjaxForDraft() {
+
+	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
+	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
+	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
+	var txtPANNo = document.getElementById("txtPANNo").value;
+
+	if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4 || txtUIDNo3.length == 4) {
+		var UID1Encrypted = encrypt("Message", txtUIDNo1);
+		var UID2Encrypted = encrypt("Message", txtUIDNo2);
+		var UID3Encrypted = encrypt("Message", txtUIDNo3);
+		console.log("input txtUIDNo1 " + UID1Encrypted);
+		console.log("input txtUIDNo2 " + UID2Encrypted);
+		console.log("input txtUIDNo3 " + UID3Encrypted);
+
+		document.getElementById("txtUIDNo1").value = UID1Encrypted;
+		document.getElementById("txtUIDNo2").value = UID2Encrypted;
+		document.getElementById("txtUIDNo3").value = UID3Encrypted;
+	}
+
+	if (txtPANNo != '' && txtPANNo.length == 10) {
+		var txtPANNo1 = encrypt("Message", txtPANNo);
+		console.log("input txtPANNo1 " + txtPANNo1);
+		document.getElementById("txtPANNo").value = txtPANNo1;
+	}
+
+
 
 	// alert("SaveDataUsingAjaxForDraft() called...");
 	showProgressbar();
@@ -208,7 +240,7 @@ function SaveDataUsingAjaxForDraft() {
 	};
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(url);
 	// hideProgressbar();
 }
@@ -242,36 +274,24 @@ function chkEmptyPayscale() {
 
 function validateRegFormDataForDraft() {
 
-	/*
-	 * if(document.getElementById('txtEIDNo').value == "" &&
-	 * document.getElementById('txtUIDNo1').value == "" &&
-	 * document.getElementById('txtUIDNo2').value == "" &&
-	 * document.getElementById('txtUIDNo3').value == ""){ alert("Please enter
-	 * UID or EID"); return false; }
-	 */
-
-	if (document.getElementById('txtUIDNo1').value != ""
-			&& document.getElementById('txtUIDNo2').value != ""
-			&& document.getElementById('txtUIDNo3').value != "") {
-		if (document.getElementById('txtUIDNo1').value.length != 4
-				|| document.getElementById('txtUIDNo2').value.length != 4
-				|| document.getElementById('txtUIDNo3').value.length != 4) {
-			alert("Please enter a valid UID");
-			return false;
-		}
+	if (document.getElementById('txtUIDNo1').value == ""
+		&& document.getElementById('txtUIDNo2').value == ""
+		&& document.getElementById('txtUIDNo3').value == "") {
+		alert("Please enter a valid UID");
+		return false;
 	}
 
 	if (!chkEmpty(document.getElementById('cmbSalutation'), 'Salutation')
-			|| !chkEmpty(document.getElementById('txtName'), 'Full Name')
-			|| !chkEmpty(document.getElementById('txtNameInDevanagari'),
-					'Full Name in Devanagari') ||
-			// !chkEmpty(document.getElementById('txtFatherOrHusband'),'Father/Husband
-			// Name') ||
-			!chkEmpty(document.getElementById('txtBirthDate'), 'Date of Birth')
-	/*
-	 * !chkEmpty(document.getElementById('txtJoiningDate'),'Date of Joining
-	 * Government Service(GOM)')
-	 */
+		|| !chkEmpty(document.getElementById('txtName'), 'Full Name')
+		|| !chkEmpty(document.getElementById('txtNameInDevanagari'),
+			'Full Name in Devanagari') ||
+		// !chkEmpty(document.getElementById('txtFatherOrHusband'),'Father/Husband
+		// Name') ||
+		!chkEmpty(document.getElementById('txtBirthDate'), 'Date of Birth')
+		/*
+		 * !chkEmpty(document.getElementById('txtJoiningDate'),'Date of Joining
+		 * Government Service(GOM)')
+		 */
 
 	)
 	// !chkEmpty(document.getElementById('cmbDesignation'),'Designation') ||
@@ -284,8 +304,8 @@ function validateRegFormDataForDraft() {
 	}
 
 	if (!chkEmptyGender() ||
-	// !changeDcpsOrGpfRadio() ||
-	!checkEmptyForDeptSelectedInPF() || !checkGISRegristrationDate()) {
+		// !changeDcpsOrGpfRadio() ||
+		!checkEmptyForDeptSelectedInPF() || !checkGISRegristrationDate()) {
 
 		return false;
 	}
@@ -316,7 +336,7 @@ function checkMinDtls() {
 		showAlert("radioGender", 'Please fill the Employee Gender first');
 	} else if (!dob) {
 		showAlert("txtBirthDate",
-				'Please fill the Employee Date Of Birth first');
+			'Please fill the Employee Date Of Birth first');
 	} else if (!doj) {
 		showAlert("txtJoiningDate", 'Please fill the Employee Date Of Joining');
 	} else {
@@ -337,7 +357,7 @@ function rejectRequest(EmpId) {
 		// alert('EmpId: '+EmpId);
 		var remarks = document.getElementById("txtApproverRemarks").value;
 		if (chkEmpty(document.getElementById("txtApproverRemarks"),
-				'Approver Remarks') == false) {
+			'Approver Remarks') == false) {
 			return false;
 		}
 		xmlHttp = GetXmlHttpObject();
@@ -347,7 +367,7 @@ function rejectRequest(EmpId) {
 			return;
 		}
 		var url = "ifms.htm?actionFlag=rejectRequest&Emp_Id=" + EmpId
-				+ "&remarks=" + remarks;
+			+ "&remarks=" + remarks;
 
 		xmlHttp.onreadystatechange = function() {
 			if (xmlHttp.readyState == 4) {
@@ -363,68 +383,58 @@ function rejectRequest(EmpId) {
 
 						alert('Form is sent back to the ZP DDO Assistant');
 						self.location.href = "ifms.htm?actionFlag=viewFormsForwardedByAsst&elementId=700009&User="
-								+ User;
+							+ User;
 					}
 				}
 			}
 		};
 		xmlHttp.open("POST", url, false);
 		xmlHttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
+			"application/x-www-form-urlencoded");
 		xmlHttp.send(url);
 	}
 }
 // Function to save Data
 
 function validateRegFormData() {
-	// Validation - UID or EID cannot be empty removed.
-	/*
-	 * if(document.getElementById('txtEIDNo').value.trim() == "" &&
-	 * document.getElementById('txtUIDNo1').value.trim() == "" &&
-	 * document.getElementById('txtUIDNo2').value.trim() == "" &&
-	 * document.getElementById('txtUIDNo3').value.trim() == ""){ alert("Please
-	 * enter UID or EID"); return false; }
-	 */
-	// alert("Mujhe bulaya");
-	if (document.getElementById('txtUIDNo1').value != ""
-			&& document.getElementById('txtUIDNo2').value != ""
-			&& document.getElementById('txtUIDNo3').value != "") {
-		if (document.getElementById('txtUIDNo1').value.length != 4
-				|| document.getElementById('txtUIDNo2').value.length != 4
-				|| document.getElementById('txtUIDNo3').value.length != 4) {
-			alert("Please enter a valid UID");
-			return false;
-		}
+
+	if (document.getElementById('txtUIDNo1').value == ""
+		&& document.getElementById('txtUIDNo2').value == ""
+		&& document.getElementById('txtUIDNo3').value == "") {
+
+		alert("Please enter a valid UID");
+		return false;
+
 	}
 
 	if (!chkEmptyWithoutFocus(document.getElementById('cmbSalutation'),
-			'Salutation')
-			|| !chkEmptyWithoutFocus(document.getElementById('txtName'),
-					'Full Name')
-			|| !chkEmptyWithoutFocus(document
-					.getElementById('txtNameInDevanagari'),
-					'Full Name in Devanagari')
-			||
-			// !chkEmptyWithoutFocus(document.getElementById('txtFatherOrHusband'),'Father/Husband
-			// Name') ||
-			!chkEmptyWithoutFocus(document.getElementById('txtBirthDate'),
-					'Date of Birth')
-			||
-			// !chkEmptyWithoutFocus(document.getElementById('txtJoiningDate'),'Date
-			// of Joining Government Service(GOM)') ||
-			!chkEmptyWithoutFocus(document.getElementById('cmbDesignation'),
-					'Designation')
-			|| !chkEmptyWithoutFocus(document.getElementById('cmbCurrentPost'),
-					'Current Post')
-			|| !chkEmptyWithoutFocus(document
-					.getElementById('cmbPayCommission'), 'Pay Commission')
-			||
-			// !chkEmptyWithoutFocus(document.getElementById('cmbPayScale'),'Pay
-			// Scale') ||
-			!chkEmptyWithoutFocus(document.getElementById('txtBasicPay'),
-					'Basic Pay')
-			|| !chkEmptyWithoutFocus(document.getElementById('cmbState'),
-					'State')) {
+		'Salutation')
+		|| !chkEmptyWithoutFocus(document.getElementById('txtName'),
+			'Full Name')
+		|| !chkEmptyWithoutFocus(document
+			.getElementById('txtNameInDevanagari'),
+			'Full Name in Devanagari')
+		||
+		// !chkEmptyWithoutFocus(document.getElementById('txtFatherOrHusband'),'Father/Husband
+		// Name') ||
+		!chkEmptyWithoutFocus(document.getElementById('txtBirthDate'),
+			'Date of Birth')
+		||
+		// !chkEmptyWithoutFocus(document.getElementById('txtJoiningDate'),'Date
+		// of Joining Government Service(GOM)') ||
+		!chkEmptyWithoutFocus(document.getElementById('cmbDesignation'),
+			'Designation')
+		|| !chkEmptyWithoutFocus(document.getElementById('cmbCurrentPost'),
+			'Current Post')
+		|| !chkEmptyWithoutFocus(document
+			.getElementById('cmbPayCommission'), 'Pay Commission')
+		||
+		// !chkEmptyWithoutFocus(document.getElementById('cmbPayScale'),'Pay
+		// Scale') ||
+		!chkEmptyWithoutFocus(document.getElementById('txtBasicPay'),
+			'Basic Pay')
+		|| !chkEmptyWithoutFocus(document.getElementById('cmbState'),
+			'State')) {
 		alert("Please fill all the mandatory details in Employee Details tab");
 		return false;
 	}
@@ -434,8 +444,8 @@ function validateRegFormData() {
 	}
 
 	if (!chkEmptyGender() ||
-	// !changeDcpsOrGpfRadio() ||
-	!checkEmptyForDeptSelectedInPF() || !checkGISRegristrationDate()) {
+		// !changeDcpsOrGpfRadio() ||
+		!checkEmptyForDeptSelectedInPF() || !checkGISRegristrationDate()) {
 		return false;
 	}
 
@@ -444,7 +454,7 @@ function validateRegFormData() {
 	}
 
 	if (checkLength(document.getElementById('txtContactTelNo'),
-			'telephone number') == false) {
+		'telephone number') == false) {
 		return false;
 	}
 
@@ -453,97 +463,97 @@ function validateRegFormData() {
 	}
 
 	if (!chkEmptyWithoutFocus(document.getElementById('cmbCadre'), 'Cadre')
-			|| !chkEmptyWithoutFocus(document.getElementById('txtGroup'),
-					'Group')
-			||
-			/*
-			 * !chkEmptyWithoutFocus(document.getElementById('cmbFirstDesignation'),'Name
-			 * Of Post/Designation at First Appointment') ||
-			 */
-			/*
-			 * !chkEmptyWithoutFocus(document.getElementById('txtJoinParentDeptDate'),'Date
-			 * of initial appointment in parent department') ||
-			 */
-			!chkEmptyWithoutFocus(document.getElementById('cmbCurrentOffice'),
-					'Current Office')
-			|| !chkEmptyWithoutFocus(
-					document.getElementById('txtJoinPostDate'),
-					'Date of Joining current Post(in the current office)')
-			|| !chkEmptyWithoutFocus(document.getElementById('txtinduvisalno'),
-					'Indivisual Approve Number')
-			|| !chkEmptyWithoutFocus(document
-					.getElementById('txtinduvisalDate'),
-					'Indivisual Approve Date')) {
+		|| !chkEmptyWithoutFocus(document.getElementById('txtGroup'),
+			'Group')
+		||
+		/*
+		 * !chkEmptyWithoutFocus(document.getElementById('cmbFirstDesignation'),'Name
+		 * Of Post/Designation at First Appointment') ||
+		 */
+		/*
+		 * !chkEmptyWithoutFocus(document.getElementById('txtJoinParentDeptDate'),'Date
+		 * of initial appointment in parent department') ||
+		 */
+		!chkEmptyWithoutFocus(document.getElementById('cmbCurrentOffice'),
+			'Current Office')
+		|| !chkEmptyWithoutFocus(
+			document.getElementById('txtJoinPostDate'),
+			'Date of Joining current Post(in the current office)')
+		|| !chkEmptyWithoutFocus(document.getElementById('txtinduvisalno'),
+			'Indivisual Approve Number')
+		|| !chkEmptyWithoutFocus(document
+			.getElementById('txtinduvisalDate'),
+			'Indivisual Approve Date')) {
 		alert("Please fill all the mandatory details in Office Details tab");
 		return false;
 	}
 	if (!chkEmptyWithoutFocus(document.getElementById('cmbBankName'),
-			'Bank Name')
-			|| !chkEmptyWithoutFocus(document.getElementById('cmbBranchName'),
-					'Branch Name')
-			|| !chkEmptyWithoutFocus(document
-					.getElementById('txtbankAccountNo'), 'Bank A/C No.')
-			|| !chkEmptyWithoutFocus(document.getElementById('txtIFSCCode'),
-					'IFCS Code') || !chkEmptyAcMaintainedBy()) {
+		'Bank Name')
+		|| !chkEmptyWithoutFocus(document.getElementById('cmbBranchName'),
+			'Branch Name')
+		|| !chkEmptyWithoutFocus(document
+			.getElementById('txtbankAccountNo'), 'Bank A/C No.')
+		|| !chkEmptyWithoutFocus(document.getElementById('txtIFSCCode'),
+			'IFCS Code') || !chkEmptyAcMaintainedBy()) {
 		alert("Please fill all the mandatory details in Bank Details tab");
 		hideProgressbar();
 		return false;
 	}
 
 	if (!chkEmptyWithoutFocus(document.getElementById('cmbGisApplicable'),
-			'GIS Applicable')) {
+		'GIS Applicable')) {
 		alert("Please fill all the mandatory details in GIS Details tab");
 		return false;
 	}
 
 	if (document.getElementById('cmbGisApplicable').value != 700212) {
 		if (!chkEmptyWithoutFocus(document.getElementById('cmbGisGroup'),
-				'GIS Group')
-				|| !chkEmptyWithoutFocus(document
-						.getElementById('txtMembershipDate'), 'Membership Date')) {
+			'GIS Group')
+			|| !chkEmptyWithoutFocus(document
+				.getElementById('txtMembershipDate'), 'Membership Date')) {
 			return false;
 		}
 	}
 	if (!compareDates(document.getElementById('txtBirthDate'), document
-			.getElementById('txtJoiningDate'),
-			'Date Of Joining should be greater than DOB!', '<')
-			||
-			// !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('currDate1'),'Date
-			// of Joining should be less than current date.','<') ||
-			// !compareDates(document.getElementById('joinDate'),document.getElementById('txtJoiningDate'),'Date
-			// of Joining should be greater than 01/01/2005.','<') ||
-			// !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('txtJoinParentDeptDate'),'Date
-			// of joining parent dept should be greater than Joining Date','<')
-			// ||
-			// !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('txtJoinPostDate'),'Date
-			// of joining current post should be greater than date of
-			// joining','<') ||
-			/*
-			 * !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('txtJoinCadreDate'),'Date
-			 * Of Cadre should be greater than date of joining','<') ||
-			 */
-			// !validateDate(document.getElementById('txtJoiningDate')) ||
-			!validateDate(document.getElementById('txtBirthDate'))
-			|| !compareDates(document.getElementById('txtBirthDate'), document
-					.getElementById('currDate1'),
-					'Date of Birth should be less than current date.', '<')
-			|| !isName(document.getElementById('txtName'),
-					'This field should not contain any special characters or digits.')
-			||
-			// !emailValidate(document.getElementById('txtEmailId')) ||
-			/* !validateDate(document.getElementById('txtJoinCadreDate')) || */
-			// !validateDate(document.getElementById('txtJoinParentDeptDate'))
-			// ||
-			// !compareDates(document.getElementById('txtJoinParentDeptDate'),document.getElementById('currDate1'),'Date
-			// of joining parent dept should be less than current date.','<') ||
-			// !compareDates(document.getElementById('txtJoinParentDeptDate'),document.getElementById('txtJoinPostDate'),'Date
-			// of joining current post should be greater than date of
-			// joining','<') ||
-			!validateDate(document.getElementById('txtJoinPostDate'))
-			|| !compareDates(document.getElementById('txtJoinPostDate'),
-					document.getElementById('currDate1'),
-					'Date of joining post should be less than current date.',
-					'<'))
+		.getElementById('txtJoiningDate'),
+		'Date Of Joining should be greater than DOB!', '<')
+		||
+		// !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('currDate1'),'Date
+		// of Joining should be less than current date.','<') ||
+		// !compareDates(document.getElementById('joinDate'),document.getElementById('txtJoiningDate'),'Date
+		// of Joining should be greater than 01/01/2005.','<') ||
+		// !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('txtJoinParentDeptDate'),'Date
+		// of joining parent dept should be greater than Joining Date','<')
+		// ||
+		// !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('txtJoinPostDate'),'Date
+		// of joining current post should be greater than date of
+		// joining','<') ||
+		/*
+		 * !compareDates(document.getElementById('txtJoiningDate'),document.getElementById('txtJoinCadreDate'),'Date
+		 * Of Cadre should be greater than date of joining','<') ||
+		 */
+		// !validateDate(document.getElementById('txtJoiningDate')) ||
+		!validateDate(document.getElementById('txtBirthDate'))
+		|| !compareDates(document.getElementById('txtBirthDate'), document
+			.getElementById('currDate1'),
+			'Date of Birth should be less than current date.', '<')
+		|| !isName(document.getElementById('txtName'),
+			'This field should not contain any special characters or digits.')
+		||
+		// !emailValidate(document.getElementById('txtEmailId')) ||
+		/* !validateDate(document.getElementById('txtJoinCadreDate')) || */
+		// !validateDate(document.getElementById('txtJoinParentDeptDate'))
+		// ||
+		// !compareDates(document.getElementById('txtJoinParentDeptDate'),document.getElementById('currDate1'),'Date
+		// of joining parent dept should be less than current date.','<') ||
+		// !compareDates(document.getElementById('txtJoinParentDeptDate'),document.getElementById('txtJoinPostDate'),'Date
+		// of joining current post should be greater than date of
+		// joining','<') ||
+		!validateDate(document.getElementById('txtJoinPostDate'))
+		|| !compareDates(document.getElementById('txtJoinPostDate'),
+			document.getElementById('currDate1'),
+			'Date of joining post should be less than current date.',
+			'<'))
 	// !compareDates(document.getElementById('txtJoinParentDeptDate'),document.getElementById('txtJoinPostDate'),'Date
 	// of joining current post should be greater than date of initial
 	// appointment in parent department','<'))
@@ -566,7 +576,7 @@ function changeSaveOrUpdateBtn() {
 
 function SaveDataUsingAjax() {
 	// alert("SaveDataUsingAjax");
-	
+
 	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
 	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
 	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
@@ -590,7 +600,7 @@ function SaveDataUsingAjax() {
 		console.log("input txtPANNo1 " + txtPANNo1);
 		document.getElementById("txtPANNo").value = txtPANNo1;
 	}
-	
+
 	showProgressbar();
 	if (!validateRegFormData()) {
 		// alert("SaveDataUsingAjax - > in ValidateForm");
@@ -663,7 +673,7 @@ function SaveDataUsingAjax() {
 	};
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(url);
 	hideProgressbar();
 }
@@ -715,13 +725,13 @@ function UpdateDataUsingAjax() {
 
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(url);
 }
 
 function updateDataUsingAJAXForUpdateTotally(empid) {
 	// alert("updateDataUsingAJAXForUpdateTotally"+empid);
-	
+
 	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
 	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
 	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
@@ -745,8 +755,8 @@ function updateDataUsingAJAXForUpdateTotally(empid) {
 		console.log("input txtPANNo1 " + txtPANNo1);
 		document.getElementById("txtPANNo").value = txtPANNo1;
 	}
-	
-	
+
+
 	showProgressbar();
 	var EmpId = empid;
 	var saveOrUpdateFlag = 2;
@@ -798,7 +808,7 @@ function updateDataUsingAJAXForUpdateTotally(empid) {
 					}
 					if (!forwardFlag) {
 						self.location.href = "ifms.htm?actionFlag=viewDraftForms&elementId=700159&User="
-								+ User + "&Use=" + Use;
+							+ User + "&Use=" + Use;
 					}
 				}
 			}
@@ -807,7 +817,7 @@ function updateDataUsingAJAXForUpdateTotally(empid) {
 
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(url);
 
 }
@@ -824,7 +834,7 @@ function ForwardRequest(empId, flag) {
 	if (txtUIDNo1 != null && txtUIDNo2 != null && txtUIDNo3 != null) {
 
 		if (txtUIDNo1.length == 4 || txtUIDNo2.length == 4
-				|| txtUIDNo3.length == 4) {
+			|| txtUIDNo3.length == 4) {
 
 			var UID1Encrypted = encrypt("Message", txtUIDNo1);
 			var UID2Encrypted = encrypt("Message", txtUIDNo2);
@@ -849,8 +859,8 @@ function ForwardRequest(empId, flag) {
 	var ZPFormStatus = document.getElementById("ZPFormStatus").value;
 
 	ForwardRequestUsingAjax("ifms.htm?actionFlag=dcpsFwdReq&Emp_Id=" + empId
-			+ "&ForwardToPost=" + ForwardToPost + "&ApproveToPost="
-			+ ApproveToPost + "&flag=" + flag + "&ZPFormStatus=" + ZPFormStatus);
+		+ "&ForwardToPost=" + ForwardToPost + "&ApproveToPost="
+		+ ApproveToPost + "&flag=" + flag + "&ZPFormStatus=" + ZPFormStatus);
 }
 
 function ForwardRequestUsingAjax(url) {
@@ -863,7 +873,7 @@ function ForwardRequestUsingAjax(url) {
 	xmlHttp.onreadystatechange = forwardDataStateChanged;
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 }
 function forwardDataStateChanged() {
@@ -889,8 +899,8 @@ function ForwardRequestForUpdateTotally(empId, flag) {
 	var ZPFormStatus = document.getElementById("ZPFormStatus").value;
 
 	var url = "ifms.htm?actionFlag=dcpsFwdReq&Emp_Id=" + empId
-			+ "&ForwardToPost=" + ForwardToPost + "&ApproveToPost="
-			+ ApproveToPost + "&flag=" + flag + "&ZPFormStatus=" + ZPFormStatus;
+		+ "&ForwardToPost=" + ForwardToPost + "&ApproveToPost="
+		+ ApproveToPost + "&flag=" + flag + "&ZPFormStatus=" + ZPFormStatus;
 
 	ForwardRequestUsingAjaxForUpdateTotally(url);
 }
@@ -905,7 +915,7 @@ function ForwardRequestUsingAjaxForUpdateTotally(url) {
 	xmlHttp.onreadystatechange = forwardDataStateChangedforUpdateTotally;
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 }
 
@@ -922,7 +932,7 @@ function forwardDataStateChangedforUpdateTotally() {
 			var User = document.getElementById("User").value.trim();
 			var Use = document.getElementById("Use").value.trim();
 			var url = "ifms.htm?actionFlag=viewDraftForms&elementId=700159&User="
-					+ User + "&Use=" + Use;
+				+ User + "&Use=" + Use;
 			self.location.href = url;
 		}
 	}
@@ -951,7 +961,7 @@ function ForwardRequestDDO(empId) {
 		}
 		// alert("dgdg");
 		ForwardRequestUsingAjaxDDO("ifms.htm?actionFlag=FwdReqTreasury&Emp_Id="
-				+ emp_Id + "&ForwardToPost=" + ForwardToPost);
+			+ emp_Id + "&ForwardToPost=" + ForwardToPost);
 	}
 }
 
@@ -966,7 +976,7 @@ function ForwardRequestUsingAjaxDDO(url) {
 	xmlHttp.onreadystatechange = forwardDataStateChangedDDO;
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 }
 
@@ -991,10 +1001,10 @@ function forwardDataStateChangedDDO() {
 
 					if (!billGroupSuccessFlag) {
 						alert("GPF Employee is approved. Employee is not attached to any billgroup. Employee's generated HTESevarth Id is  "
-								+ sevarthId);
+							+ sevarthId);
 					} else {
 						alert("GPF Employee is approved and the HTESevarth Id is  "
-								+ sevarthId);
+							+ sevarthId);
 					}
 				}
 
@@ -1003,7 +1013,7 @@ function forwardDataStateChangedDDO() {
 			var User = document.getElementById("User").value.trim();
 			var Use = document.getElementById("Use").value.trim();
 			var url = "ifms.htm?actionFlag=viewFormsForwardedByAsst&elementId=700009&User="
-					+ User + "&Use=" + Use;
+				+ User + "&Use=" + Use;
 			self.location.href = url;
 		}
 	}
@@ -1015,10 +1025,10 @@ function window_new_update(url) {
 	var width = screen.width;
 	var urlstring = url;
 	var urlstyle = "height="
-			+ height
-			+ ",width="
-			+ width
-			+ ",toolbar=no,minimize=no,status=yes,menubar=no,location=no,scrollbars=yes,top=0,left=0";
+		+ height
+		+ ",width="
+		+ width
+		+ ",toolbar=no,minimize=no,status=yes,menubar=no,location=no,scrollbars=yes,top=0,left=0";
 	newWindow = window.open(urlstring, "NomineeDetails", urlstyle);
 }
 
@@ -1044,7 +1054,7 @@ function enableReasonForPFD() {
 	var listParentDept = document.getElementById("listParentDept").value;
 
 	if (hidPFDByDefault != listParentDept
-			&& document.DCPSForm.cbChangeParentDept.checked == true) {
+		&& document.DCPSForm.cbChangeParentDept.checked == true) {
 		document.getElementById("reasonForChangeInPFD").readOnly = false;
 	} else {
 		document.getElementById("reasonForChangeInPFD").readOnly = true;
@@ -1060,13 +1070,13 @@ function populateGroup() {
 		var url = "cmbCadre=" + selectOption + "&dobEmp=" + dobEmp;
 
 		var myAjax = new Ajax.Request(uri, {
-			method : 'post',
-			asynchronous : false,
-			parameters : url,
-			onSuccess : function(myAjax) {
+			method: 'post',
+			asynchronous: false,
+			parameters: url,
+			onSuccess: function(myAjax) {
 				getDataStateChangedForPopGroup(myAjax);
 			},
-			onFailure : function() {
+			onFailure: function() {
 				alert('Something went wrong...');
 			}
 		});
@@ -1110,13 +1120,13 @@ function getOfficeDetails() {
 	document.getElementById('txtOfficeCityClass').value = "";
 
 	var myAjax = new Ajax.Request(uri, {
-		method : 'post',
-		asynchronous : false,
-		parameters : url,
-		onSuccess : function(myAjax) {
+		method: 'post',
+		asynchronous: false,
+		parameters: url,
+		onSuccess: function(myAjax) {
 			getDataStateChangedForPopOfficeDtls(myAjax);
 		},
-		onFailure : function() {
+		onFailure: function() {
 			alert('Something went wrong...');
 		}
 	});
@@ -1147,7 +1157,7 @@ function getDataStateChangedForPopOfficeDtls(myAjax) {
 
 	if (address1 != undefined) {
 		document.getElementById('txtOfficeAddress').value = address1 + " "
-				+ address2;
+			+ address2;
 	} else {
 		document.getElementById('txtOfficeAddress').value = "";
 	}
@@ -1225,7 +1235,7 @@ function forwardRequestAfterValidation(flag) {
 	}
 
 	var commissionId = document.forms[0].elements['cmbPayCommission'].value
-			.trim();
+		.trim();
 
 	if (commissionId == '700005') {
 		var curnsvnSelect = document.getElementById("cmbSvnBasic");
@@ -1310,8 +1320,8 @@ function forwardRequestAfterValidationforUpdateTotally(empId, flag) {
 	}
 }
 function updateAfterValidationForUpdateTotally(empid) {
-	 //alert("updateAfterValidationForUpdateTotally"+empid);
-	
+	//alert("updateAfterValidationForUpdateTotally"+empid);
+
 	var txtUIDNo1 = document.getElementById("txtUIDNo1").value;
 	var txtUIDNo2 = document.getElementById("txtUIDNo2").value;
 	var txtUIDNo3 = document.getElementById("txtUIDNo3").value;
@@ -1335,8 +1345,8 @@ function updateAfterValidationForUpdateTotally(empid) {
 		console.log("input txtPANNo1 " + txtPANNo1);
 		document.getElementById("txtPANNo").value = txtPANNo1;
 	}
-	
-	
+
+
 	showProgressbar();
 	if (saveOrFwdFlag == 0) {
 		if (validateRegFormDataForDraft()) {
@@ -1366,16 +1376,16 @@ function showImg(lStr) {
 	var width = 600;
 	var urlstring = "ifms.htm?viewName=DcpsPhoto";
 	var urlstyle = "height="
-			+ height
-			+ ",width="
-			+ width
-			+ ",toolbar=no,minimize=no,status=yes,menubar=no,location=no,scrollbars=no,top=0,left=0";
+		+ height
+		+ ",width="
+		+ width
+		+ ",toolbar=no,minimize=no,status=yes,menubar=no,location=no,scrollbars=no,top=0,left=0";
 	newWindow1 = window
-			.open(
-					urlstring,
-					"DcpsPhoto",
-					"'titlebar=no,directories=no,height=355,location=no,resizable=no,scrollbars=no,status=no,titlebar=no,toolbar=no,width=600,height=600,top=0,left=0",
-					"false");
+		.open(
+			urlstring,
+			"DcpsPhoto",
+			"'titlebar=no,directories=no,height=355,location=no,resizable=no,scrollbars=no,status=no,titlebar=no,toolbar=no,width=600,height=600,top=0,left=0",
+			"false");
 	// globArray[9] = newWindow1;
 }
 
@@ -1390,13 +1400,13 @@ function popUpIFSCCode() {
 	var url = "cmbBranchName=" + cmbBranchName;
 
 	var myAjax = new Ajax.Request(uri, {
-		method : 'post',
-		asynchronous : false,
-		parameters : url,
-		onSuccess : function(myAjax) {
+		method: 'post',
+		asynchronous: false,
+		parameters: url,
+		onSuccess: function(myAjax) {
 			getDataStateChangedForPopIFSCode(myAjax);
 		},
-		onFailure : function() {
+		onFailure: function() {
 			alert('Something went wrong...');
 		}
 	});
@@ -1451,14 +1461,14 @@ var spouseAdded = false;
 
 function validateNomineeData() {
 	if (!chkEmpty(document.getElementById('txtNomineeName'), 'Nominee Name')
-			|| !chkEmpty(document.getElementById('txtNomAddress1'),
-					'Nominee Address')
-			|| !chkEmpty(document.getElementById('txtBirthDateOfNominee'),
-					'Nominee Date of Birth')
-			|| !chkEmpty(document.getElementById('cmbRelationship'),
-					'Nominee Relationship')
-			|| !chkEmpty(document.getElementById('txtPercentShare'),
-					'Percent Share')) {
+		|| !chkEmpty(document.getElementById('txtNomAddress1'),
+			'Nominee Address')
+		|| !chkEmpty(document.getElementById('txtBirthDateOfNominee'),
+			'Nominee Date of Birth')
+		|| !chkEmpty(document.getElementById('cmbRelationship'),
+			'Nominee Relationship')
+		|| !chkEmpty(document.getElementById('txtPercentShare'),
+			'Percent Share')) {
 		return false;
 	}
 
@@ -1481,13 +1491,13 @@ function deleteRow() {
 	// alert("url = "+url);
 
 	var myAjax = new Ajax.Request(uri, {
-		method : 'post',
-		asynchronous : false,
-		parameters : url,
-		onSuccess : function(myAjax) {
+		method: 'post',
+		asynchronous: false,
+		parameters: url,
+		onSuccess: function(myAjax) {
 			delNomineeDetails(myAjax, nomineeId);
 		},
-		onFailure : function() {
+		onFailure: function() {
 			alert('not deleted');
 			alert('Something went wrong...');
 		}
@@ -1535,16 +1545,16 @@ function addRow() {
 	}
 
 	if (totalNomineeShareAdded
-			+ Number(document.getElementById("txtPercentShare").value) > 100) {
+		+ Number(document.getElementById("txtPercentShare").value) > 100) {
 		alert('Total Nominee share exceeds 100.Please enter correct nominee share.');
 		return false;
 	}
 
 	totalNomineeShareAdded = totalNomineeShareAdded
-			+ Number(document.getElementById("txtPercentShare").value);
+		+ Number(document.getElementById("txtPercentShare").value);
 
 	tbody = document.getElementById('displayTableForNomineeDtls')
-			.getElementsByTagName('tbody')[0];
+		.getElementsByTagName('tbody')[0];
 	var row = document.createElement('TR');
 
 	rowCount++;
@@ -1561,27 +1571,27 @@ function addRow() {
 	var cell5 = document.createElement('TD');
 
 	cell1.innerHTML = "<input type='text' style=\"border: none;\" size=\"5\" style=\"text-align: center\" name=\"txtNomineeSerialNoValue\" class='"
-			+ className + "' value='" + serialNo + "' readonly=\"readonly\" />";
+		+ className + "' value='" + serialNo + "' readonly=\"readonly\" />";
 	cell2.innerHTML = "<input type='text' style=\"border: none;\" size=\"20\" style=\"text-align: center\" name=\"txtNameValue\" class='"
-			+ className
-			+ "' value='"
-			+ document.getElementById("txtNomineeName").value.toUpperCase()
-			+ "' readonly=\"readonly\" />";
+		+ className
+		+ "' value='"
+		+ document.getElementById("txtNomineeName").value.toUpperCase()
+		+ "' readonly=\"readonly\" />";
 	cell3.innerHTML = "<input type='text' style=\"border: none;\" size=\"20\" style=\"text-align: center\" name=\"txtDateOfBirthValue\" class='"
-			+ className
-			+ "' value='"
-			+ document.getElementById("txtBirthDateOfNominee").value
-			+ "' readonly=\"readonly\"  />";
+		+ className
+		+ "' value='"
+		+ document.getElementById("txtBirthDateOfNominee").value
+		+ "' readonly=\"readonly\"  />";
 	cell4.innerHTML = "<input type='text' style=\"border: none;\" size=\"5\" style=\"text-align: center\" name=\"txtPercentShareValue\"  id=\"txtPercentShareValue\" class='"
-			+ className
-			+ "' value='"
-			+ document.getElementById("txtPercentShare").value
-			+ "' readonly=\"readonly\"  />";
+		+ className
+		+ "' value='"
+		+ document.getElementById("txtPercentShare").value
+		+ "' readonly=\"readonly\"  />";
 	cell5.innerHTML = "<input type='text' style=\"border: none;\" size=\"10\" style=\"text-align: center\" name=\"txtRelationshipValue\" class='"
-			+ className
-			+ "' value='"
-			+ document.getElementById("cmbRelationship").value
-			+ "'  readonly=\"readonly\" />";
+		+ className
+		+ "' value='"
+		+ document.getElementById("cmbRelationship").value
+		+ "'  readonly=\"readonly\" />";
 	cell1.align = "center";
 	cell1.className = "tds";
 	cell2.align = "center";
@@ -1595,31 +1605,31 @@ function addRow() {
 
 	var hiddenCell0 = document.createElement('TD');
 	hiddenCell0.innerHTML = "<input type='hidden' name=\"txtNomSerialNo\" class='"
-			+ className + "' value='" + serialNo + "' />";
+		+ className + "' value='" + serialNo + "' />";
 	var hiddenCell1 = document.createElement('TD');
 	hiddenCell1.innerHTML = "<input type='hidden' name=\"txtNomName\" class='"
-			+ className + "' value='"
-			+ document.getElementById("txtNomineeName").value.toUpperCase()
-			+ "' />";
+		+ className + "' value='"
+		+ document.getElementById("txtNomineeName").value.toUpperCase()
+		+ "' />";
 	var hiddenCell4 = document.createElement('TD');
 	hiddenCell4.innerHTML = "<input type='hidden' name=\"txtNomAddr1\" class='"
-			+ className + "' value='"
-			+ document.getElementById("txtNomAddress1").value.toUpperCase()
-			+ "' />";
+		+ className + "' value='"
+		+ document.getElementById("txtNomAddress1").value.toUpperCase()
+		+ "' />";
 	var hiddenCell6 = document.createElement('TD');
 	hiddenCell6.innerHTML = "<input type='hidden' name=\"txtNomDOB\" class='"
-			+ className + "' value='"
-			+ document.getElementById("txtBirthDateOfNominee").value + "' />";
+		+ className + "' value='"
+		+ document.getElementById("txtBirthDateOfNominee").value + "' />";
 	var hiddenCell7 = document.createElement('TD');
 	hiddenCell7.innerHTML = "<input type='hidden' name=\"txtNomPerShare\" class='"
-			+ className
-			+ "' value='"
-			+ document.getElementById("txtPercentShare").value + "' />";
+		+ className
+		+ "' value='"
+		+ document.getElementById("txtPercentShare").value + "' />";
 	var hiddenCell8 = document.createElement('TD');
 	hiddenCell8.innerHTML = "<input type='hidden' name=\"txtNomRelationship\" class='"
-			+ className
-			+ "' value='"
-			+ document.getElementById("cmbRelationship").value + "' />";
+		+ className
+		+ "' value='"
+		+ document.getElementById("cmbRelationship").value + "' />";
 
 	var cell7 = document.createElement('TD');
 	cell7.innerHTML = "<img src=\"images/CalendarImages/DeleteIcon.gif\"  onclick=\"deleteRow()\" />";
@@ -1681,7 +1691,7 @@ function calculatePercentShare() {
 
 	for (i = 0; i < lListPercentShareLength; i++) {
 		lTotalPercentShare = Number(lTotalPercentShare)
-				+ Number(lListPercentShare[i].value);
+			+ Number(lListPercentShare[i].value);
 	}
 
 	if (lTotalPercentShare != 100) {
@@ -1752,9 +1762,9 @@ function saveNomineeDtls(emp_Id) {
 	SaveOrUpdateNominee = SaveOrUpdateNominee + 1;
 
 	var uri = "ifms.htm?actionFlag=savNomData&lNomineeName=" + lNomineeName
-			+ "&lAddress1=" + lAddress1 + "&lDob=" + lDob + "&lPercentShare="
-			+ lPercentShare + "&lRelationship=" + lRelationship + "&empId="
-			+ empId + "&SaveOrUpdateNominee=" + SaveOrUpdateNominee;
+		+ "&lAddress1=" + lAddress1 + "&lDob=" + lDob + "&lPercentShare="
+		+ lPercentShare + "&lRelationship=" + lRelationship + "&empId="
+		+ empId + "&SaveOrUpdateNominee=" + SaveOrUpdateNominee;
 
 	SaveDataUsingAjaxForNominee(uri);
 
@@ -1771,7 +1781,7 @@ function SaveDataUsingAjaxForNominee(uri) {
 	xmlHttp.onreadystatechange = saveDataStateChangedForNominee;
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 
 }
@@ -1808,13 +1818,13 @@ function populateDesig() {
 		var url = "cmbCadre=" + cmbCadre + "&listParentDept=" + listParentDept;
 
 		var myAjax = new Ajax.Request(uri, {
-			method : 'post',
-			asynchronous : false,
-			parameters : url,
-			onSuccess : function(myAjax) {
+			method: 'post',
+			asynchronous: false,
+			parameters: url,
+			onSuccess: function(myAjax) {
 				getDataStateChangedForPopDesig(myAjax);
 			},
-			onFailure : function() {
+			onFailure: function() {
 				alert('Something went wrong...');
 			}
 		});
@@ -1847,8 +1857,8 @@ function validateBasicPay() {
 	var count = 0;
 
 	if ((basicPay != null && basicPay != "")
-			&& (document.getElementById("cmbPayScale").value != null && document
-					.getElementById("cmbPayScale").value != -1)) {
+		&& (document.getElementById("cmbPayScale").value != null && document
+			.getElementById("cmbPayScale").value != -1)) {
 		if (payCommission == '6th Pay Commission') {
 			var tempArray = payScale.split("(");
 			payArray = tempArray[0].split("-");
@@ -1859,7 +1869,7 @@ function validateBasicPay() {
 
 			}
 			if (parseInt(payIn) < parseInt(payArray[0])
-					|| parseInt(payIn) > parseInt(payArray[1])) {
+				|| parseInt(payIn) > parseInt(payArray[1])) {
 				alert("The Basic Pay is not in accordance with the Pay Scale selected");
 				document.getElementById("txtBasicPay").value = '';
 				document.getElementById("txtBasicPay").focus();
@@ -1922,15 +1932,15 @@ function validateBasicPay() {
 function GetPostfromDesg(userType) {
 	var uri = 'ifms.htm?actionFlag=GetPostfromDesignation';
 	var url = 'User=' + userType + '&dsgnId='
-			+ document.forms[0].cmbDesignation.value;
+		+ document.forms[0].cmbDesignation.value;
 	var myAjax = new Ajax.Request(uri, {
-		method : 'post',
-		asynchronous : false,
-		parameters : url,
-		onSuccess : function(myAjax) {
+		method: 'post',
+		asynchronous: false,
+		parameters: url,
+		onSuccess: function(myAjax) {
 			getDataStateChangedForGettingPostFromDesig(myAjax);
 		},
-		onFailure : function() {
+		onFailure: function() {
 			alert('Something went wrong...');
 		}
 	});
@@ -1979,7 +1989,7 @@ function GetScalePostfromDesg() {
 
 	// alert('function called')
 	var commissionId = document.forms[0].elements['cmbPayCommission'].value
-			.trim();
+		.trim();
 	if (commissionId == '700337') {
 		document.forms[0].cmbPayScale.value = -1;
 		document.forms[0].cmbPayScale.disabled = true;
@@ -1997,19 +2007,19 @@ function GetScalePostfromDesg() {
 		}
 
 		var url = '&commissionId='
-				+ document.forms[0].elements['cmbPayCommission'].value
-				+ '&cadre=' + document.forms[0].elements['cmbCadre'].value
-				+ '&ifAjax=TRUE';
+			+ document.forms[0].elements['cmbPayCommission'].value
+			+ '&cadre=' + document.forms[0].elements['cmbCadre'].value
+			+ '&ifAjax=TRUE';
 		var uri = 'ifms.htm?actionFlag=GetScalefromDesignation';
 
 		var myAjax = new Ajax.Request(uri, {
-			method : 'post',
-			asynchronous : false,
-			parameters : url,
-			onSuccess : function(myAjax) {
+			method: 'post',
+			asynchronous: false,
+			parameters: url,
+			onSuccess: function(myAjax) {
 				getDataStateChangedForGettingScalesFromPC(myAjax);
 			},
-			onFailure : function() {
+			onFailure: function() {
 				alert('Something went wrong...');
 			}
 		});
@@ -2097,7 +2107,7 @@ function chkEmptyAcMaintainedBy() {
 			return false;
 		}
 		var dcpsAcntMntndBy = document.getElementById("dcpsAcntMntndBy").value
-				.trim();
+			.trim();
 
 		if (dcpsAcntMntndBy == 700180) {
 			if (document.getElementById("txtAcNoForNonSRKAEmp").value.trim() == "") {
@@ -2113,7 +2123,7 @@ function chkEmptyAcMaintainedBy() {
 	}
 	if (document.getElementById("radioGPF").checked) {
 		var cmbAcMaintainedBy = document.getElementById('cmbAcMaintainedBy').value
-				.trim();
+			.trim();
 		if (document.getElementById('cmbAcMaintainedBy').value == -1) {
 			alert('Please Select GPF Account Maintaining Authority');
 			return false;
@@ -2123,7 +2133,7 @@ function chkEmptyAcMaintainedBy() {
 			return false;
 		}
 		if (cmbAcMaintainedBy == 700092 || cmbAcMaintainedBy == 700093
-				|| cmbAcMaintainedBy == 700094) {
+			|| cmbAcMaintainedBy == 700094) {
 			if (document.getElementById('txtPfAccountNo').value == "") {
 				alert('Please Enter GPF Account No');
 				return false;
@@ -2193,7 +2203,7 @@ function displayPFEntryDetails() {
 }
 function IDValidation() {
 	if (document.getElementById('txtEIDNo').value != ""
-			&& document.getElementById('txtUIDNo').value != "") {
+		&& document.getElementById('txtUIDNo').value != "") {
 		alert("Please enter only one of UID or EID");
 	}
 }
@@ -2233,8 +2243,8 @@ function checkGroupDtls() {
 		if (Group == 'D' && selected_text != 'Department') {
 			alert('Group D accounts maintained by Department');
 		} else if ((Group == 'A' || Group == 'B' || Group == 'C')
-				&& selected_value != 700092 && selected_value != 700093
-				&& selected_value != 700096) {
+			&& selected_value != 700092 && selected_value != 700093
+			&& selected_value != 700096) {
 			// alert('Group A,B,C accounts maintained by A.G.');
 		}
 	}
@@ -2305,13 +2315,13 @@ function checkGroupDtls() {
 		var url = "typeOfAG=" + selected_value;
 
 		var myAjax = new Ajax.Request(uri, {
-			method : 'post',
-			asynchronous : false,
-			parameters : url,
-			onSuccess : function(myAjax) {
+			method: 'post',
+			asynchronous: false,
+			parameters: url,
+			onSuccess: function(myAjax) {
 				getDataStateChangedForCheckGroup(myAjax);
 			},
-			onFailure : function() {
+			onFailure: function() {
 				alert('Something went wrong...');
 			}
 		});
@@ -2384,7 +2394,7 @@ function autoTab(input, len, e) {
 	// alert("hiiiiiiiiiiii");
 	UIDValidation();
 	var keyCode = e.keyCode;
-	var filter = [ 0, 8, 9, 16, 17, 18, 37, 38, 39, 40, 46 ];
+	var filter = [0, 8, 9, 16, 17, 18, 37, 38, 39, 40, 46];
 	if (input.value.length >= len && !containsElement(filter, keyCode)) {
 		input.value = input.value.slice(0, len);
 		input.form[(getIndex(input) + 1) % input.form.length].focus();
@@ -2414,8 +2424,8 @@ function autoTab(input, len, e) {
 
 function UIDValidation() {
 	if (document.getElementById('txtUIDNo1').value != ""
-			|| document.getElementById('txtUIDNo2').value != ""
-			|| document.getElementById('txtUIDNo3').value != "") {
+		|| document.getElementById('txtUIDNo2').value != ""
+		|| document.getElementById('txtUIDNo3').value != "") {
 		document.getElementById('txtEIDNo').readOnly = "readOnly";
 	} else {
 		document.getElementById('txtEIDNo').readOnly = "";
@@ -2476,8 +2486,8 @@ function checkGISRegristrationDate() {
 		}
 
 		if (!compareDates(document.getElementById('txtJoiningDate'), document
-				.getElementById('txtMembershipDate'),
-				'Membership Date should be greater than date of Joining', '<')) {
+			.getElementById('txtMembershipDate'),
+			'Membership Date should be greater than date of Joining', '<')) {
 
 			return false;
 		}
@@ -2490,7 +2500,7 @@ function ReturnToDrafts() {
 	var User = document.getElementById("User").value.trim();
 	var Use = document.getElementById("Use").value.trim();
 	self.location.href = "ifms.htm?actionFlag=viewDraftForms&elementId=700159&User="
-			+ User + "&Use=" + Use;
+		+ User + "&Use=" + Use;
 }
 function ReturnToForwardedForms() {
 	self.location.href = "ifms.htm?actionFlag=viewFormsForwardedByAsst&elementId=700009";
@@ -2520,7 +2530,7 @@ function searchEmployeeForm() {
 			alert('Please Select Designation');
 		} else {
 			self.location.href = "ifms.htm?actionFlag=viewDraftForms&elementId=700159&searchCriteria="
-					+ searchCriteria + "&searchValue=" + searchValue;
+				+ searchCriteria + "&searchValue=" + searchValue;
 		}
 	}
 	if (searchCriteria == 'Case Status') {
@@ -2529,7 +2539,7 @@ function searchEmployeeForm() {
 			alert('Please Select Case Status');
 		} else {
 			self.location.href = "ifms.htm?actionFlag=viewDraftForms&elementId=700159&searchCriteria="
-					+ searchCriteria + "&searchValue=" + searchValue;
+				+ searchCriteria + "&searchValue=" + searchValue;
 		}
 	}
 
@@ -2540,7 +2550,7 @@ function displayAllForms() {
 
 	if (user != '') {
 		self.location.href = "ifms.htm?actionFlag=viewDraftForms&User=" + user
-				+ "&elementId=700159";
+			+ "&elementId=700159";
 	} else {
 		alter("Invalid user");
 	}
@@ -2548,7 +2558,7 @@ function displayAllForms() {
 
 function checkAcMntndBy() {
 	var acMaintainedBy = document.getElementById("dcpsAcntMntndBy").value
-			.trim();
+		.trim();
 	alert(acMaintainedBy);
 
 	if (acMaintainedBy == '700180') {
@@ -2566,7 +2576,7 @@ function checkAcMntndBy() {
 
 function checGIS() {
 	var gisDescription = document.getElementById("cmbGisApplicable").value
-			.trim();
+		.trim();
 
 	if (gisDescription == '700342') {
 		alert('HIIIIIIIIIII');
@@ -2588,7 +2598,7 @@ function closeCurrentWindow() {
 
 function ReturnToSearch() {
 	var searchFromDDO = document.getElementById("hidSearchFromDDO").value
-			.trim();
+		.trim();
 	if (searchFromDDO == 'Yes') {
 		self.location.href = "ifms.htm?viewName=DCPSEmpSearch&elementId=700162";
 	}
@@ -2597,10 +2607,10 @@ function ReturnToSearch() {
 function eidFormat(formfield) {
 	var val;
 	if ((window.event.keyCode > 64 && window.event.keyCode < 91)
-			|| (window.event.keyCode > 96 && window.event.keyCode < 123)
-			|| (window.event.keyCode > 47 && window.event.keyCode < 58)
-			|| (window.event.keyCode == 32) || (window.event.keyCode == 58)
-			|| (window.event.keyCode == 45) || (window.event.keyCode == 47)) {
+		|| (window.event.keyCode > 96 && window.event.keyCode < 123)
+		|| (window.event.keyCode > 47 && window.event.keyCode < 58)
+		|| (window.event.keyCode == 32) || (window.event.keyCode == 58)
+		|| (window.event.keyCode == 45) || (window.event.keyCode == 47)) {
 		val = formfield.value;
 		if (val[1] != null) {
 			if (val[1].length > 1) {
@@ -2615,9 +2625,9 @@ function eidFormat(formfield) {
 function bankACFormat(formfield) {
 	var val;
 	if ((window.event.keyCode > 64 && window.event.keyCode < 91)
-			|| (window.event.keyCode > 96 && window.event.keyCode < 123)
-			|| (window.event.keyCode > 47 && window.event.keyCode < 58)
-			|| (window.event.keyCode == 32) || (window.event.keyCode == 45)) {
+		|| (window.event.keyCode > 96 && window.event.keyCode < 123)
+		|| (window.event.keyCode > 47 && window.event.keyCode < 58)
+		|| (window.event.keyCode == 32) || (window.event.keyCode == 45)) {
 		val = formfield.value;
 		if (val[1] != null) {
 			if (val[1].length > 1) {
@@ -2632,8 +2642,8 @@ function bankACFormat(formfield) {
 function nameFormat(formfield) {
 	var val;
 	if ((window.event.keyCode > 64 && window.event.keyCode < 91)
-			|| (window.event.keyCode > 96 && window.event.keyCode < 123)
-			|| (window.event.keyCode == 32) || (window.event.keyCode == 46)) {
+		|| (window.event.keyCode > 96 && window.event.keyCode < 123)
+		|| (window.event.keyCode == 32) || (window.event.keyCode == 46)) {
 		val = formfield.value;
 		if (val[1] != null) {
 			if (val[1].length > 1) {
@@ -2648,12 +2658,12 @@ function nameFormat(formfield) {
 function addressFormat(formfield) {
 	var val;
 	if ((window.event.keyCode > 64 && window.event.keyCode < 91)
-			|| (window.event.keyCode > 96 && window.event.keyCode < 123)
-			|| (window.event.keyCode > 47 && window.event.keyCode < 58)
-			|| (window.event.keyCode == 32) || (window.event.keyCode == 58)
-			|| (window.event.keyCode == 45) || (window.event.keyCode == 44)
-			|| (window.event.keyCode == 46) || (window.event.keyCode == 35)
-			|| (window.event.keyCode == 47)) {
+		|| (window.event.keyCode > 96 && window.event.keyCode < 123)
+		|| (window.event.keyCode > 47 && window.event.keyCode < 58)
+		|| (window.event.keyCode == 32) || (window.event.keyCode == 58)
+		|| (window.event.keyCode == 45) || (window.event.keyCode == 44)
+		|| (window.event.keyCode == 46) || (window.event.keyCode == 35)
+		|| (window.event.keyCode == 47)) {
 		val = formfield.value;
 		if (val[1] != null) {
 			if (val[1].length > 1) {
@@ -2668,9 +2678,9 @@ function addressFormat(formfield) {
 function districtFormat(formfield) {
 	var val;
 	if ((window.event.keyCode > 64 && window.event.keyCode < 91)
-			|| (window.event.keyCode > 96 && window.event.keyCode < 123)
-			|| (window.event.keyCode > 47 && window.event.keyCode < 58)
-			|| (window.event.keyCode == 32) || (window.event.keyCode == 38)) {
+		|| (window.event.keyCode > 96 && window.event.keyCode < 123)
+		|| (window.event.keyCode > 47 && window.event.keyCode < 58)
+		|| (window.event.keyCode == 32) || (window.event.keyCode == 38)) {
 		val = formfield.value;
 		if (val[1] != null) {
 			if (val[1].length > 1) {
@@ -2685,10 +2695,10 @@ function districtFormat(formfield) {
 function emailFormat(formfield) {
 	var val;
 	if ((window.event.keyCode > 64 && window.event.keyCode < 91)
-			|| (window.event.keyCode > 96 && window.event.keyCode < 123)
-			|| (window.event.keyCode > 47 && window.event.keyCode < 58)
-			|| (window.event.keyCode == 45) || (window.event.keyCode == 95)
-			|| (window.event.keyCode == 46) || (window.event.keyCode == 64)) {
+		|| (window.event.keyCode > 96 && window.event.keyCode < 123)
+		|| (window.event.keyCode > 47 && window.event.keyCode < 58)
+		|| (window.event.keyCode == 45) || (window.event.keyCode == 95)
+		|| (window.event.keyCode == 46) || (window.event.keyCode == 64)) {
 		val = formfield.value;
 		if (val[1] != null) {
 			if (val[1].length > 1) {
@@ -2721,7 +2731,7 @@ function viewUpdateDraft() {
 		return false;
 	}
 	var dcpsEmpId = document.getElementById("hidDcpsEmpIdDraft"
-			+ finalSelectedEmployee).value.trim();
+		+ finalSelectedEmployee).value.trim();
 	popUpDcpsEmpData(dcpsEmpId, 'Y');
 	return true;
 }
@@ -2748,14 +2758,14 @@ function deleteDraft() {
 	for (var k = 1; k <= totalEmployees; k++) {
 		if (document.getElementById("checkbox" + k).checked) {
 			hidDraftOrRejected = document.getElementById("hidDraftOrRejected"
-					+ k).value.trim();
+				+ k).value.trim();
 			if (hidDraftOrRejected == -1) {
 				alert('Rejected forms can not be deleted. Please deselect the rejected forms');
 				return false;
 			}
 			draftDcpsEmpIds = draftDcpsEmpIds
-					+ document.getElementById("hidDcpsEmpIdDraft" + k).value
-							.trim() + "~";
+				+ document.getElementById("hidDcpsEmpIdDraft" + k).value
+					.trim() + "~";
 		}
 	}
 
@@ -2766,13 +2776,13 @@ function deleteDraft() {
 	if (answer) {
 		showProgressbar();
 		var myAjax = new Ajax.Request(uri, {
-			method : 'post',
-			asynchronous : false,
-			parameters : url,
-			onSuccess : function(myAjax) {
+			method: 'post',
+			asynchronous: false,
+			parameters: url,
+			onSuccess: function(myAjax) {
 				dataStateChangedForDelDraft(myAjax);
 			},
-			onFailure : function() {
+			onFailure: function() {
 				alert('Something went wrong...');
 			}
 		});
@@ -2800,7 +2810,7 @@ function printForm1ByDDO(EmpId) {
 		document.getElementById("formPrintedOrNot").value = "YES";
 	}
 	url = "ifms.htm?actionFlag=reportService&reportCode=700001&action=generateReport&empid="
-			+ EmpId + "&asPopup=TRUE";
+		+ EmpId + "&asPopup=TRUE";
 	window_new_update(url);
 }
 function approveRequest(EmpId) {
@@ -2840,7 +2850,7 @@ function rejectRequestZP(EmpId) {
 	} else {
 		var remarks = document.getElementById("txtApproverRemarks").value;
 		if (chkEmpty(document.getElementById("txtApproverRemarks"),
-				'Approver Remarks') == false) {
+			'Approver Remarks') == false) {
 			return false;
 		}
 		// showProgressbar();
@@ -2851,7 +2861,7 @@ function rejectRequestZP(EmpId) {
 			return;
 		}
 		var url = "ifms.htm?actionFlag=rejectRequestZP&Emp_Id=" + EmpId
-				+ "&remarks=" + remarks;
+			+ "&remarks=" + remarks;
 		var User = document.getElementById("User").value.trim();
 		var Use = document.getElementById("Use").value.trim();
 		// alert(User);
@@ -2902,8 +2912,8 @@ function rejectRequestZP(EmpId) {
 
 						alert('Form is sent back to the ZP DDO Assistant');
 						self.location.href = "ifms.htm?actionFlag="
-								+ actionFlag + "&elementId=" + elementId
-								+ "&User=" + User + "&Use=" + Use;
+							+ actionFlag + "&elementId=" + elementId
+							+ "&User=" + User + "&Use=" + Use;
 						hideProgressbar();
 					}
 				}
@@ -2911,7 +2921,7 @@ function rejectRequestZP(EmpId) {
 		};
 		xmlHttp.open("POST", url, false);
 		xmlHttp.setRequestHeader("Content-type",
-				"application/x-www-form-urlencoded");
+			"application/x-www-form-urlencoded");
 		xmlHttp.send(url);
 
 		alert('Form is sent back to the ZP DDO Assistant');
@@ -2942,7 +2952,7 @@ function ForwardRequestReportingDDO(empId) {
 		var ForwardToPost = document.getElementById("ForwardToPost").value;
 		// alert("ForwardRequestReportingDDO : "+ForwardToPost);
 		ForwardRequestUsingAjaxRptDDO("ifms.htm?actionFlag=FwdFromRepoDDO&Emp_Id="
-				+ emp_Id + "&ForwardToPost=" + ForwardToPost);
+			+ emp_Id + "&ForwardToPost=" + ForwardToPost);
 	}
 }
 
@@ -2969,14 +2979,14 @@ function ForwardRequestUsingAjaxRptDDO(url) {
 
 					alert('Form is Successfully Forwarded to Level 3 DDO');
 					self.location.href = "ifms.htm?actionFlag=viewFormsForwardedByAsstZpRepoDDO&elementId=90002593&User="
-							+ User + "&Use=" + Use;
+						+ User + "&Use=" + Use;
 				}
 			}
 		}
 	};
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 }
 
@@ -2993,7 +3003,7 @@ function ForwardRequestFinalDDO(empId) {
 		var ForwardToPost = document.getElementById("ForwardToPost").value;
 
 		ForwardRequestUsingAjaxFinalDDO("ifms.htm?actionFlag=FwdFromFinalDDO&Emp_Id="
-				+ emp_Id + "&ForwardToPost=" + ForwardToPost);
+			+ emp_Id + "&ForwardToPost=" + ForwardToPost);
 	}
 }
 
@@ -3020,14 +3030,14 @@ function ForwardRequestUsingAjaxFinalDDO(url) {
 
 					alert('Form is Successfully Forwarded to Level 4 DDO');
 					self.location.href = "ifms.htm?actionFlag=viewFormsForwardedByAsstZpFinalDDO&elementId=90002594&User="
-							+ User + "&Use=" + Use;
+						+ User + "&Use=" + Use;
 				}
 			}
 		}
 	};
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 }
 
@@ -3043,8 +3053,8 @@ function approveFormZP(empId) {
 		hideProgressbar();
 	} else {
 		ApproveRequestUsingAjax("ifms.htm?actionFlag=approveReq&Emp_Id="
-				+ emp_Id + "&dcpsAcntNo=" + dcpsAcntNo
-				+ "&dcpsAcntMaintaingAuth=" + dcpsAcntMaintaingAuth);
+			+ emp_Id + "&dcpsAcntNo=" + dcpsAcntNo
+			+ "&dcpsAcntMaintaingAuth=" + dcpsAcntMaintaingAuth);
 
 	}
 }
@@ -3061,7 +3071,7 @@ function ApproveRequestUsingAjax(url) {
 	xmlHttp.onreadystatechange = ApprovedDataStateChanged;
 	xmlHttp.open("POST", uri, false);
 	xmlHttp.setRequestHeader("Content-type",
-			"application/x-www-form-urlencoded");
+		"application/x-www-form-urlencoded");
 	xmlHttp.send(uri);
 }
 
@@ -3079,12 +3089,12 @@ function ApprovedDataStateChanged() {
 				var answer;
 				if (!billGroupSuccessFlag) {
 					answer = confirm("DCPS ID "
-							+ dcps_Id
-							+ " Registered Successfully. Employee is not attached to any billgroup. Do you want to print Acknowledgement?");
+						+ dcps_Id
+						+ " Registered Successfully. Employee is not attached to any billgroup. Do you want to print Acknowledgement?");
 				} else {
 					answer = confirm("DCPS ID "
-							+ dcps_Id
-							+ " Registered Successfully. Do you want to print Acknowledgement?");
+						+ dcps_Id
+						+ " Registered Successfully. Do you want to print Acknowledgement?");
 				}
 				if (answer) {
 					// printAcknowledgementReport(empId);//DCPSForm
@@ -3119,7 +3129,7 @@ function validatePIPBAndChangeBasic() {
 
 		if (document.forms[0].cmbPayScale != null) {
 			if (document.forms[0].cmbPayScale.value != -1
-					&& document.forms[0].cmbPayScale.value != "") {
+				&& document.forms[0].cmbPayScale.value != "") {
 				// validate PIPB
 				var payscale = document.forms[0].cmbPayScale.options[document.forms[0].cmbPayScale.selectedIndex].text;
 				var tempArray1 = payscale.split("-");
@@ -3142,7 +3152,7 @@ function validatePIPBAndChangeBasic() {
 					}
 
 					document.forms[0].txtBasicPay.value = Number(PIPB)
-							+ Number(gradePay);
+						+ Number(gradePay);
 				}
 
 			}
@@ -3171,7 +3181,7 @@ function checkForPIPBAndGradePay() {
 		if (paycommission == '700016') {
 			// Show pay in pay band and grade pay for the employee
 
-			document.getElementById("payInPayBandAndGradePayRow").style.display = "contents"; 
+			document.getElementById("payInPayBandAndGradePayRow").style.display = "contents";
 			document.getElementById("lableMandatoryForPayInPayBand").style.display = "inline";
 			document.getElementById("lableMandatoryForGradePay").style.display = "inline";
 
@@ -3242,7 +3252,7 @@ function validateUIDUniqe() {
 	var UID2 = document.getElementById("txtUIDNo2").value;
 	var UID3 = document.getElementById("txtUIDNo3").value;
 	if (UID1 == "" || UID1 == null || UID2 == "" || UID2 == null || UID3 == ""
-			|| UID3 == null) {
+		|| UID3 == null) {
 		alert('Please enter complete UID number.');
 
 	} else {
@@ -3253,14 +3263,14 @@ function validateUIDUniqe() {
 		var url = 'UID=' + UID;
 
 		var myAjax = new Ajax.Request(uri, {
-			method : 'post',
-			asynchronous : false,
-			parameters : url,
-			onSuccess : function(myAjax) {
+			method: 'post',
+			asynchronous: false,
+			parameters: url,
+			onSuccess: function(myAjax) {
 				checkUID(myAjax, UID);
 
 			},
-			onFailure : function() {
+			onFailure: function() {
 				alert('Something went wrong...');
 			}
 		});
@@ -3281,8 +3291,8 @@ function checkUID(myAjax, UID) {
 	} else if (checkFlag == 'wrong') {
 
 		alert('Entered UID number: '
-				+ UID
-				+ ' is already present in system. Please enter correct UID number.');
+			+ UID
+			+ ' is already present in system. Please enter correct UID number.');
 
 		document.getElementById("txtUIDNo1").value = "";
 		document.getElementById("txtUIDNo2").value = "";

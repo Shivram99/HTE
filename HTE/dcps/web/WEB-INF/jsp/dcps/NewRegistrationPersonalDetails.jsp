@@ -16,6 +16,64 @@
 <script type="text/javascript" src="script/common/pramukhlib.js"></script>
 
 <script>
+
+var _keySize = 256;
+var _ivSize = 128;
+var _iterationCount = 1989;
+
+function generateKey(salt, passPhrase) {
+	return CryptoJS.PBKDF2(passPhrase, CryptoJS.enc.Hex.parse(salt), {
+		keySize : _keySize / 32,
+		iterations : _iterationCount
+	})
+}
+
+function encryptWithIvSalt(salt, iv, passPhrase, plainText) {
+	var key = generateKey(salt, passPhrase);
+	var encrypted = CryptoJS.AES.encrypt(plainText, key, {
+		iv : CryptoJS.enc.Hex.parse(iv)
+	});
+	return encrypted.ciphertext.toString(CryptoJS.enc.Base64);
+}
+
+function decryptWithIvSalt(salt, iv, passPhrase, cipherText) {
+	var key = generateKey(salt, passPhrase);
+	var cipherParams = CryptoJS.lib.CipherParams.create({
+		ciphertext : CryptoJS.enc.Base64.parse(cipherText)
+	});
+	var decrypted = CryptoJS.AES.decrypt(cipherParams, key, {
+		iv : CryptoJS.enc.Hex.parse(iv)
+	});
+	return decrypted.toString(CryptoJS.enc.Utf8);
+}
+
+/*
+ * function encrypt(passPhrase, plainText) { // alert("Welcome"); var iv =
+ * CryptoJS.lib.WordArray.random(_ivSize / 8).toString(CryptoJS.enc.Hex); var
+ * salt = CryptoJS.lib.WordArray.random(_keySize /
+ * 8).toString(CryptoJS.enc.Hex); var ciphertext = encryptWithIvSalt(salt, iv,
+ * passPhrase, plainText); return salt + iv + ciphertext; }
+ */
+
+function encrypt(passPhrase, plainText) {
+	// alert("Welcome");
+	var iv = CryptoJS.lib.WordArray.random(_ivSize / 8).toString(
+			CryptoJS.enc.Hex);
+	var salt = CryptoJS.lib.WordArray.random(_keySize / 8).toString(
+			CryptoJS.enc.Hex);
+	var ciphertext = encryptWithIvSalt(salt, iv, passPhrase, plainText);
+
+	return salt + iv + ciphertext;
+}
+
+function decrypt(passPhrase, cipherText) {
+	var ivLength = _ivSize / 4;
+	var saltLength = keySize / 4;
+	var salt = cipherText.substr(0, saltLength);
+	var iv = cipherText.substr(saltLength, ivLength);
+	var encrypted = cipherText.substring(ivLength + saltLength);
+	return decryptWithIvSalt(salt, iv, passPhrase, encrypted);
+}
 	function pinCodeValidation() {
 		var pinCode = document.getElementById("txtPinCode").value;
 		if (pinCode.length != '6') {
@@ -55,9 +113,11 @@
 	function chkPANalreadyExists() {
 		///alert('Inside chkPANalreadyExists');
 		var panNo = document.getElementById("txtPANNo").value.trim();
+		var UID1Encrypted = encrypt("Message", panNo);
+		document.getElementById("panNo").value = UID1Encrypted;
 
 		var uri = 'ifms.htm?actionFlag=chkPANalreadyExists';
-		var url = 'panNo=' + panNo;
+		var url = 'panNo=' + UID1Encrypted;
 
 		var myAjax = new Ajax.Request(uri, {
 			method : 'post',

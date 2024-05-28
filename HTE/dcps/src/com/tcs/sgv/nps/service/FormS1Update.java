@@ -1,24 +1,14 @@
 package com.tcs.sgv.nps.service;
 
-import java.io.BufferedWriter;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.lang.reflect.Field;
-import java.net.InetAddress;
-import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.sql.Blob;
-import com.ibm.db2.jcc.DB2Blob;
-import com.lowagie.text.Image;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -29,23 +19,18 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.ImageOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.xml.bind.JAXBContext;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.ajaxtags.xml.AjaxXmlBuilder;
-import org.apache.axis.Part;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.web.multipart.MultipartFile;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
-import com.hhc.MultipartRequest;
 import com.tcs.sgv.common.constant.AESUtil;
 //import com.sun.jersey.api.client.Client;
 //import com.sun.jersey.api.client.WebResource;
@@ -55,8 +40,6 @@ import com.tcs.sgv.common.utils.StringUtility;
 import com.tcs.sgv.common.utils.fileupload.dao.CmnAttachmentMpgDAOImpl;
 import com.tcs.sgv.common.utils.fileupload.dao.CmnAttachmentMstDAO;
 import com.tcs.sgv.common.utils.fileupload.dao.CmnAttachmentMstDAOImpl;
-import com.tcs.sgv.common.utils.fileupload.dao.CmnAttdocMstDAO;
-import com.tcs.sgv.common.utils.fileupload.dao.CmnAttdocMstDAOImpl;
 import com.tcs.sgv.common.valueobject.CmnAttachmentMpg;
 import com.tcs.sgv.common.valueobject.CmnAttachmentMst;
 import com.tcs.sgv.common.valueobject.CmnAttdocMst;
@@ -64,35 +47,13 @@ import com.tcs.sgv.core.constant.ErrorConstants;
 import com.tcs.sgv.core.service.ServiceImpl;
 import com.tcs.sgv.core.service.ServiceLocator;
 import com.tcs.sgv.core.valueobject.ResultObject;
-import com.tcs.sgv.nps.dao.FormS1UpdateDAO;
-import com.tcs.sgv.nps.dao.FormS1UpdateDAOImpl;
-import com.tcs.sgv.dcps.dao.ChangesFormDAO;
-import com.tcs.sgv.dcps.dao.ChangesFormDAOImpl;
 import com.tcs.sgv.dcps.service.DcpsCommonDAO;
 import com.tcs.sgv.dcps.service.DcpsCommonDAOImpl;
-import com.tcs.sgv.dcps.valueobject.HstDcpsPersonalChanges;
 import com.tcs.sgv.dcps.valueobject.MstEmp;
+import com.tcs.sgv.nps.dao.FormS1UpdateDAO;
+import com.tcs.sgv.nps.dao.FormS1UpdateDAOImpl;
 import com.tcs.sgv.nps.valueobject.FrmFormS1Dtls;
 import com.tcs.sgv.nps.valueobject.FrmFormS1NpsDtls;
-import com.thoughtworks.xstream.io.path.Path;
-
-import au.id.jericho.lib.html.Logger;
-
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
-import javax.imageio.stream.ImageOutputStream;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 
 public class FormS1Update extends ServiceImpl {
 
@@ -118,8 +79,8 @@ public class FormS1Update extends ServiceImpl {
 	private ServiceLocator serv = null; /* SERVICE LOCATOR */
 
 	private HttpSession session = null; /* SESSION */
-	//IMAGE file creation file path
-	
+	// IMAGE file creation file path
+
 	private static String OUTPUT_FILE_PHOTO;
 	private static String OUTPUT_FILE_PHOTO_SERVER;
 	private ResourceBundle gObjRsrcBndle = ResourceBundle.getBundle("resources/nps/NPSConstants");
@@ -211,7 +172,7 @@ public class FormS1Update extends ServiceImpl {
 			inputMap.put("msg", "");
 			resObj.setResultValue(inputMap);
 			resObj.setViewName("empListForFormS1Update");
-		//	System.out.println("test"+org.hibernate.Version.getVersionString());
+			// System.out.println("test"+org.hibernate.Version.getVersionString());
 
 		} catch (Exception e) {
 			resObj.setResultValue(null);
@@ -248,17 +209,17 @@ public class FormS1Update extends ServiceImpl {
 		List DtoCodeList = null;
 		List titleList = null;
 		Set<CmnAttachmentMpg> cmnAttachmentMpgs = null;
-		Set<CmnAttdocMst> cmnAttdocMsts =null;
+		Set<CmnAttdocMst> cmnAttdocMsts = null;
 		Iterator<CmnAttachmentMpg> cmnAttachmentMpgIterator = null;
 		Iterator<CmnAttdocMst> cmnAttdocMstIterator = null;
 		CmnAttachmentMpg cmnAttachmentMpg = null;
-		CmnAttdocMst  cmnAttdocMst=null;
+		CmnAttdocMst cmnAttdocMst = null;
 		Long lLngPhotoAttachmentId = null;
 		Long lLngSignAttachmentId = null;
-		byte[] arrayOfByteSign=null;
-		byte[] arrayOfBytePhoto=null;
+		byte[] arrayOfByteSign = null;
+		byte[] arrayOfBytePhoto = null;
 		try {
-			
+
 			setSessionInfo(inputMap);
 			DcpsCommonDAO lObjDcpsCommonDao = new DcpsCommonDAOImpl(null, serv.getSessionFactory());
 			FormS1UpdateDAO lObjFormS1UpdateDAO = new FormS1UpdateDAOImpl(MstEmp.class, serv.getSessionFactory());
@@ -315,9 +276,11 @@ public class FormS1Update extends ServiceImpl {
 						serv.getSessionFactory());
 				CmnAttachmentMst lObjCmnAttachmentMst = null;
 				/*
-				CmnAttdocMstDAO lobjCmnAttdocDAO=new CmnAttdocMstDAOImpl(CmnAttdocMst.class,serv.getSessionFactory());*/
+				 * CmnAttdocMstDAO lobjCmnAttdocDAO=new
+				 * CmnAttdocMstDAOImpl(CmnAttdocMst.class,serv.getSessionFactory());
+				 */
 				Set localSet;
-				CmnAttdocMst lobjCmnAttdocMst=null;
+				CmnAttdocMst lobjCmnAttdocMst = null;
 				if (MstEmpObj.getPhotoAttachmentID() != null && MstEmpObj.getPhotoAttachmentID().doubleValue() > 0) {
 					lObjCmnAttachmentMst = new CmnAttachmentMst();
 					lObjCmnAttachmentMst = lObjCmnAttachmentMstDAO
@@ -331,41 +294,40 @@ public class FormS1Update extends ServiceImpl {
 					if (lObjCmnAttachmentMst != null && lObjCmnAttachmentMst.getCmnAttachmentMpgs() != null) {
 						cmnAttachmentMpgs = lObjCmnAttachmentMst.getCmnAttachmentMpgs();
 					}
-					
+
 					cmnAttachmentMpgIterator = cmnAttachmentMpgs.iterator();
 					Long srNo = 0L;
 					for (Integer lInt = 0; lInt < cmnAttachmentMpgs.size(); lInt++) {
 						cmnAttachmentMpg = cmnAttachmentMpgIterator.next();
-						//for signature size
-						 
+						// for signature size
+
 						cmnAttdocMsts = new HashSet<CmnAttdocMst>();
-			            cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts(); 
-						cmnAttdocMstIterator = cmnAttdocMsts.iterator();// getFinalAttachmentBlob 
-						cmnAttdocMst =  cmnAttdocMstIterator.next();
-						
+						cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts();
+						cmnAttdocMstIterator = cmnAttdocMsts.iterator();// getFinalAttachmentBlob
+						cmnAttdocMst = cmnAttdocMstIterator.next();
+
 						if (cmnAttachmentMpg.getAttachmentDesc().equalsIgnoreCase("photo")) {
-							srNo =  cmnAttachmentMpg.getSrNo();
-							
-						  CmnAttachmentMpgDAOImpl localCmnAttachmentMpgDAOImpl = new CmnAttachmentMpgDAOImpl(CmnAttachmentMpg.class, serv.getSessionFactory());
-					      CmnAttachmentMpg localCmnAttachmentMpg = localCmnAttachmentMpgDAOImpl.findByAttachmentSerialNumber(srNo);
-					      arrayOfBytePhoto = cmnAttdocMst.getFinalAttachment();
-					      localSet = localCmnAttachmentMpg.getCmnAttdocMsts();
-				          if (localSet.size() >= 1)
-				          {
-				        	  inputMap.put("PhotoFlag", 1L); 
-				        	  if((int) arrayOfBytePhoto.length > 0) {
-				        		  inputMap.put("photoSize", arrayOfBytePhoto.length/1024); 
-				          		}else {
-				          			inputMap.put("photoSize", 0L); 
-				          		}
-				        	  
-				        	  
-				          }else
-				          {
-				        	  inputMap.put("PhotoFlag", 0L); 
-				        	  inputMap.put("photoSize", 0L); 
-				          }
-							gLogger.info("PhotoFlag : "+localSet.size());
+							srNo = cmnAttachmentMpg.getSrNo();
+
+							CmnAttachmentMpgDAOImpl localCmnAttachmentMpgDAOImpl = new CmnAttachmentMpgDAOImpl(
+									CmnAttachmentMpg.class, serv.getSessionFactory());
+							CmnAttachmentMpg localCmnAttachmentMpg = localCmnAttachmentMpgDAOImpl
+									.findByAttachmentSerialNumber(srNo);
+							arrayOfBytePhoto = cmnAttdocMst.getFinalAttachment();
+							localSet = localCmnAttachmentMpg.getCmnAttdocMsts();
+							if (localSet.size() >= 1) {
+								inputMap.put("PhotoFlag", 1L);
+								if ((int) arrayOfBytePhoto.length > 0) {
+									inputMap.put("photoSize", arrayOfBytePhoto.length / 1024);
+								} else {
+									inputMap.put("photoSize", 0L);
+								}
+
+							} else {
+								inputMap.put("PhotoFlag", 0L);
+								inputMap.put("photoSize", 0L);
+							}
+							gLogger.info("PhotoFlag : " + localSet.size());
 							inputMap.put("Photo", lObjCmnAttachmentMst);
 							inputMap.put("PhotoId", lLngPhotoAttachmentId);
 							inputMap.put("PhotosrNo", srNo);
@@ -393,35 +355,34 @@ public class FormS1Update extends ServiceImpl {
 					Long srNo = 0L;
 					for (Integer lInt = 0; lInt < cmnAttachmentMpgs.size(); lInt++) {
 						cmnAttachmentMpg = cmnAttachmentMpgIterator.next();
-						//for signature size
+						// for signature size
 						cmnAttdocMsts = new HashSet<CmnAttdocMst>();
-			            cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts(); 
-						cmnAttdocMstIterator = cmnAttdocMsts.iterator();// getFinalAttachmentBlob 
+						cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts();
+						cmnAttdocMstIterator = cmnAttdocMsts.iterator();// getFinalAttachmentBlob
 						cmnAttdocMst = cmnAttdocMstIterator.next();
-						
+
 						if (cmnAttachmentMpg.getAttachmentDesc().equalsIgnoreCase("signature")) {
-							  srNo = cmnAttachmentMpg.getSrNo();
-							  CmnAttachmentMpgDAOImpl localCmnAttachmentMpgDAOImpl = new CmnAttachmentMpgDAOImpl(CmnAttachmentMpg.class, serv.getSessionFactory());
-						      CmnAttachmentMpg localCmnAttachmentMpg = localCmnAttachmentMpgDAOImpl.findByAttachmentSerialNumber(srNo);
-						     
-						      
-						      localSet = localCmnAttachmentMpg.getCmnAttdocMsts();
-					          if (localSet.size() >= 1)
-					          {
-					        	  arrayOfByteSign =  cmnAttdocMst.getFinalAttachment();
-					        	  if((int) arrayOfByteSign.length > 0) {
-					        		  inputMap.put("signSize", arrayOfByteSign.length/1024); 
-					          		}else {
-					          			inputMap.put("signSize", 0); 
-					          		}
-					        	  inputMap.put("SignFlag", 1L);
-					          }else
-					          {
-					        	  inputMap.put("SignFlag", 0L); 
-					        	  inputMap.put("signSize", 0L); 
-					        	  
-					          }
-					          gLogger.info("SignFlag : "+localSet.size());
+							srNo = cmnAttachmentMpg.getSrNo();
+							CmnAttachmentMpgDAOImpl localCmnAttachmentMpgDAOImpl = new CmnAttachmentMpgDAOImpl(
+									CmnAttachmentMpg.class, serv.getSessionFactory());
+							CmnAttachmentMpg localCmnAttachmentMpg = localCmnAttachmentMpgDAOImpl
+									.findByAttachmentSerialNumber(srNo);
+
+							localSet = localCmnAttachmentMpg.getCmnAttdocMsts();
+							if (localSet.size() >= 1) {
+								arrayOfByteSign = cmnAttdocMst.getFinalAttachment();
+								if ((int) arrayOfByteSign.length > 0) {
+									inputMap.put("signSize", arrayOfByteSign.length / 1024);
+								} else {
+									inputMap.put("signSize", 0);
+								}
+								inputMap.put("SignFlag", 1L);
+							} else {
+								inputMap.put("SignFlag", 0L);
+								inputMap.put("signSize", 0L);
+
+							}
+							gLogger.info("SignFlag : " + localSet.size());
 							inputMap.put("Sign", lObjCmnAttachmentMst);
 							inputMap.put("SignId", lLngSignAttachmentId);
 							inputMap.put("SignsrNo", srNo);
@@ -433,21 +394,21 @@ public class FormS1Update extends ServiceImpl {
 
 				inputMap.put("curretDate", dateFormat.format(date).toString());
 				inputMap.put("EmpSevarthId", strEmpSevarthId);
-				String[] empNameArr=strEmpName.split(" ");
-				if(empNameArr.length==3) {
+				String[] empNameArr = strEmpName.split(" ");
+				if (empNameArr.length == 3) {
 					inputMap.put("EmpFName", strEmpName.split(" ")[0]);
 					inputMap.put("EmpMName", strEmpName.split(" ")[1]);
 					inputMap.put("EmpLName", strEmpName.split(" ")[2]);
-				}else if(empNameArr.length==2) {
+				} else if (empNameArr.length == 2) {
 					inputMap.put("EmpFName", strEmpName.split(" ")[0]);
 					inputMap.put("EmpMName", "");
 					inputMap.put("EmpLName", strEmpName.split(" ")[1]);
-				}else {
+				} else {
 					inputMap.put("EmpFName", strEmpName.split(" ")[0]);
 					inputMap.put("EmpMName", "");
 					inputMap.put("EmpLName", "");
 				}
-			
+
 				inputMap.put("DDOCode", strDDOCode);
 				inputMap.put("DtoCode", DtoCode);
 				inputMap.put("DdoRegNO", DdoRegNO);
@@ -467,12 +428,14 @@ public class FormS1Update extends ServiceImpl {
 				resObj.setViewName("empFormS1Update");
 
 				System.out.print("HTENEW::" + inputMap);
-			//	Long lLngPkIdForFormS1Nps = IFMSCommonServiceImpl.getNextSeqNum("FRM_FORM_S1_DTLS_1", inputMap);
-				//System.out.print("HTENEW" + lLngPkIdForFormS1Nps);
+				// Long lLngPkIdForFormS1Nps =
+				// IFMSCommonServiceImpl.getNextSeqNum("FRM_FORM_S1_DTLS_1", inputMap);
+				// System.out.print("HTENEW" + lLngPkIdForFormS1Nps);
 
-				//Long lLngPkIdForFormS1 = IFMSCommonServiceImpl.getNextSeqNum("FRM_FORM_S1_DTLS", inputMap);
-				//gLogger.info("lLngPkIdForFormS1NPS    " + lLngPkIdForFormS1Nps);
-			//	gLogger.info("lLngPkIdForFormS1    " + lLngPkIdForFormS1);
+				// Long lLngPkIdForFormS1 =
+				// IFMSCommonServiceImpl.getNextSeqNum("FRM_FORM_S1_DTLS", inputMap);
+				// gLogger.info("lLngPkIdForFormS1NPS " + lLngPkIdForFormS1Nps);
+				// gLogger.info("lLngPkIdForFormS1 " + lLngPkIdForFormS1);
 			}
 		} catch (Exception e) {
 			resObj.setResultValue(null);
@@ -484,7 +447,6 @@ public class FormS1Update extends ServiceImpl {
 		return resObj;
 
 	}
-
 
 	public ResultObject saveFormS1Dtls(Map inputMap) throws Exception {
 		ResultObject resObj = new ResultObject(ErrorConstants.SUCCESS, "FAIL");
@@ -505,7 +467,6 @@ public class FormS1Update extends ServiceImpl {
 		String DtoCode;
 		String DDOCode;
 		String empDdoCode;
-		String PanNo;
 		String dateOfJoining;
 		String dateOfRetire;
 		String empClass;
@@ -591,7 +552,7 @@ public class FormS1Update extends ServiceImpl {
 		Long lLngPhotoAttachmentId = null;
 		Long lLngSignAttachmentId = null;
 		BufferedImage bufferedImage = null;
-		 
+
 		try {
 			setSessionInfo(inputMap);
 			DcpsCommonDAO lObjDcpsCommonDao = new DcpsCommonDAOImpl(null, serv.getSessionFactory());
@@ -616,18 +577,23 @@ public class FormS1Update extends ServiceImpl {
 			empMaritalStatus = StringUtility.getParameter("empMaritalStatus", request);
 			DtoCode = StringUtility.getParameter("DtoCode", request);
 			empDdoCode = StringUtility.getParameter("hdnDDOCode", request);
-			
-			
-			
-			PanNo = StringUtility.getParameter("panNo", request);
-			String uidNo = StringUtility.getParameter("aadharNo", request);
-			
-			AESUtil aESUtil=new AESUtil();
-			
-			PanNo=aESUtil.decrypt("Message", PanNo);
-			uidNo=aESUtil.decrypt("Message", uidNo);
-			
-			
+
+			String PanNo = StringUtility.getParameter("panNo", request);
+			String uidNo = StringUtility.getParameter("uidNo", request);
+
+			AESUtil aESUtil = new AESUtil();
+
+			try {
+				PanNo = PanNo.replaceAll(" ", "");
+				uidNo = uidNo.replaceAll(" ", "");
+				PanNo = aESUtil.decrypt("Message", PanNo);
+				uidNo = aESUtil.decrypt("Message", uidNo);
+			} catch (Exception e) {
+				e.printStackTrace();
+				PanNo = null;
+				uidNo = null;
+			}
+
 			dateOfJoining = StringUtility.getParameter("DOJ", request);
 			dateOfRetire = StringUtility.getParameter("superAnnDate", request);
 			empClass = StringUtility.getParameter("empClass", request);
@@ -681,11 +647,11 @@ public class FormS1Update extends ServiceImpl {
 			nominee1Percent = StringUtility.getParameter("nominee1Percent", request);
 			nominee1Guardian = StringUtility.getParameter("nominee1Guardian", request);
 			nominee1InvalidCondition = StringUtility.getParameter("nominee1InvalidCondition", request);
-			
-			nominee1Address = StringUtility.getParameter("nominee1Address", request);  
-			nominee2Address = StringUtility.getParameter("nominee2Address", request);  
-			nominee3Address = StringUtility.getParameter("nominee3Address", request);  
-			
+
+			nominee1Address = StringUtility.getParameter("nominee1Address", request);
+			nominee2Address = StringUtility.getParameter("nominee2Address", request);
+			nominee3Address = StringUtility.getParameter("nominee3Address", request);
+
 			nominee2Name = StringUtility.getParameter("nominee2Name", request);
 			nominee2DOB = StringUtility.getParameter("nominee2DOB", request);
 			nominee2Relation = StringUtility.getParameter("nominee2Relation", request);
@@ -709,11 +675,11 @@ public class FormS1Update extends ServiceImpl {
 			photoAttachementSrNo = Long.parseLong(StringUtility.getParameter("photoAttachementSrNo", request));
 			signAttachementID = Long.parseLong(StringUtility.getParameter("signAttachementID", request));
 			signAttachementSrNo = Long.parseLong(StringUtility.getParameter("signAttachementSrNo", request));
-			
+
 			Date date = new Date();
 			frmNpsformUpdate.setCreatedDate(createdDate);
-		 	frmNpsformUpdate.setEmpDdoCode(empDdoCode); // .setDdoCode(DDOCode);
-		 	frmNpsformUpdate.setDdoCode(DDOCode);  
+			frmNpsformUpdate.setEmpDdoCode(empDdoCode); // .setDdoCode(DDOCode);
+			frmNpsformUpdate.setDdoCode(DDOCode);
 			frmNpsformUpdate.setDDORegNo(DDORegNo);
 			frmNpsformUpdate.setDtoCode(DtoCode);
 			frmNpsformUpdate.setSevarthId(sevarthId);
@@ -791,23 +757,23 @@ public class FormS1Update extends ServiceImpl {
 			} else {
 				frmNpsformUpdate.setNominee2Guardian(nominee2Guardian);
 			}
-			
+
 			frmNpsformUpdate.setNominee2InvalidCondition(nominee2InvalidCondition);
-			frmNpsformUpdate.setNominee2Address(nominee2Address);	
-			
+			frmNpsformUpdate.setNominee2Address(nominee2Address);
+
 			frmNpsformUpdate.setNominee3Name(nominee3Name);
 			frmNpsformUpdate.setNominee3DOB(nominee3DOB);
 			frmNpsformUpdate.setNominee3Relation(nominee3Relation);
 			frmNpsformUpdate.setNominee3Percent(nominee3Percent);
-			//frmNpsformUpdate.setNominee3Guardian(nominee3Guardian);
+			// frmNpsformUpdate.setNominee3Guardian(nominee3Guardian);
 			if (nominee3Guardian.equals("NA")) {
 				frmNpsformUpdate.setNominee3Guardian("");
 			} else {
 				frmNpsformUpdate.setNominee3Guardian(nominee2Guardian);
 			}
 			frmNpsformUpdate.setNominee3InvalidCondition(nominee3InvalidCondition);
-			frmNpsformUpdate.setNominee3Address(nominee3Address);	
-			;	
+			frmNpsformUpdate.setNominee3Address(nominee3Address);
+			;
 			// Bank details
 
 			frmNpsformUpdate.setBankDetailsFlag(bankDetailsFlag);
@@ -827,211 +793,212 @@ public class FormS1Update extends ServiceImpl {
 			frmNpsformUpdate.setEduQualFlag(eduQualFlag);
 			frmNpsformUpdate.setIncomeRangeFlag(incomeRangeFlag);
 			// Added for viewing Photo and signature
-			
-			String signImageName= null;
-			String photoImageName= null;
-			String photo_attachment_name=null;
-			String sign_attachment_name =null;	
-			String images_location_path=null;
-			
-			 if(System.getProperty("os.name").toLowerCase().split(" ")[0].equals("windows")) {
-				 OUTPUT_FILE_PHOTO=gObjRsrcBndle.getString("NPS.OUTPUT_FILE_PHOTO");
-				 
-			}else 
-			{
-				OUTPUT_FILE_PHOTO=gObjRsrcBndle.getString("NPS.OUTPUT_FILE_PHOTO_SERVER");
-				
+
+			String signImageName = null;
+			String photoImageName = null;
+			String photo_attachment_name = null;
+			String sign_attachment_name = null;
+			String images_location_path = null;
+
+			if (System.getProperty("os.name").toLowerCase().split(" ")[0].equals("windows")) {
+				OUTPUT_FILE_PHOTO = gObjRsrcBndle.getString("NPS.OUTPUT_FILE_PHOTO");
+
+			} else {
+				OUTPUT_FILE_PHOTO = gObjRsrcBndle.getString("NPS.OUTPUT_FILE_PHOTO_SERVER");
+
 			}
-			if((photoAttachementID != null && photoAttachementID.doubleValue() > 0) &&
-					(signAttachementID != null && signAttachementID.doubleValue() > 0)) {
-						
-						try {
-							
-							/* Added for photo images saving */
-							byte[] arrayOfByte=null;
-							byte[] arrayOfByteSign=null;
-							Blob  blob=null;
-							CmnAttachmentMstDAO lObjCmnAttachmentMstDAO = new CmnAttachmentMstDAOImpl(CmnAttachmentMst.class,
-									serv.getSessionFactory());
-							CmnAttachmentMst lObjCmnAttachmentMst = null;
-							lObjCmnAttachmentMst = new CmnAttachmentMst();
-							lObjCmnAttachmentMst = lObjCmnAttachmentMstDAO
-									.findByAttachmentId(Long.parseLong(photoAttachementID.toString()));
-		
-							cmnAttachmentMpgs = new HashSet<CmnAttachmentMpg>();
-		
-							if (lObjCmnAttachmentMst != null && lObjCmnAttachmentMst.getCmnAttachmentMpgs() != null) {
-								cmnAttachmentMpgs = lObjCmnAttachmentMst.getCmnAttachmentMpgs();
-							}
-							cmnAttachmentMpgIterator = cmnAttachmentMpgs.iterator();
-							Long srNo = 0L;
-							for (Integer lInt = 0; lInt < cmnAttachmentMpgs.size(); lInt++) {
-								cmnAttachmentMpg = cmnAttachmentMpgIterator.next();
-								 
-								if (cmnAttachmentMpg.getAttachmentDesc().equalsIgnoreCase("photo")) {
-									srNo = cmnAttachmentMpg.getSrNo();
-									cmnAttachmentMpg.getOrgFileName();
-									cmnAttdocMsts = new HashSet<CmnAttdocMst>();
-									cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts();
-									cmnAttdocMstsIterator = cmnAttdocMsts.iterator();// getFinalAttachmentBlob
-									 
-									Object localObject = null;
-									for (Integer j = 0; j < cmnAttdocMsts.size(); j++) {
-										cmnAttdocMst = cmnAttdocMstsIterator.next();
-										arrayOfByte = cmnAttdocMst.getFinalAttachment();
-										
-										gLogger.info("photo for++ SIZE:" +cmnAttdocMsts.size()); 
-									}
-		
-								}
-							}
-							//arrayOfByte.length();
-							 System.out.println("File SIZe of Photo : "+arrayOfByte.length);
-					  ByteArrayInputStream bisPhoto = new ByteArrayInputStream(arrayOfByte);
-				      BufferedImage bImagePhoto = ImageIO.read(bisPhoto);
-				      photoImageName= sevarthId+"_o_photo.jpg";
-				      ImageIO.write(bImagePhoto, "jpg", new File(OUTPUT_FILE_PHOTO+"/"+photoImageName) );
-				      bisPhoto.close();
-				      ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				      ImageIO.write(bImagePhoto, "jpg", baos);
-				      byte[] imageSize = baos.toByteArray();
-				      System.out.println("File SIZe of Photo : "+imageSize.toString()+" "+imageSize.length) ;
-				     
-				      
-				      				    
-				      /*Compress file photo*/
-				      if(imageSize.length>=12288) {
-					        File img = new File(OUTPUT_FILE_PHOTO+"/"+photoImageName);
-							BufferedImage image = ImageIO.read(img);
-					      /* int THUMB_SIDE=385;
-					      Graphics2D g2d = image.createGraphics();
-					      g2d.drawImage(image.getScaledInstance(385, 413, image.SCALE_SMOOTH), 0, 0, 385, 413, null);
-					      g2d.dispose();*/
-					      String tempPhotoImageName= sevarthId+"_photo.jpg";
-					      OutputStream out = new FileOutputStream(OUTPUT_FILE_PHOTO+"/"+tempPhotoImageName);
-					      ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
-					      ImageOutputStream ios = ImageIO.createImageOutputStream(out);
-					      writer.setOutput(ios);
-	
-					      ImageWriteParam param = writer.getDefaultWriteParam();
-	
-					      /*if (param.canWriteCompressed()) {*/
-						      param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-						      param.setCompressionQuality(0.08f);
-					     // }
-					      writer.write(null, new IIOImage(image, null, null),param); 
-					      out.close();
-					      ios.close();
-					      writer.dispose();
-					      photoImageName=tempPhotoImageName;
-				      }
-				      baos.close();
-				      
-				      System.out.println("Photo image created");	
-				   
-				      /* photo images saving ended*/
-				   /*  Signature images saving*/ 
-				    lObjCmnAttachmentMst = new CmnAttachmentMst();
-					lObjCmnAttachmentMst = lObjCmnAttachmentMstDAO.findByAttachmentId(Long.parseLong(signAttachementID.toString()));
+			if ((photoAttachementID != null && photoAttachementID.doubleValue() > 0)
+					&& (signAttachementID != null && signAttachementID.doubleValue() > 0)) {
+
+				try {
+
+					/* Added for photo images saving */
+					byte[] arrayOfByte = null;
+					byte[] arrayOfByteSign = null;
+					Blob blob = null;
+					CmnAttachmentMstDAO lObjCmnAttachmentMstDAO = new CmnAttachmentMstDAOImpl(CmnAttachmentMst.class,
+							serv.getSessionFactory());
+					CmnAttachmentMst lObjCmnAttachmentMst = null;
+					lObjCmnAttachmentMst = new CmnAttachmentMst();
+					lObjCmnAttachmentMst = lObjCmnAttachmentMstDAO
+							.findByAttachmentId(Long.parseLong(photoAttachementID.toString()));
+
 					cmnAttachmentMpgs = new HashSet<CmnAttachmentMpg>();
-	
-						if (lObjCmnAttachmentMst != null && lObjCmnAttachmentMst.getCmnAttachmentMpgs() != null) {
-							cmnAttachmentMpgs = lObjCmnAttachmentMst.getCmnAttachmentMpgs();
-						}
-						cmnAttachmentMpgIterator = cmnAttachmentMpgs.iterator();
-						Long srNoSign = 0L;
-						for (Integer lInt = 0; lInt < cmnAttachmentMpgs.size(); lInt++) {
-							cmnAttachmentMpg = cmnAttachmentMpgIterator.next();
-							 
-							if (cmnAttachmentMpg.getAttachmentDesc().equalsIgnoreCase("signature")) {
-								srNoSign = cmnAttachmentMpg.getSrNo();
-								cmnAttachmentMpg.getOrgFileName();
-								cmnAttdocMsts = new HashSet<CmnAttdocMst>();
-								cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts();
-								cmnAttdocMstsIterator = cmnAttdocMsts.iterator(); 
-								Object localObject = null;
-								for (Integer j = 0; j < cmnAttdocMsts.size(); j++) {
-									cmnAttdocMst = cmnAttdocMstsIterator.next();
-									arrayOfByteSign = cmnAttdocMst.getFinalAttachment();
-									gLogger.info("Signatureoutfor++ SIZE:" +cmnAttdocMsts.size()); 
-								}
-	
+
+					if (lObjCmnAttachmentMst != null && lObjCmnAttachmentMst.getCmnAttachmentMpgs() != null) {
+						cmnAttachmentMpgs = lObjCmnAttachmentMst.getCmnAttachmentMpgs();
+					}
+					cmnAttachmentMpgIterator = cmnAttachmentMpgs.iterator();
+					Long srNo = 0L;
+					for (Integer lInt = 0; lInt < cmnAttachmentMpgs.size(); lInt++) {
+						cmnAttachmentMpg = cmnAttachmentMpgIterator.next();
+
+						if (cmnAttachmentMpg.getAttachmentDesc().equalsIgnoreCase("photo")) {
+							srNo = cmnAttachmentMpg.getSrNo();
+							cmnAttachmentMpg.getOrgFileName();
+							cmnAttdocMsts = new HashSet<CmnAttdocMst>();
+							cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts();
+							cmnAttdocMstsIterator = cmnAttdocMsts.iterator();// getFinalAttachmentBlob
+
+							Object localObject = null;
+							for (Integer j = 0; j < cmnAttdocMsts.size(); j++) {
+								cmnAttdocMst = cmnAttdocMstsIterator.next();
+								arrayOfByte = cmnAttdocMst.getFinalAttachment();
+
+								gLogger.info("photo for++ SIZE:" + cmnAttdocMsts.size());
 							}
+
 						}
-						System.out.println("File SIZe of Signature : "+arrayOfByteSign.length); 
-				      signImageName= sevarthId+"_o_sign.jpg"; 
-				      ByteArrayInputStream bisSign = new ByteArrayInputStream(arrayOfByteSign);
-				      BufferedImage bImageSign = ImageIO.read(bisSign);
-				      ImageIO.write(bImageSign, "jpg", new File(OUTPUT_FILE_PHOTO+"/"+signImageName) );
-				      bisSign.close();
-				      /*********************************/
-				      		/*Compress sign images */
-				    
-				      ByteArrayOutputStream baosSign = new ByteArrayOutputStream();
-				      ImageIO.write(bImageSign, "jpg", baosSign);
-				      byte[] imageSignSize = baosSign.toByteArray();
-				      System.out.println("File Size of Sign : "+imageSignSize.toString()+" "+imageSignSize.length) ;
-				      
-				      if(imageSignSize.length>=12228) {
-				    	  System.out.println("File Size of Sign : "+imageSignSize.toString()+" "+imageSignSize.length) ;
-							String tempSignImageName = sevarthId + "_sign.jpg";
-							File imgS = new File(OUTPUT_FILE_PHOTO + "/" + signImageName);
-							BufferedImage images = ImageIO.read(imgS);
-							/*
-							 * int width = images.getWidth(); int height = images.getHeight(); int
-							 * signSize=360; Graphics2D g2dSign = images.createGraphics();
-							 * g2d.drawImage(images.getScaledInstance(width, height, images.SCALE_SMOOTH),
-							 * 0, 0, width, height, null); g2d.dispose();
-							 */
-							OutputStream outSign = new FileOutputStream(OUTPUT_FILE_PHOTO + "/" + tempSignImageName);
-							ImageWriter writerSign = ImageIO.getImageWritersByFormatName("jpg").next();
-							ImageOutputStream iosSign = ImageIO.createImageOutputStream(outSign);
-							writerSign.setOutput(iosSign);
-							ImageWriteParam paramSign = writerSign.getDefaultWriteParam();
-							// if (paramSign.canWriteCompressed()) {
-							paramSign.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-							paramSign.setCompressionQuality(0.08f);
-							// }
-							writerSign.write(null, new IIOImage(images, null, null), paramSign);
-							outSign.close();
-							iosSign.close();
-							writerSign.dispose();
-							signImageName=tempSignImageName;
+					}
+					// arrayOfByte.length();
+					System.out.println("File SIZe of Photo : " + arrayOfByte.length);
+					ByteArrayInputStream bisPhoto = new ByteArrayInputStream(arrayOfByte);
+					BufferedImage bImagePhoto = ImageIO.read(bisPhoto);
+					photoImageName = sevarthId + "_o_photo.jpg";
+					ImageIO.write(bImagePhoto, "jpg", new File(OUTPUT_FILE_PHOTO + "/" + photoImageName));
+					bisPhoto.close();
+					ByteArrayOutputStream baos = new ByteArrayOutputStream();
+					ImageIO.write(bImagePhoto, "jpg", baos);
+					byte[] imageSize = baos.toByteArray();
+					System.out.println("File SIZe of Photo : " + imageSize.toString() + " " + imageSize.length);
+
+					/* Compress file photo */
+					if (imageSize.length >= 12288) {
+						File img = new File(OUTPUT_FILE_PHOTO + "/" + photoImageName);
+						BufferedImage image = ImageIO.read(img);
+						/*
+						 * int THUMB_SIDE=385; Graphics2D g2d = image.createGraphics();
+						 * g2d.drawImage(image.getScaledInstance(385, 413, image.SCALE_SMOOTH), 0, 0,
+						 * 385, 413, null); g2d.dispose();
+						 */
+						String tempPhotoImageName = sevarthId + "_photo.jpg";
+						OutputStream out = new FileOutputStream(OUTPUT_FILE_PHOTO + "/" + tempPhotoImageName);
+						ImageWriter writer = ImageIO.getImageWritersByFormatName("jpg").next();
+						ImageOutputStream ios = ImageIO.createImageOutputStream(out);
+						writer.setOutput(ios);
+
+						ImageWriteParam param = writer.getDefaultWriteParam();
+
+						/* if (param.canWriteCompressed()) { */
+						param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+						param.setCompressionQuality(0.08f);
+						// }
+						writer.write(null, new IIOImage(image, null, null), param);
+						out.close();
+						ios.close();
+						writer.dispose();
+						photoImageName = tempPhotoImageName;
+					}
+					baos.close();
+
+					System.out.println("Photo image created");
+
+					/* photo images saving ended */
+					/* Signature images saving */
+					lObjCmnAttachmentMst = new CmnAttachmentMst();
+					lObjCmnAttachmentMst = lObjCmnAttachmentMstDAO
+							.findByAttachmentId(Long.parseLong(signAttachementID.toString()));
+					cmnAttachmentMpgs = new HashSet<CmnAttachmentMpg>();
+
+					if (lObjCmnAttachmentMst != null && lObjCmnAttachmentMst.getCmnAttachmentMpgs() != null) {
+						cmnAttachmentMpgs = lObjCmnAttachmentMst.getCmnAttachmentMpgs();
+					}
+					cmnAttachmentMpgIterator = cmnAttachmentMpgs.iterator();
+					Long srNoSign = 0L;
+					for (Integer lInt = 0; lInt < cmnAttachmentMpgs.size(); lInt++) {
+						cmnAttachmentMpg = cmnAttachmentMpgIterator.next();
+
+						if (cmnAttachmentMpg.getAttachmentDesc().equalsIgnoreCase("signature")) {
+							srNoSign = cmnAttachmentMpg.getSrNo();
+							cmnAttachmentMpg.getOrgFileName();
+							cmnAttdocMsts = new HashSet<CmnAttdocMst>();
+							cmnAttdocMsts = cmnAttachmentMpg.getCmnAttdocMsts();
+							cmnAttdocMstsIterator = cmnAttdocMsts.iterator();
+							Object localObject = null;
+							for (Integer j = 0; j < cmnAttdocMsts.size(); j++) {
+								cmnAttdocMst = cmnAttdocMstsIterator.next();
+								arrayOfByteSign = cmnAttdocMst.getFinalAttachment();
+								gLogger.info("Signatureoutfor++ SIZE:" + cmnAttdocMsts.size());
+							}
+
 						}
-				      baosSign.close();
-				     
-				     // ByteArrayOutputStream outputStreamSign = new ByteArrayOutputStream();
-				      /*********************************/
-				     
-				      System.out.println("Sign image created");
-				      /*  Signature images saving Ended */
-						} catch (Exception e) {
-							//gLogger.info("lLngPkIdForFormS1NPS  Photo  " + e.getMessage());
-							gLogger.info("lLngPkIdForFormS1NPS  Signature  " +e.getCause());
-							resObj.setViewName("errorPage");
-						}
-				}else {
-				
+					}
+					System.out.println("File SIZe of Signature : " + arrayOfByteSign.length);
+					signImageName = sevarthId + "_o_sign.jpg";
+					ByteArrayInputStream bisSign = new ByteArrayInputStream(arrayOfByteSign);
+					BufferedImage bImageSign = ImageIO.read(bisSign);
+					ImageIO.write(bImageSign, "jpg", new File(OUTPUT_FILE_PHOTO + "/" + signImageName));
+					bisSign.close();
+					/*********************************/
+					/* Compress sign images */
+
+					ByteArrayOutputStream baosSign = new ByteArrayOutputStream();
+					ImageIO.write(bImageSign, "jpg", baosSign);
+					byte[] imageSignSize = baosSign.toByteArray();
+					System.out.println("File Size of Sign : " + imageSignSize.toString() + " " + imageSignSize.length);
+
+					if (imageSignSize.length >= 12228) {
+						System.out.println(
+								"File Size of Sign : " + imageSignSize.toString() + " " + imageSignSize.length);
+						String tempSignImageName = sevarthId + "_sign.jpg";
+						File imgS = new File(OUTPUT_FILE_PHOTO + "/" + signImageName);
+						BufferedImage images = ImageIO.read(imgS);
+						/*
+						 * int width = images.getWidth(); int height = images.getHeight(); int
+						 * signSize=360; Graphics2D g2dSign = images.createGraphics();
+						 * g2d.drawImage(images.getScaledInstance(width, height, images.SCALE_SMOOTH),
+						 * 0, 0, width, height, null); g2d.dispose();
+						 */
+						OutputStream outSign = new FileOutputStream(OUTPUT_FILE_PHOTO + "/" + tempSignImageName);
+						ImageWriter writerSign = ImageIO.getImageWritersByFormatName("jpg").next();
+						ImageOutputStream iosSign = ImageIO.createImageOutputStream(outSign);
+						writerSign.setOutput(iosSign);
+						ImageWriteParam paramSign = writerSign.getDefaultWriteParam();
+						// if (paramSign.canWriteCompressed()) {
+						paramSign.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+						paramSign.setCompressionQuality(0.08f);
+						// }
+						writerSign.write(null, new IIOImage(images, null, null), paramSign);
+						outSign.close();
+						iosSign.close();
+						writerSign.dispose();
+						signImageName = tempSignImageName;
+					}
+					baosSign.close();
+
+					// ByteArrayOutputStream outputStreamSign = new ByteArrayOutputStream();
+					/*********************************/
+
+					System.out.println("Sign image created");
+					/* Signature images saving Ended */
+				} catch (Exception e) {
+					// gLogger.info("lLngPkIdForFormS1NPS Photo " + e.getMessage());
+					gLogger.info("lLngPkIdForFormS1NPS  Signature  " + e.getCause());
+					resObj.setViewName("errorPage");
+				}
+			} else {
+
 			}
-			
+
 			frmNpsformUpdate.setPhoto_attachment_name(photoImageName);
 			frmNpsformUpdate.setSign_attachment_name(signImageName);
 			frmNpsformUpdate.setImages_location_path(OUTPUT_FILE_PHOTO);
-			
-			//photo_attachment_name
-			
+
+			// photo_attachment_name
+
 			// Ended for viewing Photo and signature
 			System.out.print(inputMap);
 			Long lLngPkIdForFormS1Nps = IFMSCommonServiceImpl.getNextSeqNum("FRM_FORM_S1_DTLS_1", inputMap);
 			frmNpsformUpdate.setFormS1Id(lLngPkIdForFormS1Nps);
 			gLogger.info("lLngPkIdForFormS1NPS " + lLngPkIdForFormS1Nps);
 			System.out.print(lLngPkIdForFormS1Nps);
-			//int ins=1;
-			int ins=lObjFormS1UpdateDAO.insertRecordToNps(frmNpsformUpdate, dateOfJoining, nominee1DOB, nominee2DOB, nominee3DOB, DDOCode, lLngPkIdForFormS1Nps);
+			// int ins=1;
+			int ins = lObjFormS1UpdateDAO.insertRecordToNps(frmNpsformUpdate, dateOfJoining, nominee1DOB, nominee2DOB,
+					nominee3DOB, DDOCode, lLngPkIdForFormS1Nps);
 			gLogger.info("insert Status    " + ins);
-			if(ins>0) {
+			if (ins > 0) {
 				inputMap.put("msg", "Data Save succuessfully");
-			}else {
+			} else {
 				inputMap.put("msg", "");
 			}
 			lstEmpForFrmS1Edit = lObjFormS1UpdateDAO.getEmpListForFrmS1Edit(DDOCode, "0", "0", "");
@@ -1046,7 +1013,7 @@ public class FormS1Update extends ServiceImpl {
 			inputMap.put("EmpName", empFName + " " + empMName + " " + empLName);
 			inputMap.put("DDOCode", DDOCode);
 			inputMap.put("empList", lstEmpForFrmS1Edit);
-			
+
 			inputMap.put("empDesigList", empDesigList);
 			resObj.setResultValue(inputMap);
 			resObj.setViewName("empListForFormS1Update");
@@ -1060,7 +1027,6 @@ public class FormS1Update extends ServiceImpl {
 		return resObj;
 	}
 
-	 
 	private String parseDate(String strDate) {
 		// TODO Auto-generated method stub
 		if (strDate != "") {
@@ -1125,13 +1091,14 @@ public class FormS1Update extends ServiceImpl {
 		return lStrBldXML;
 	}
 
-	/*public ResultObject getEmpListForFormS1Edit111(Map inputMap) throws Exception {
-		ResultObject resObj = new ResultObject(ErrorConstants.SUCCESS, "FAIL");
-		resObj.setResultValue(inputMap);
-		resObj.setViewName("empFormS1Update2");
-		return resObj;
-
-	}*/
+	/*
+	 * public ResultObject getEmpListForFormS1Edit111(Map inputMap) throws Exception
+	 * { ResultObject resObj = new ResultObject(ErrorConstants.SUCCESS, "FAIL");
+	 * resObj.setResultValue(inputMap); resObj.setViewName("empFormS1Update2");
+	 * return resObj;
+	 * 
+	 * }
+	 */
 
 	public ResultObject fileUpload(Map objectArgs) {
 		gLogger.info("inside validateUIDUniqeness");
@@ -1164,7 +1131,6 @@ public class FormS1Update extends ServiceImpl {
 		}
 		return objRes;
 
-		
 	}
 
 	/*

@@ -10,7 +10,11 @@
 <script language="JavaScript" src="script/dcps/dcpsvalidation.js"></script>
 <script type="text/javascript" src="script/common/tagLibValidation.js"></script>
 <script type="text/javascript" src="script/common/common.js"></script>
-<fmt:setBundle basename="resources.dcps.dcpsLabels" var="dcpsLables" scope="request" />
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<fmt:setBundle basename="resources.dcps.dcpsLabels" var="dcpsLables"
+	scope="request" />
+
 
 <%@ taglib uri="http://displaytag.sf.net" prefix="display"%>
 
@@ -45,34 +49,36 @@
 <c:set var="SignFlag" value="${resValue.SignFlag}"></c:set>
 <c:set var="signSize" value="${resValue.signSize}"></c:set>
 <c:set var="photoSize" value="${resValue.photoSize}"></c:set>
++
 <style>
 .radiomainTb input[type=radio] td {
 	margin-right: 20px;
 	border: none;
 	padding: 5px
 }
+
 .error {
-    color: red;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    animation: blink-animation 1s steps(5, start) infinite;
-        -webkit-animation: blink-animation 1s steps(5, start) infinite;
+	color: red;
+	font-size: 16px;
+	font-weight: 600;
+	text-align: center;
+	animation: blink-animation 1s steps(5, start) infinite;
+	-webkit-animation: blink-animation 1s steps(5, start) infinite;
 }
 
-      @keyframes blink-animation {
-        to {
-          visibility: hidden;
-        }
-      }
-      @-webkit-keyframes blink-animation {
-        to {
-          visibility: hidden;
-        }
-      }
+@
+keyframes blink-animation {to { visibility:hidden;
+	
+}
+
+}
+@
+-webkit-keyframes blink-animation {to { visibility:hidden;
+	
+}
+}
 </style>
 <script type="text/javascript">
-
 var _keySize = 256;
 var _ivSize = 128;
 var _iterationCount = 1989;
@@ -181,17 +187,16 @@ function submitForm()
 // var empGender;
 	
 	var panNo=document.getElementById("panNo").value.trim();
-	var aadharNo=document.getElementById("uidNo").value.trim();
+	var uidNo=document.getElementById("uidNo").value.trim();
 	
 	var UID1Encrypted = encrypt("Message", panNo);
 	console.log("input panNo " + UID1Encrypted);
-	var UID2Encrypted = encrypt("Message", aadharNo);
+	var UID2Encrypted = encrypt("Message", uidNo);
 	console.log("input aadharNo " + UID2Encrypted);
 	
 
 	document.getElementById("panNo").value = UID1Encrypted;
 	document.getElementById("uidNo").value = UID2Encrypted;
-	
 	
 	var DOJ= document.getElementById("doj").value.trim();
 	var superAnnDate=document.getElementById("superAnnDate").value.trim();
@@ -262,6 +267,7 @@ function submitForm()
 		document.getElementById("btnSubmit").disabled=false;
 		return false;
 		}
+	
 	if(sevarthId == '')
 	{
 		alert('Please enter Sevarth Id.');
@@ -362,18 +368,12 @@ var maritalStatus=document.getElementsByName("maritalStatus");
 		return false;
 	}
 
-	/* if(aadharNo == '')
-	{
-		alert('Please enter aadhar number.');
-		document.getElementById("btnSubmit").disabled=false;
-		return false;
-	} */
-	if(aadharNo != '' && aadharNo.length!=12)
+	 if(uidNo == '')
 	{
 		alert('Please enter correct aadhar number.');
 		document.getElementById("btnSubmit").disabled=false;
 		return false;
-	}
+	} 
 	if(DOJ == '')
 	{
 		alert('Please enter employee\'s date of joining date.');
@@ -1175,7 +1175,7 @@ var uri= "&sevarthId="+sevarthId+"&DtoCode="+DtoCode+"&DDORegNo="+DDORegNo+"&hdn
 "&empFName=" +empFName+"&empMName" +empMName+"&empLName=" +empLName+"&empFatherFName=" +empFatherFName+
 "&empFatherLName=" +empFatherLName+"&empMotherName="+empMotherName+"&empDob="+empDob+
 "&empGender="+Gender+"&empMaritalStatus="+Marital+
-"&panNo="+panNo+"&aadharNo="+aadharNo+"&DOJ="+DOJ+"&superAnnDate="+superAnnDate+"&empClass="+empClass+
+"&panNo="+UID1Encrypted+"&aadharNo="+UID2Encrypted+"&DOJ="+DOJ+"&superAnnDate="+superAnnDate+"&empClass="+empClass+
 "&empDept="+empDept+"&empMinistry="+empMinistry+"&basicSalary="+basicSalary+"&payScale="+payScale+	
 "&dsgnName="+dsgnName+"&DcpsId="+DcpsId+
 "&presentAddFlatNo="+presentAddFlatNo+"&presentAddBuilding="+presentAddBuilding+
@@ -1814,7 +1814,7 @@ function datediff(date1, date2)
 	return [y1 - y2, m1 - m2, d1 - d2]; 
 } 
 </script>
- 
+
 <c:forEach items="${empDetails}" var="empDetail">
 
 	<hdiits:form name="formS1Form" id="formS1Form"
@@ -1834,9 +1834,11 @@ function datediff(date1, date2)
 			<legend>Employee Form S1 Update</legend>
 
 			<br>
-			<c:if test="${signSize > 12 || photoSize > 12 }">  
-							<p class="error">Your image and signature size ${signSize} Kb and ${photoSize} Kb. But Nsdl not accept the more then 12 kb size. </p>
-			 </c:if>
+			<c:if test="${signSize > 12 || photoSize > 12 }">
+				<p class="error">Your image and signature size ${signSize} Kb
+					and ${photoSize} Kb. But Nsdl not accept the more then 12 kb size.
+				</p>
+			</c:if>
 			<center>
 				<fieldset style="width: 95%;" class="tabstyle">
 					<legend>Employee Personal Details</legend>
@@ -1891,13 +1893,11 @@ function datediff(date1, date2)
 							<td width="15%" align="left">Middle Name:</td>
 							<td width="35" align="left"><input size="30" maxlength="30"
 								type="text" name="empMName" id="empMName" value="${EmpMName}"
-								onkeypress="return onlyAlphabets(event,this);" />
-							</td>
+								onkeypress="return onlyAlphabets(event,this);" /></td>
 							<td width="15%" align="left">Last Name :</td>
 							<td width="35%" align="left"><input size="30" type="text"
 								id="empLName" name="empLName" value="${EmpLName}"
-								onkeypress="return onlyAlphabets(event,this);" />
-							</td>
+								onkeypress="return onlyAlphabets(event,this);" /></td>
 						</tr>
 						<tr>
 							<td width="15%" align="left">Father's First Name:</td>
@@ -1934,9 +1934,9 @@ function datediff(date1, date2)
 							<td width="15%" align="left">Gender :</td>
 							<td width="35%" align="left">Male <input type="radio"
 								id="radioGender" name="empGender" value="M"
-								<c:if test="${empDetail[9]=='M'}">checked</c:if>>
-								Female <input type="radio" id="radioGender" name="empGender"
-								value="F" <c:if test="${empDetail[9]=='F'}">checked</c:if>>
+								<c:if test="${empDetail[9]=='M'}">checked</c:if>> Female
+								<input type="radio" id="radioGender" name="empGender" value="F"
+								<c:if test="${empDetail[9]=='F'}">checked</c:if>>
 								Transgender <input type="radio" id="radioGender"
 								name="empGender" value="T"
 								<c:if test="${empDetail[9]=='T'}">checked</c:if>> <label
@@ -1959,8 +1959,7 @@ function datediff(date1, date2)
 
 				</fieldset>
 			</center>
-			<br>
-			<br>
+			<br> <br>
 			<center>
 				<fieldset style="width: 95%;" class="tabstyle">
 					<legend>Identity Details</legend>
@@ -1968,13 +1967,14 @@ function datediff(date1, date2)
 
 						<tr>
 							<td width="25%" align="left">PAN</td>
-							<td width="25%" align="left"><input type="password" name="panNo" onblur="panNoValidation();chkPANalreadyExists();"
+							<td width="25%" align="left"><input type="password"
+								name="panNo" onblur="panNoValidation();chkPANalreadyExists();"
 								value="${empDetail[11]}" id="panNo" maxlength="99"
 								class="form-control"> <label class="mandatoryindicator">*</label>
 							</td>
 							<td width="25%" align="left">Aadhaar</td>
-							<td width="25%" align="left"><input type="password" name="uidNo"
-								id="uidNo" value="${empDetail[12]}" maxlength="12"
+							<td width="25%" align="left"><input type="password"
+								name="uidNo" id="uidNo" value="${empDetail[12]}" maxlength="12"
 								class="form-control" onkeypress="return onlyNos(event,this);"
 								value="${empDetail[10]}"></td>
 						</tr>
@@ -2056,8 +2056,7 @@ function datediff(date1, date2)
 							<td width="35%" align="left"><input size="50" maxlength="30"
 								type="text" id="presentAddFlatNo" name="presentAddFlatNo"
 								value="${empDetail[20]}"
-								onkeypress="return dblQuotesRmvr(event,this);" />
-							<!-- onkeypress="return dblQuotesRmvr(event,this);" -->
+								onkeypress="return dblQuotesRmvr(event,this);" /> <!-- onkeypress="return dblQuotesRmvr(event,this);" -->
 								<label class="mandatoryindicator">*</label></td>
 							<td width="15%" align="left">Name of premise/Building/
 								Village</td>
@@ -2120,8 +2119,7 @@ function datediff(date1, date2)
 					</table>
 				</fieldset>
 			</center>
-			<br>
-			<br>
+			<br> <br>
 			<center>
 				<fieldset style="width: 95%;" class="tabstyle">
 					<legend>Present Address Same as Permanent Address?</legend>
@@ -2138,8 +2136,7 @@ function datediff(date1, date2)
 					</table>
 				</fieldset>
 			</center>
-			<br>
-			<br>
+			<br> <br>
 			<center>
 				<fieldset style="width: 95%;" class="tabstyle">
 					<legend>Permanent Address</legend>
@@ -2212,8 +2209,7 @@ function datediff(date1, date2)
 					</table>
 				</fieldset>
 			</center>
-			<br>
-			<br>
+			<br> <br>
 			<center>
 				<fieldset style="width: 95%;" class="tabstyle">
 					<legend>Contact Details</legend>
@@ -2265,8 +2261,7 @@ function datediff(date1, date2)
 					</table>
 				</fieldset>
 			</center>
-			<br>
-			<br>
+			<br> <br>
 			<center>
 
 				<c:set var="empNomineedetails" value="${resValue.empNomineeDetails}"></c:set>
@@ -2278,8 +2273,8 @@ function datediff(date1, date2)
 							<td width="100%" align="center">Number of nominees?&nbsp; <b>1:</b><input
 								type="radio" name="noOfNominee"
 								<c:if test="${empNomineesize=='1'}">checked</c:if> value="1"
-								id="1nominee" onclick="enableNomineeFields(1);">&nbsp;
-								<b>2:</b><input type="radio" name="noOfNominee"
+								id="1nominee" onclick="enableNomineeFields(1);">&nbsp; <b>2:</b><input
+								type="radio" name="noOfNominee"
 								<c:if test="${empNomineesize=='2'}">checked</c:if> value="2"
 								id="2nominee" onclick="enableNomineeFields(2);">&nbsp; <b>3:</b><input
 								type="radio" name="noOfNominee"
@@ -2290,8 +2285,7 @@ function datediff(date1, date2)
 					</table>
 				</fieldset>
 			</center>
-			<br>
-			<br>
+			<br> <br>
 
 			<c:set var="nomineeCounter" value="1"></c:set>
 			<c:forEach items="${empNomineedetails}" var="empNomineedetail">
@@ -2369,23 +2363,20 @@ function datediff(date1, date2)
 									name="nominee${nomineeCounter}InvalidCondition" value="NA" /><label
 									class="mandatoryindicator">*</label></td>
 							</tr>
-							
+
 							<tr>
 								<td width="15%" align="left">Nominee ${nomineeCounter}
-									Address  
-								</td>
+									Address</td>
 								<td width="35%" align="left"><input size="50"
-									maxlength="40" type="text"
-									id="nominee${nomineeCounter}Address"
+									maxlength="40" type="text" id="nominee${nomineeCounter}Address"
 									name="nominee${nomineeCounter}Address" value=""
-									<c:if test="${empNomineesize==1}">readonly="readonly"</c:if> 
+									<c:if test="${empNomineesize==1}">readonly="readonly"</c:if>
 									onkeypress="return onlyAlphabets(event,this);" /><label
 									class="mandatoryindicator">*</label></td>
-								<td width="15%" align="left"> 
-								</td>
-								<td width="35%" align="left"> </td>
+								<td width="15%" align="left"></td>
+								<td width="35%" align="left"></td>
 							</tr>
-							
+
 						</table>
 					</fieldset>
 				</center>
@@ -2471,18 +2462,16 @@ function datediff(date1, date2)
 									value="NA" /><label class="mandatoryindicator">*</label></td>
 							</tr>
 							<tr>
-								<td width="15%" align="left">Nominee ${loop.index} Address  
+								<td width="15%" align="left">Nominee ${loop.index} Address
 								</td>
 								<td width="35%" align="left"><input size="50"
-									maxlength="40" type="text"
-									id="nominee${loop.index}Address"
+									maxlength="40" type="text" id="nominee${loop.index}Address"
 									name="nominee${loop.index}Address" value="NA"
 									readonly="readonly"
 									onkeypress="return onlyAlphabets(event,this);" /><label
 									class="mandatoryindicator">*</label></td>
-								<td width="15%" align="left"> 
-								</td>
-								<td width="35%" align="left"> </td>
+								<td width="15%" align="left"></td>
+								<td width="35%" align="left"></td>
 							</tr>
 						</table>
 					</fieldset>
@@ -2548,15 +2537,14 @@ function datediff(date1, date2)
 							<tr>
 								<td width="25%" align="left">IFSC Code</td>
 								<td width="25%" align="left"><input type="text"
-									name="IfscCode" id="IfscCode" value=""
-									maxlength="11" class="form-control"></td>
+									name="IfscCode" id="IfscCode" value="" maxlength="11"
+									class="form-control"></td>
 							</tr>
 						</tbody>
 					</table>
 				</fieldset>
 			</center>
-			<br />
-			<br />
+			<br /> <br />
 			<center>
 				<fieldset style="width: 95%;" class="tabstyle">
 					<legend>Other Details </legend>
@@ -2655,76 +2643,81 @@ function showImg(lStr)
 					<table class="table table-bordered">
 						<tbody>
 							<%-- <c:if test="${resValue.PhotoId != null && resValue.SignId!= null }">  --%>
-							 <c:if test="${signSize > 12 || photoSize > 12 }">  
-							<tr>
-								<td colspan="2"><p class="error">Your image and signature size ${signSize} and ${photoSize }.But NSDL not accept the more then 12 kb size. </p></td></tr>
-							<tr>
-							 </c:if>
-								<td>
-									<fieldset class="tabstyle" style="width: 100%;">
-										<legend id="headingMsg">
-											<b>Photo </b>
-										</legend>
+							<c:if test="${signSize > 12 || photoSize > 12 }">
+								<tr>
+									<td colspan="2"><p class="error">Your image and
+											signature size ${signSize} and ${photoSize }.But NSDL not
+											accept the more then 12 kb size.</p></td>
+								</tr>
+								<tr>
+							</c:if>
+							<td>
+								<fieldset class="tabstyle" style="width: 100%;">
+									<legend id="headingMsg">
+										<b>Photo </b>
+									</legend>
 
 
-										<div id="prewPhoto" style="width: 180px; height: 150px;">
-											<a href="#" id="Photo" name="Photo" onmouseout="hidImg()"
-												onmouseover="showImg(this)"> <img
-												style="width: 180px; height: 150px;" id="Photo"
-												src="ifms.htm?actionFlag=viewAttachment&attachmentId=${resValue.PhotoId}&attachmentSerialNumber=${resValue.PhotosrNo}">
-											</a>
-											<script type="text/javascript">
+									<div id="prewPhoto" style="width: 180px; height: 150px;">
+										<a href="#" id="Photo" name="Photo" onmouseout="hidImg()"
+											onmouseover="showImg(this)"> <img
+											style="width: 180px; height: 150px;" id="Photo"
+											src="ifms.htm?actionFlag=viewAttachment&attachmentId=${resValue.PhotoId}&attachmentSerialNumber=${resValue.PhotosrNo}">
+										</a>
+										<script type="text/javascript">
 											document.getElementById("hidPhotoUrl").value = "ifms.htm?actionFlag=viewAttachment&attachmentId=${resValue.PhotoId}&attachmentSerialNumber=${resValue.PhotosrNo}"
 										</script>
-										</div>
+									</div>
 
-										<div id="prewPhoto" style="width: 180px; height: 150px;">
+									<div id="prewPhoto" style="width: 180px; height: 150px;">
 
-										</div>
+									</div>
 
 
-									</fieldset>
-								</td>
+								</fieldset>
+							</td>
 
-								<td>
-									<fieldset class="tabstyle" style="width: 100%;">
-										<legend id="headingMsg">
-											<b> Signature</b>
-										</legend>
+							<td>
+								<fieldset class="tabstyle" style="width: 100%;">
+									<legend id="headingMsg">
+										<b> Signature</b>
+									</legend>
 
-										  <div id="prewSign" style="width: 180px; height: 150px;">
-											<a href="#" name="Sign" id="Sign" onmouseout="hidImg()"
-												onmouseover="showImg(this)"> <img
-												style="width: 180px; height: 150px;"
-												src="ifms.htm?actionFlag=viewAttachment&attachmentId=${resValue.SignId}&attachmentSerialNumber=${resValue.SignsrNo}">
-											</a>
-											<script type="text/javascript">
+									<div id="prewSign" style="width: 180px; height: 150px;">
+										<a href="#" name="Sign" id="Sign" onmouseout="hidImg()"
+											onmouseover="showImg(this)"> <img
+											style="width: 180px; height: 150px;"
+											src="ifms.htm?actionFlag=viewAttachment&attachmentId=${resValue.SignId}&attachmentSerialNumber=${resValue.SignsrNo}">
+										</a>
+										<script type="text/javascript">
 									document.getElementById("hidSignUrl").value = "ifms.htm?actionFlag=viewAttachment&attachmentId=${resValue.SignId}&attachmentSerialNumber=${resValue.SignsrNo}"
 								</script>
-										</div>  
+									</div>
 
-										<div id="prewSign" style="width: 180px; height: 150px;">
-										</div>
-
-
+									<div id="prewSign" style="width: 180px; height: 150px;">
+									</div>
 
 
-									</fieldset>
-								</td>
+
+
+								</fieldset>
+							</td>
 							</tr>
 							<c:if test="${PhotoFlag==0}">
 								<tr>
-									<td colspan="2" class="error"><p class="error">Photo or signature is not
-										found in our system. So, Kindly upload your photo and
-										signature from employee change details.</p></td>
+									<td colspan="2" class="error"><p class="error">Photo
+											or signature is not found in our system. So, Kindly upload
+											your photo and signature from employee change details.</p></td>
 								</tr>
 
 							</c:if>
 							<!-- Please upload your photo and signature using other update   -->
 							<tr>
-									<td colspan="2" class="mandatoryindicator">NOTE: Photo or signature is compulsory component.So, it is not available in our system
-									Kindly upload your photo and signature from employee change details.</td>
-								</tr>
+								<td colspan="2" class="mandatoryindicator">NOTE: Photo or
+									signature is compulsory component.So, it is not available in
+									our system Kindly upload your photo and signature from employee
+									change details.</td>
+							</tr>
 						</tbody>
 					</table>
 				</fieldset>
@@ -2736,16 +2729,11 @@ function showImg(lStr)
 				<tr>
 					<td width="50%" align="right"><input class="buttontag"
 						type="button" value="Reset" onclick="resetForm();"></td>
-					<td width="50%" align="left">
-					<c:set var="btnStatus" value=""></c:set>	
-					<c:if test="${signSize > 12 || photoSize > 12 }"> 
-						<c:set var="btnStatus" value="disabled"></c:set>	
-						</c:if>
-						 
-					<input class="buttontag"
-						id="btnSubmit" type="button" value="Submit Form" 
-						onclick="submitForm();" />
-						</td>
+					<td width="50%" align="left"><c:set var="btnStatus" value=""></c:set>
+						<c:if test="${signSize > 12 || photoSize > 12 }">
+							<c:set var="btnStatus" value="disabled"></c:set>
+						</c:if> <input class="buttontag" id="btnSubmit" type="button"
+						value="Submit Form" onclick="submitForm();" /></td>
 				</tr>
 			</table>
 	</hdiits:form>

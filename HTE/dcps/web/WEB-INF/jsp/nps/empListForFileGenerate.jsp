@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
@@ -10,7 +11,7 @@
 <script type="text/javascript" src="script/common/tagLibValidation.js"></script>
 <script type="text/javascript" src="script/common/common.js"></script>
 <script type="text/javascript">
-
+	
 </script>
 <style>
 p.mynote {
@@ -32,7 +33,7 @@ p.mynote {
 
 <hdiits:form name="formNPSFileListSearch" id="formNPSFileListSearch"
 	encType="multipart/form-data" validate="true" method="post">
-<fieldset class="tabstyle">
+	<fieldset class="tabstyle">
 		<legend>Search Employee</legend>
 		<table width="80%">
 			<tr>
@@ -49,16 +50,18 @@ p.mynote {
 			</tr>
 		</table>
 	</fieldset>
-	</hdiits:form>
+</hdiits:form>
 <fieldset class="tabstyle">
 	<legend>Employee List</legend>
-  <p class="mynote">Note : "CSRF form Need to check before Validate and Forward to NSDL & Also Check the DDO reg Number and DTO Number."</p>
+	<p class="mynote">Note : "CSRF form Need to check before Validate
+		and Forward to NSDL & Also Check the DDO reg Number and DTO Number."</p>
 	<c:set var="srNoAllown" value="1"></c:set>
 	<div class="scrollablediv">
 		<hdiits:form name="csrfForm" validate="true" method="POST" action="">
+			<input type="hidden" name="csrfToken" value="${csrfToken}" />
 			<input type="hidden" id="checkCount" name="checkCount" value="0" />
 			<display:table list="${empList}" id="vo" style="width:100%"
-				 requestURIcontext="false" requestURI="">
+				requestURIcontext="false" requestURI="">
 				<display:setProperty name="paging.banner.placement" value="bottom" />
 				<display:column headerClass="datatableheader"
 					style="text-align:center;" class="oddcentre" sortable="false"
@@ -141,14 +144,15 @@ p.mynote {
 				<display:column headerClass="datatableheader"
 					style="text-align:center;" class="oddcentre" sortable="true"
 					title="Acknowlegment No.">
-					<c:if test="${!empty fn:trim(vo[7])}"> <c:out value="${vo[7]}"></c:out>
+					<c:if test="${!empty fn:trim(vo[7])}">
+						<c:out value="${vo[7]}"></c:out>
 					</c:if>
 					<c:if test="${empty fn:trim(vo[7])}"> --		</c:if>
-					
+
 					<input type="hidden" id="AckNo${vo_rowNum}" value="${vo[7]}" />
 
 				</display:column>
-				
+
 				<display:column headerClass="datatableheader"
 					style="text-align:center;" class="oddcentre" sortable="true"
 					title="File Creation">
@@ -192,16 +196,18 @@ p.mynote {
 					title="Donwload">
 					<a href="javascript:void(0);" onclick="donwloadFile('${vo[8]}')">Download</a>
 				</display:column>
-			 	<display:column headerClass="datatableheader"
+				<display:column headerClass="datatableheader"
 					style="text-align:center;" class="oddcentre" sortable="false"
 					title="Action">
-					<c:if test="${(empty fn:trim(vo[13]) || fn:trim(vo[13])=='N') && 
+					<c:if
+						test="${(empty fn:trim(vo[13]) || fn:trim(vo[13])=='N') && 
 					(!empty fn:trim(vo[7]) || !empty fn:trim(vo[8]))}">
-					<a href="javascript:void(0);" onclick="deleteRecord('${vo[0]}')">Delete</a></c:if>
-					 
-					<a href="javascript:void(0);" onclick="deleteRecord('${vo[0]}')">Delete</a> 
+						<a href="javascript:void(0);" onclick="deleteRecord('${vo[0]}')">Delete</a>
+					</c:if>
+
+					<a href="javascript:void(0);" onclick="deleteRecord('${vo[0]}')">Delete</a>
 				</display:column>
- 
+
 				<c:set var="srNoAllown" value="${srNoAllown + 1}"></c:set>
 
 
@@ -210,7 +216,8 @@ p.mynote {
 		<form name="formTextFileGen" id="formTextFileGen" method="post"
 			action="" encType="multipart/form-data">
 
-			<input type="hidden" name="maxcount" id="maxcount" value="${vo_rowNum}" />
+			<input type="hidden" name="maxcount" id="maxcount"
+				value="${vo_rowNum}" />
 			<table width="95%" borber="1">
 				<tr>
 					<td colspan="3">&nbsp;<!-- Number Of Applicants To Generate Text File ::: -->
@@ -241,16 +248,23 @@ p.mynote {
 
 	</div>
 </fieldset>
-<hdiits:form name="frmEmpFilegenerate" action="" id="frmEmpFilegenerate" encType="multipart/form-data" validate="true" 
-method="post">
-<hdiits:button id="btnExporttoExcel" name="btnExporttoExcel" value="Export to Excel" classcss="bigbutton" type="button" onclick="generateExcel()"/>
-<hdiits:button id="btnprintReport" name="btnprintReport" value="Print Report" classcss="bigbutton" type="button" onclick="printReport()"/>
-<hdiits:button id="btnsaveReport" name="btnsaveReport" value="Save Report" classcss="bigbutton" type="button" onclick="saveReport()"/>
+<hdiits:form name="frmEmpFilegenerate" action="" id="frmEmpFilegenerate"
+	encType="multipart/form-data" validate="true" method="post">
+	<hdiits:button id="btnExporttoExcel" name="btnExporttoExcel"
+		value="Export to Excel" classcss="bigbutton" type="button"
+		onclick="generateExcel()" />
+	<hdiits:button id="btnprintReport" name="btnprintReport"
+		value="Print Report" classcss="bigbutton" type="button"
+		onclick="printReport()" />
+	<hdiits:button id="btnsaveReport" name="btnsaveReport"
+		value="Save Report" classcss="bigbutton" type="button"
+		onclick="saveReport()" />
 </hdiits:form>
 <hdiits:form name="npsFileDownload" id="npsFileDownload"
 	encType="multipart/form-data" validate="true" method="post">
- <input type="hidden" name="npsDownloadBatchId" id="npsDownloadBatchId" value=""/>
-	</hdiits:form>
+	<input type="hidden" name="npsDownloadBatchId" id="npsDownloadBatchId"
+		value="" />
+</hdiits:form>
 <script type="text/javascript">
 	function checkApplyCmb(obj, ID, val) {
 
@@ -308,23 +322,26 @@ method="post">
 		var maxCount = document.getElementById("maxcount").value;
 		var checkCount = document.getElementById("checkCount").value;
 		var listSevaId = "";
-		var counter=0;
+		var counter = 0;
 		if (checkCount == 0) {
 			alert("Please select atleast 1 employee");
 			return false;
 		} else {
-				if (counter <= maxCount) {
+			if (counter <= maxCount) {
 				for (var i = 1; i <= nOfEmp; i++) {
-				
-					if ((i <= nOfEmp && document.getElementById("sevarthId" + i).value != '') ) {
+
+					if ((i <= nOfEmp && document
+							.getElementById("sevarthId" + i).value != '')) {
 						if (counter <= maxCount) {
-							listSevaId += document.getElementById("sevarthId"+ i).value + "_";
+							listSevaId += document.getElementById("sevarthId"
+									+ i).value
+									+ "_";
 							counter++;
 						}
 					}
 
 				}
-			
+
 			} else {
 				alert("No fo employee text file generated upto to 99 but avaiable only max Count is "
 						+ maxCount);
@@ -340,9 +357,10 @@ method="post">
 		var StatusCode = document.getElementById("StatusCode").value;
 		//var StatusCode=nsdlStatus;
 		//alert("getPran");
-		
+
 		if (StatusCode != null && StatusCode != '') {
-			showProgressbar("Getting  Pran From for NSDL Status Code "+StatusCode);
+			showProgressbar("Getting  Pran From for NSDL Status Code "
+					+ StatusCode);
 			var uri = './ifms.htm?actionFlag=getPran';
 			var url = '&StatusCode=' + StatusCode;
 			var myAjax = new Ajax.Request(uri, {
@@ -366,7 +384,7 @@ method="post">
 
 	function sendFrom(batchNo) {
 		//	var empSevarthId=listSevaarthId();
-	
+
 		if (formValidate()) {
 			showProgressbar("Uploading  files to NSDL for pran number registration");
 			var uri = './ifms.htm?actionFlag=sendTextFile';
@@ -463,64 +481,57 @@ method="post">
 		return status;
 	}
 
+	function displaySearchForm() {
+		if (document.getElementById('seachBySevarthId').checked) {
+			document.getElementById("trSearchBtnSevarthId").style.display = "";
 
-	function displaySearchForm()
-	{
-		if(document.getElementById('seachBySevarthId').checked)
-		{
-			document.getElementById("trSearchBtnSevarthId").style.display="";
-			 
 		}
-		 
+
 	}
-	function submitSearchEmp()
-	{
-		var flag="0";
-		var searchTxt="0";
-		if(document.getElementById('seachBySevarthId').checked)
-		{
+	function submitSearchEmp() {
+		var flag = "0";
+		var searchTxt = "0";
+		if (document.getElementById('seachBySevarthId').checked) {
 			flag = "sevarthId";
 			searchTxt = document.getElementById("txtSevarthId").value;
-			if(searchTxt == '')
-			{
+			if (searchTxt == '') {
 				alert('Please enter sevarth id.');
 				return false;
 			}
 			var url;
-			url="./hrms.htm?actionFlag=FileGenerate&searchTxt="+searchTxt+"&flag="+flag;
-			document.formNPSFileListSearch.action= url;
+			url = "./hrms.htm?actionFlag=FileGenerate&searchTxt=" + searchTxt
+					+ "&flag=" + flag;
+			document.formNPSFileListSearch.action = url;
 			document.formNPSFileListSearch.submit();
 			showProgressbar("Getting Form NPS File generation list with search results...");
 		}
 		return true;
 	}
 
-	function donwloadFile(BatchId){
-		var flag="0";
-	 	document.getElementById("npsDownloadBatchId").value=BatchId;
-		if(BatchId!='')
-		{
+	function donwloadFile(BatchId) {
+		var flag = "0";
+		document.getElementById("npsDownloadBatchId").value = BatchId;
+		if (BatchId != '') {
 			flag = "BatchId";
-			 
+
 			var url;
-			url="./hrms.htm?actionFlag=downloadFile&npsDownloadBatchId="+BatchId;
-			
-			document.npsFileDownload.action= url;
+			url = "./hrms.htm?actionFlag=downloadFile&npsDownloadBatchId="
+					+ BatchId;
+
+			document.npsFileDownload.action = url;
 			document.npsFileDownload.submit();
 			//showProgressbar("NPS file donwloading ...");
-		}else {
-		alert("Text file not created yet.");
-			}
+		} else {
+			alert("Text file not created yet.");
+		}
 	}
-	function deleteRecord(cnt){
-	 
-		 
-		if(cnt!='')
-		{	
-			showProgressbar("Data is deleting for Sevaarth ID "+cnt) 
+	function deleteRecord(cnt) {
+
+		if (cnt != '') {
+			showProgressbar("Data is deleting for Sevaarth ID " + cnt)
 			//url="./hrms.htm?actionFlag=deleteRecord&empId"+cnt;
 			var uri = './ifms.htm?actionFlag=deleteRecord';
-			var url = '&empId='+cnt;
+			var url = '&empId=' + cnt;
 			var myAjax = new Ajax.Request(uri, {
 				method : 'post',
 				asynchronous : false,
@@ -532,33 +543,27 @@ method="post">
 					alert('Action not found...');
 				}
 			});
-		 
-		}else {
-				alert("Employee record not created.");
-			}
+
+		} else {
+			alert("Employee record not created.");
+		}
 	}
 
-
-	function generateExcel()
-	{
+	function generateExcel() {
 		//alert("generateExcel Calling");
-		var url = "ifms.htm?actionFlag=generateNpsFileStatusExcel&FileFlag=Y"; 
- 		document.frmEmpFilegenerate.action= url;
+		var url = "ifms.htm?actionFlag=generateNpsFileStatusExcel&FileFlag=Y";
+		document.frmEmpFilegenerate.action = url;
 		document.frmEmpFilegenerate.submit();
 	}
 
-	function saveReport() 
-	{
+	function saveReport() {
 		document.execCommand("SaveAs");
 	}
-	function printReport() 
-	{
+	function printReport() {
 
 		window.print();
 		document.getElementById('Print').style.visibility = 'visible'; // show 
-		 
 
-		
 	}
 	/*var uri = './ifms.htm?actionFlag=deleteRecord';
 		  

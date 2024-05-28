@@ -85,11 +85,63 @@ function openFormS1Edit(row)
 	var DcpsId=document.getElementById("DcpsId"+row).value;
 	var DcpsEmpId=document.getElementById("DcpsEmpId"+row).value;
 	//alert('empSevarthId: '+empSevarthId);
-	var url;
+/* 	var url;
 	url="./ifms.htm?actionFlag=getFormS1EditForEmp&empSevarthId="+empSevarthId+"&empName="+empName+"&DOJ="+DOJ+"&dsgnName="+dsgnName+"&DDOCode="+DDOCode+"&DcpsId="+DcpsId+"&DcpsEmpId="+DcpsEmpId;
 	document.formS1EditListForm.action= url;
-	document.formS1EditListForm.submit();
+	document.formS1EditListForm.submit(); */
 	showProgressbar("Getting Form S1 edit screen...");
+	
+	        var form = document.createElement('form');
+	        form.method = 'POST';
+	        form.action = './ifms.htm?actionFlag=getFormS1EditForEmp';
+
+	        var empSevarthIdInput = document.createElement('input');
+	        empSevarthIdInput.type = 'hidden';
+	        empSevarthIdInput.name = 'empSevarthId';
+	        empSevarthIdInput.value = empSevarthId;
+	        form.appendChild(empSevarthIdInput);
+
+	        var empNameInput = document.createElement('input');
+	        empNameInput.type = 'hidden';
+	        empNameInput.name = 'empName';
+	        empNameInput.value = empName;
+	        form.appendChild(empNameInput);
+
+	        var dojInput = document.createElement('input');
+	        dojInput.type = 'hidden';
+	        dojInput.name = 'DOJ';
+	        dojInput.value = DOJ;
+	        form.appendChild(dojInput);
+
+	        var dsgnNameInput = document.createElement('input');
+	        dsgnNameInput.type = 'hidden';
+	        dsgnNameInput.name = 'dsgnName';
+	        dsgnNameInput.value = dsgnName;
+	        form.appendChild(dsgnNameInput);
+
+	        var ddoCodeInput = document.createElement('input');
+	        ddoCodeInput.type = 'hidden';
+	        ddoCodeInput.name = 'DDOCode';
+	        ddoCodeInput.value = DDOCode;
+	        form.appendChild(ddoCodeInput);
+
+	        var dcpsIdInput = document.createElement('input');
+	        dcpsIdInput.type = 'hidden';
+	        dcpsIdInput.name = 'DcpsId';
+	        dcpsIdInput.value = DcpsId;
+	        form.appendChild(dcpsIdInput);
+
+	        var dcpsEmpIdInput = document.createElement('input');
+	        dcpsEmpIdInput.type = 'hidden';
+	        dcpsEmpIdInput.name = 'DcpsEmpId';
+	        dcpsEmpIdInput.value = DcpsEmpId;
+	        form.appendChild(dcpsEmpIdInput);
+
+	        document.body.appendChild(form);
+	        form.submit();
+	    
+
+
 }
 function displaySearchForm()
 {
@@ -125,10 +177,32 @@ function submitSearchEmp()
 			alert('Please enter sevarth id.');
 			return false;
 		}
-		var url;
+		
+		/* var url;
 		url="./ifms.htm?actionFlag=updateCSRFForm&searchTxt="+searchTxt+"&flag="+flag;
 		document.formS1EditListForm.action= url;
-		document.formS1EditListForm.submit();
+		document.formS1EditListForm.submit(); */
+		
+		var form = document.createElement('form');
+	    form.method = 'POST';
+	    form.action = './ifms.htm?actionFlag=updateCSRFForm';
+
+	    var searchTxtInput = document.createElement('input');
+	    searchTxtInput.type = 'hidden';
+	    searchTxtInput.name = 'searchTxt';
+	    searchTxtInput.value = searchTxt;
+	    form.appendChild(searchTxtInput);
+
+	    var flagInput = document.createElement('input');
+	    flagInput.type = 'hidden';
+	    flagInput.name = 'flag';
+	    flagInput.value = flag;
+	    form.appendChild(flagInput);
+
+	    document.body.appendChild(form);
+	    form.submit();
+		
+		
 		showProgressbar("Getting Form S1 edit screen with search results...");
 	}
 	if(document.getElementById('seachByDcpsId').checked)

@@ -17,10 +17,43 @@ function approve(srNo,ddoCode,ddoName,userID)
 	//Commented by roshan
 	//var url = "ifms.htm?actionFlag=aprvDDOHistory&srNo="+srNo+"&ddoCode"+ddoCode+"&ddoName"+ddoName+"&userID"+userID;
 	//ADDED BY ROSHAN
-	var url = "ifms.htm?actionFlag=aprvDDOHistory&srNo="+srNo+"&ddoCode="+ddoCode+"&ddoName="+ddoName+"&userID="+userID;
-	document.approveDDOHistory.action = url ;
+	/* var url = "ifms.htm?actionFlag=aprvDDOHistory&srNo="+srNo+"&ddoCode="+ddoCode+"&ddoName="+ddoName+"&userID="+userID;
+	document.approveDDOHistory.action = url ; */
+	
+	var form = document.createElement("form");
+	form.setAttribute("method", "POST");
+	form.setAttribute("action", "ifms.htm?actionFlag=aprvDDOHistory");
+	
+	var inputSrNo = document.createElement("input");
+	inputSrNo.setAttribute("type", "hidden");
+	inputSrNo.setAttribute("name", "srNo");
+	inputSrNo.setAttribute("value", srNo);
+	
+	var inputDdoCode = document.createElement("input");
+	inputDdoCode.setAttribute("type", "hidden");
+	inputDdoCode.setAttribute("name", "ddoCode");
+	inputDdoCode.setAttribute("value", ddoCode);
+	
+	var inputDdoName = document.createElement("input");
+	inputDdoName.setAttribute("type", "hidden");
+	inputDdoName.setAttribute("name", "ddoName");
+	inputDdoName.setAttribute("value", ddoName);
+
+	var inputUserId = document.createElement("input");
+	inputUserId.setAttribute("type", "hidden");
+	inputUserId.setAttribute("name", "userID");
+	inputUserId.setAttribute("value", userID);
+	
+
+	form.appendChild(inputSrNo);
+	form.appendChild(inputDdoCode);
+	form.appendChild(inputDdoName);
+	form.appendChild(inputUserId);
+
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
 	alert("The DDO has been Approved successfully!");
-	document.approveDDOHistory.submit();
 }
 </script>
 
@@ -29,9 +62,43 @@ function reject(srNo,ddoCode,ddoName,userID)
 {
 	//alert("inside reject SrNo.: "+srNo+" DDO Code: "+ddoCode+" DDO Name: "+ddoName);
 
-	var url = "ifms.htm?actionFlag=rjctDDOHistory&srNo="+srNo+"&ddoCode"+ddoCode+"&ddoName"+ddoName+"&userID"+userID;
+	/* var url = "ifms.htm?actionFlag=rjctDDOHistory&srNo="+srNo+"&ddoCode"+ddoCode+"&ddoName"+ddoName+"&userID"+userID;
 	document.approveDDOHistory.action = url ;
-	document.approveDDOHistory.submit();
+	document.approveDDOHistory.submit(); */
+	
+	var form = document.createElement("form");
+	form.setAttribute("method", "POST");
+	form.setAttribute("action", "ifms.htm?actionFlag=rjctDDOHistory");
+	
+	var inputSrNo = document.createElement("input");
+	inputSrNo.setAttribute("type", "hidden");
+	inputSrNo.setAttribute("name", "srNo");
+	inputSrNo.setAttribute("value", srNo);
+	
+	var inputDdoCode = document.createElement("input");
+	inputDdoCode.setAttribute("type", "hidden");
+	inputDdoCode.setAttribute("name", "ddoCode");
+	inputDdoCode.setAttribute("value", ddoCode);
+	
+	var inputDdoName = document.createElement("input");
+	inputDdoName.setAttribute("type", "hidden");
+	inputDdoName.setAttribute("name", "ddoName");
+	inputDdoName.setAttribute("value", ddoName);
+
+	var inputUserId = document.createElement("input");
+	inputUserId.setAttribute("type", "hidden");
+	inputUserId.setAttribute("name", "userID");
+	inputUserId.setAttribute("value", userID);
+	
+
+	form.appendChild(inputSrNo);
+	form.appendChild(inputDdoCode);
+	form.appendChild(inputDdoName);
+	form.appendChild(inputUserId);
+
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
 }
 </script>
 

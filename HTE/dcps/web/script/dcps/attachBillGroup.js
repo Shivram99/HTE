@@ -39,7 +39,7 @@ function getDataStateChangedForModifyBG(myAjax)
 	{
 		alert("Bill Group Modified Successfully");
 	}
-	self.location.href = "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017&billGroupId="+document.getElementById("cmbBillGroup").value;	
+	self.location.href = "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017";	
 }
 function validateBeforeAttach(){
 	
@@ -237,19 +237,52 @@ function displayListsAfterValidation(){
 	}
 	 
 }
-function displayLists()
-{
-//	alert('Inside DisplayList');
-	if(chkEmpty(document.getElementById('cmbTypeofAttachDetach'),'Type of Attach Detach'))
-	{
-	//Disables the Attach and Detach buttons;
-	var billGroupId = document.getElementById("cmbBillGroup").value ;
-	var typeOfAttachDetach = document.getElementById("cmbTypeofAttachDetach").value ;
-	url = "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017&billGroupId="+billGroupId+"&typeOfAttachDetach="+typeOfAttachDetach ;
-	self.location.href = url ;
-	showProgressbar("Please wait...");
-	}
+
+function displayLists() {
+    // Check if the 'Type of Attach Detach' dropdown is not empty
+    if (chkEmpty(document.getElementById('cmbTypeofAttachDetach'), 'Type of Attach Detach')) {
+        // Get the selected values from the dropdowns
+        var billGroupId = document.getElementById("cmbBillGroup").value;
+        var typeOfAttachDetach = document.getElementById("cmbTypeofAttachDetach").value;
+
+        console.log("billGroupId: " + billGroupId);
+        console.log("typeOfAttachDetach: " + typeOfAttachDetach);
+
+        // Create a form element
+        var form = document.createElement("form");
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", "ifms.htm?actionFlag=dcpsBillGroup&elementId=700017");
+
+        // Create hidden input for billGroupId
+        var inputBillType = document.createElement("input");
+        inputBillType.setAttribute("type", "hidden");
+        inputBillType.setAttribute("name", "billGroupId");
+        inputBillType.setAttribute("value", billGroupId);
+
+        // Create hidden input for typeOfAttachDetach
+        var inputFlag = document.createElement("input");
+        inputFlag.setAttribute("type", "hidden");
+        inputFlag.setAttribute("name", "typeOfAttachDetach");
+        inputFlag.setAttribute("value", typeOfAttachDetach);
+
+        // Append the hidden inputs to the form
+        form.appendChild(inputBillType);
+        form.appendChild(inputFlag);
+
+        // Append the form to the body, submit it, and remove it from the body
+        document.body.appendChild(form);
+        form.submit();
+        document.body.removeChild(form);
+
+        console.log("Form submitted");
+
+        // Display a progress bar
+        showProgressbar("Please wait...");
+    }
 }
+
+
+
 function checkUncheckAll(theElement)
 {
 	var theForm = theElement.form, z = 0;	

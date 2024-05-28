@@ -22,10 +22,31 @@ function submitDetails(){
 		return false;
 	}
 
-	var url = "ifms.htm?actionFlag=showDeletePostDtl&elementId=90002635&FD="+FieldDept+"&DDO="+DdoDtl;
-
+	/* var url = "ifms.htm?actionFlag=showDeletePostDtl&elementId=90002635&FD="+FieldDept+"&DDO="+DdoDtl;
 	document.frmPostDtls.action = url ;
-	document.frmPostDtls.submit();
+	document.frmPostDtls.submit(); */
+	
+	var form = document.createElement("form");
+	form.setAttribute("method", "POST");
+	form.setAttribute("action", "ifms.htm?actionFlag=showDeletePostDtl&elementId=90002635");
+	
+	var inputFD = document.createElement("input");
+	inputFD.setAttribute("type", "hidden");
+	inputFD.setAttribute("name", "FD");
+	inputFD.setAttribute("value", FieldDept);
+	
+	var inputDDO = document.createElement("input");
+	inputDDO.setAttribute("type", "hidden");
+	inputDDO.setAttribute("name", "DDO");
+	inputDDO.setAttribute("value", DdoDtl);
+
+	form.appendChild(inputFD);
+	form.appendChild(inputDDO);
+
+	document.body.appendChild(form);
+	form.submit();
+	document.body.removeChild(form);
+	
 	showProgressbar("Please wait...");
 }
 </script>

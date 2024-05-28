@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd"> -->
-<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "file:///C:\Users\Shivram.Mane\Downloads/spring-beans.dtd">
-<!-- Author:nishant.vaidya@tcs.com version:1.0 Created date:13/07/2008 Description:Configuration 
-	file used to implement authentication and authorization for hdiits framework 
-	using spring security. -->
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+
 <beans>
 	<bean id="filterChainProxy"
 		class="org.springframework.security.util.FilterChainProxy">
@@ -202,11 +199,6 @@
 	</bean>
 
 
-	<!--<bean id="securePasswordAuthenticatonFilter" class="com.tcs.sgv.filter.SecurePasswordAuthenticationImpl"> 
-		<property name="filterProcessesUrl" value="/j_reauthentication_check"/> <property 
-		name="reAuthenticationFailureUrl" value="${ReAuthenticationFailureUrl}"/> 
-		<property name="passwordEncoder"> <ref local="passwordEncoder" /> </property> 
-		</bean> --><!-- Added for Digital Certificate Login start -->
 	<bean id="x509ProcessingFilter"
 		class="org.springframework.security.ui.x509.X509ProcessingFilter">
 		<property name="authenticationManager">
@@ -290,11 +282,6 @@
 		class="org.springframework.security.providers.encoding.Md5PasswordEncoder"></bean>
 
 
-	<!--<bean id="jasyptStringDigester" class="org.jasypt.digest.StandardStringDigester" 
-		> <property name="algorithm" value="${algorithm}" /> <property name="iterations" 
-		value="${iterations}" /> <property name="saltSizeBytes" value="${saltSizeBytes}" 
-		/> </bean> -->
-
 	<bean id="userDetailsService"
 		class="com.tcs.sgv.acl.acegilogin.dao.AuthenticationDaoImpl">
 		<property name="accountExpireDays"
@@ -335,20 +322,14 @@
 				/.*=HOMEROLE				
 				]]>
 			</value>
-			<!-- <ref local="dbdrivenFilterInvocationDefinitionSource" /> -->
-			<!-- Added by Brijesh Prajapati to generate object defination source ( 
-				url-role mapping configuration ) using databse -->
-			<!-- <ref local="daoBasedFilterInvocationDefinitionSource" /> -->
 
 		</property>
 	</bean>
-	<!-- Added by Brijesh Prajapati to generate object defination source ( url-role 
-		mapping configuration ) using databse -->
+
 	<bean id="daoBasedFilterInvocationDefinitionSource"
 		class="com.tcs.sgv.acl.acegilogin.service.DaoBasedFilterInvocationDefinitionSource" />
 
-	<!-- <bean id="dbdrivenFilterInvocationDefinitionSource" class="com.tcs.sgv.acl.acegilogin.service.DatabaseDrivenFilterInvocationDefinitionSource" 
-		init-method="init" /> -->
+
 	<!-- Added for Session Faxiation start -->
 	<bean id="sessionFixationProtectionFilter"
 		class="org.springframework.security.ui.SessionFixationProtectionFilter">
@@ -411,10 +392,6 @@
 		class="org.springframework.security.concurrent.SessionRegistryImpl" />
 
 	<!-- IF dbConcurrentEnable value true then comment the bean given below -->
-	<!--<bean id="sessionRegistry" class="com.tcs.sgv.acl.acegilogin.service.DistributableSessionRegistryImpl" 
-		init-method="init" destroy-method="destroy"> <property name="channelName" 
-		value="springcluster1"/> <property name="clusterOptions" value="udp.xml"/> 
-		<property name="distributable" value="true"/> </bean> -->
 
 	<!-- Filter for http enable start -->
 	<bean id="channelProcessingFilter"

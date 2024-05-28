@@ -69,8 +69,8 @@ try {
 <fmt:message var="foodGrain" key="foodGrain" bundle="${commonLable}"
 	scope="request">
 </fmt:message>
-<script language="javascript"><!--
-//alert("newEmpLoadDtls......");
+
+<script language="javascript">
 var empId;
 var empname;
 var count=0;
@@ -117,21 +117,7 @@ function checkOddAmount()
 	var orignialOddInstAmt=document.getElementById("loanOddinstAmt").value;
 	alert(''+orignialOddInstAmt);
 	var box="";
-	// 03 JAN 2012 change for odd installment
-/*	if(orginalOddInstNo != oddInsNo)
-	{
-		alert('Please enter appropriate value of Odd Installment No. i.e.'+oddInsNo);
-		box=doucment.getElementById("loanOddinstno");
-		box.focus();
-		return false;
-	}
-	if(orignialOddInstAmt!= oddInsAmt)
-	{
-		alert('Please enter appropriate value of Odd Installment Amount i.e.'+oddInsAmt);
-		box=doucment.getElementById("loanOddinstAmt");
-		box.focus();
-		return false;
-	}*/
+	
 	
 	}
 	return true;
@@ -285,60 +271,12 @@ function chkRecovedAmt()
 
 function disableLeftComponent()
 {
-	/*
-	document.empLoan.loanIntEmiAmt.readOnly=true;
-	document.empLoan.interestAmt.readOnly=true;
-	document.empLoan.interestInstNo.readOnly=true;
-	var principalAmt=document.empLoan.principalAmt.value;
-	var principalInstNo=document.empLoan.principalInstNo.value;
-	var loanPrinEmiAmt=document.empLoan.loanPrinEmiAmt.value;
-	var loanIntEmiAmt=document.empLoan.loanIntEmiAmt.value;
-	var interestAmt=document.empLoan.interestAmt.value;
-	var interestInstNo=document.empLoan.interestInstNo.value;
-	
-	if(principalAmt!='' || principalInstNo !='' || loanPrinEmiAmt !='')
-	{
-	document.empLoan.loanIntEmiAmt.readOnly=true;
-	document.empLoan.interestAmt.readOnly=true;
-	document.empLoan.interestInstNo.readOnly=true;
-	}
-	else
-	{
 
-	document.empLoan.loanIntEmiAmt.readOnly=false;
-	document.empLoan.interestAmt.readOnly=false;
-	document.empLoan.interestInstNo.readOnly=false;
-	}
-	*/
 }
 
 function disableRightComponent()
 {
-	/*
-	document.empLoan.principalAmt.readOnly=true;
-	document.empLoan.loanPrinEmiAmt.readOnly=true;
-	document.empLoan.principalInstNo.readOnly=true;
-
-	var principalAmt=document.empLoan.principalAmt.value;
-	var principalInstNo=document.empLoan.principalInstNo.value;
-	var loanPrinEmiAmt=document.empLoan.loanPrinEmiAmt.value;
-	var loanIntEmiAmt=document.empLoan.loanIntEmiAmt.value;
-	var interestAmt=document.empLoan.interestAmt.value;
-	var interestInstNo=document.empLoan.interestInstNo.value;
-
-	if(loanIntEmiAmt!='' || interestAmt !='' || interestInstNo !='')
-	{
-		document.empLoan.principalAmt.readOnly=true;
-		document.empLoan.loanPrinEmiAmt.readOnly=true;
-		document.empLoan.principalInstNo.readOnly=true;
-	}
-	else
-	{	
-		document.empLoan.principalAmt.readOnly=false;
-		document.empLoan.loanPrinEmiAmt.readOnly=false;
-		document.empLoan.principalInstNo.readOnly=false;
-	}
-	*/
+	
 }
 
 function addLoanDataToTable(){
@@ -348,20 +286,16 @@ function addLoanDataToTable(){
 	{
 		amt=document.empLoan.interestAmt.value;
 	}
-	//alert('anmount is '+amt);
 	var instNo=document.empLoan.principalInstNo.value;
 	if(instNo=="")
 	{
 		instNo=document.empLoan.interestInstNo.value;
 	}
-	//var emiAmount=amt/instNo;
-	//alert('instNo is '+instNo);
 	var emiAmount= document.empLoan.loanPrinEmiAmt.value;
 	if(emiAmount=="")
 	{
 		emiAmount= document.empLoan.loanIntEmiAmt.value;
 	}
-	//alert('emiAmount is '+emiAmount);
 	var reqAmt="";
 	if(amt % emiAmount != 0)
 	{
@@ -375,8 +309,6 @@ function addLoanDataToTable(){
 	
 	if(instNo != reqInstal)
 	{
-		//alert('Please Enter appropriate value of Installment No i.e.'+reqInstal);
-		//return false;
 	}
 	
 	if((emiAmount*instNo)>amt)
@@ -384,29 +316,11 @@ function addLoanDataToTable(){
 		var oddInsAmt=amt-(emiAmount*(instNo-1));
 		var oddInsNo=instNo;
 	
-	//alert('oddInsAmt=  '+oddInsAmt +' oddInsNo= '+oddInsNo );
 	var orginalOddInstNo=  document.getElementById("loanOddinstno").value;
-	//alert(''+orginalOddInstNo);
 	var orignialOddInstAmt=document.getElementById("loanOddinstAmt").value;
-	//alert(''+orignialOddInstAmt);
 	var box="";
-	/*03 JAN 2012 change for odd installment
-	if(orginalOddInstNo != oddInsNo)
-	{
-		alert('Please enter appropriate value of Odd Installment No. i.e.'+oddInsNo);
-		box=doucment.getElementById("loanOddinstno");
-		box.focus();
-		return false;
+	
 	}
-	if(orignialOddInstAmt!= oddInsAmt)
-	{
-		alert('Please enter appropriate value of Odd Installment Amount i.e.'+oddInsAmt);
-		box=doucment.getElementById("loanOddinstAmt");
-		box.focus();
-		return false;
-	}*/
-	}
-	//alert(''+document.empLoan.loanVoucherNo.value);
 	if(document.empLoan.loanVoucherNo.value == "")
 	{
 		alert('Please Enter  Voucher No');
@@ -441,11 +355,10 @@ function addLoanDataToTable(){
 	}
 	return true;
 	
-}//end function: addLoanDataToTable()
+}
 
 function addRecord(){
 
-	//alert("addRecord() called: ");	
 
     if(document.getElementById("Employee_ID_EmpSearch").value == ""){
 	    alert("Select the Employee");
@@ -499,7 +412,6 @@ function addRecord(){
 	}
 
 
-	//varun
  	if (xmlHttp.readyState == 4)
 	{ 	
  		
@@ -513,7 +425,7 @@ function addRecord(){
 	return true;
 	}
 
-}//end method: addRecord()
+}
 
 function resetFields(){
     
@@ -572,25 +484,9 @@ function ChkEmp()
 					
 					if(empMapping.length != 0) {	
 							var emp = empMapping[0].childNodes[0].text;		
-							//added by samir for contractual and fixe scale employee
 							 emptype = empMapping[0].childNodes[1].text;		
 							
-					/*		if(emptype=="${fixedEmpType}" || emptype=="${contractEmpType}" || emptype=="${probationEmpType}")
-							{
-							alert("Not Accessible For Fixed and Contractual Employee and Probession employee!!");
-							if( "${empAllRec}"!=null && "${empAllRec}"=='true')
-							{
-							window.location="./hrms.htm?actionFlag=getLoanValue&Employee_ID_EmpLoanSearch=${empId}&empAllRec=Y";
-							return;
-							}
-							else
-							{
-							clearEmployee("EmpSearch");
-							document.empLoan.loanName.value = '';
-							return;
-							}
-							}*/
-							//end
+					
 								if(emp<0)
 								{
 									var res = confirm("The Employee information is not entered in the system.\n Want to Enter the Information?");
@@ -599,10 +495,8 @@ function ChkEmp()
 									retValue=false;
 										if(res){
 										if( "${empAllRec}"!=null && "${empAllRec}"=='true')
-										//alert('in if'+ empId);
 										var url ="./hrms.htm?actionFlag=newEmpData&empId=${empId}&empAllRec=Y&newEntryEmpId=${empId}"
 										else
-										//alert('in else'+ empId);
 										var url = "./hrms.htm?actionFlag=newEmpData";
 									document.empLoan.action=url;
 									document.empLoan.submit();
@@ -1067,7 +961,9 @@ function beforeSubmit()
 	
 	
 }
---></script>
+
+</script>
+
 <body>
 <fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="resources.eis.eis_common_lables"
@@ -1351,7 +1247,8 @@ function beforeSubmit()
 	</c:choose> <hdiits:jsField name="validate" jsFunction="validateForm()" /> <fmt:setBundle
 		basename="resources.eis.eis_common_lables" var="Lables" scope="page" />
 	<jsp:include page="../../core/PayTabnavigation.jsp" /></div>
-	<script type="text/javascript">
+
+<script type="text/javascript">
 		//Start Tab Content script for UL with id="maintab" Separate multiple ids each with a comma.
 		initializetabcontent("maintab")
     //    alert('emp ID is ' + ${empId});

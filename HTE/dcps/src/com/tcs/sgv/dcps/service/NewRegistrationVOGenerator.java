@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.directwebremoting.util.Logger;
 
+import com.tcs.sgv.common.constant.AESUtil;
 import com.tcs.sgv.common.helper.SessionHelper;
 import com.tcs.sgv.common.utils.DBUtility;
 import com.tcs.sgv.common.utils.StringUtility;
@@ -191,6 +192,8 @@ public class NewRegistrationVOGenerator extends ServiceImpl implements
 			String lStrEIDNo = StringUtility.getParameter("txtEIDNo", request).trim();
 			System.out.println("lStrEIDNo:::"+lStrEIDNo);
 			
+			
+			
 			String lStrUIDNo1 = StringUtility.getParameter("txtUIDNo1", request).trim();
 			System.out.println("lStrUIDNo1:::"+lStrUIDNo1);
 			
@@ -205,6 +208,20 @@ public class NewRegistrationVOGenerator extends ServiceImpl implements
 			
 			String lStrPANNo = StringUtility.getParameter("txtPANNo", request);
 			System.out.println("lStrPANNo:::"+lStrPANNo);
+			
+			AESUtil aESUtil = new AESUtil();
+			
+			try {
+				lStrPANNo = lStrPANNo.replaceAll(" ", "");
+				lStrUIDNo = lStrUIDNo.replaceAll(" ", "");
+				lStrPANNo = aESUtil.decrypt("Message", lStrPANNo);
+			    lStrUIDNo = aESUtil.decrypt("Message", lStrUIDNo);
+			} catch (Exception e) {
+			    e.printStackTrace();
+			    lStrPANNo = null;
+			    lStrUIDNo = null;
+			}
+			
 			
 			String lStrBankName = StringUtility.getParameter("cmbBankName",request).trim();
 			System.out.println("lStrBankName:::"+lStrBankName);
