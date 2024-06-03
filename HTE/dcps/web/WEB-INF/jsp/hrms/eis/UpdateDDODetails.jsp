@@ -91,7 +91,7 @@
 </script>
 <hdiits:form name="frmEmpStatistics" action="" id="frmEmpStatistics"
 	encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<br />
 	<br />

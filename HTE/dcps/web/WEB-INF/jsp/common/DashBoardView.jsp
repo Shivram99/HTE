@@ -500,7 +500,7 @@ function loadChart()
 
 
 <hdiits:form name="DashBoard" method="POST" validate="true">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div class="tabcontentstyle">
 	<div id="tcontent1" class="tabcontent">
 

@@ -13,9 +13,11 @@
 --%>
 <table class="tabNavigationBar">
 	<tr align="center">
-		<td class="tabnavtdcenter" id="tabnavtdcenter"><hdiits:formSubmitButton
+		<td class="tabnavtdcenter" id="tabnavtdcenter">
+		<hdiits:formSubmitButton
 				name="formSubmitButton" value="Save" type="button"
 				captionid="eis.save" bundle="${Lables}" id="formSubmitButtonTemp" />
+				<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 			<hdiits:button name="Close" value="Close" type="button"
 				captionid="eis.close" bundle="${Lables}" onclick="onBackfn();" />
 			<%-- <hdiits:button

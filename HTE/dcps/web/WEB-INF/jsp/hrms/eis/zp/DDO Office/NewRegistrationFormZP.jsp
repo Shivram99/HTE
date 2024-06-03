@@ -50,7 +50,7 @@
 
 <hdiits:form name="DCPSForm" id="DCPSForm" encType="multipart/form-data"
 	validate="true" method="post">
-
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<input type="hidden" id="User" name="User" value="${resValue.User}" />
 	<input type="hidden" id="Use" name="Use" value="${resValue.Use}" />
 	<input type="hidden" id="ZPFormStatus" name="ZPFormStatus"

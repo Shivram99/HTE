@@ -32,6 +32,7 @@
 
 <hdiits:form name="dcpsDesigInfo" encType="multipart/form-data"
 	validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset style="width:100%" class="tabstyle">
 <legend><fmt:message key="CMN.DESIGNATIONMST" bundle="${dcpsLabels}"></fmt:message></legend>
 <table id="tbl1" width="100%" align="center">

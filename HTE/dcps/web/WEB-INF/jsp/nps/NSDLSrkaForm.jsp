@@ -133,7 +133,7 @@ input[type="button" i]:disabled {
 
 <hdiits:form name="frmNSDL" action="" id="frmEmpStatistics"
 	encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<input type="hidden" id="aisStatus" value="${status}">
 	<input type="hidden" id="Monthnm" value="${Monthnm}">
 	<input type="hidden" id="Yearcode" value="${Yearcode}">

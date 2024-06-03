@@ -26,6 +26,7 @@
 <c:set var="VOList" value="${resValue.DESELECTEMPLIST}"></c:set>
 
 	<hdiits:form name="DDOEmpDeselect" id="DDOEmpDeselect" encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset style="width:100%" class="tabstyle">
 		<legend id="headingMsg">
 		<b><fmt:message key="CMN.DDOEMPDESELECTSEARCH" bundle="${dcpsLabels}"></fmt:message></b>

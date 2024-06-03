@@ -972,6 +972,7 @@ function beforeSubmit()
 
 <hdiits:form name="empLoan" validate="true" method="POST"
 	action="javascript:beforeSubmit()" encType="text/form-data">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<%-- <hdiits:form name="empLoan" validate="true" method="POST"
 	action="./hrms.htm?actionFlag=insertEmpLoanDtls&edit=N" encType="text/form-data">	--%>
 

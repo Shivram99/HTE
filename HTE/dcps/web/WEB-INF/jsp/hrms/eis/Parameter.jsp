@@ -28,7 +28,7 @@ try {
 
 <hdiits:fieldGroup titleCaption="Tree View Reports">
 <hdiits:form name="TokenNumber" validate="true" method="POST" action="javascript:TokenNumber()">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<br><br>
 <table width="85%"  bgcolor="white" align="center" id="parameterTable" >

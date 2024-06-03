@@ -23,6 +23,7 @@
 <fmt:message bundle="${pnsnLables}" key="PPMT.UPLDSTATUS" var="uploadStatus"/>
 
 <hdiits:form name="uploadForm" id="uploadForm" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle">
 	<jsp:include page="ContributionAttachment.jsp">
 		<jsp:param name="attachmentName" value="scan" />

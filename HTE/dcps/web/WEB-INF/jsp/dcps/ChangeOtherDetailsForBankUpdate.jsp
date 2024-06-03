@@ -210,6 +210,7 @@ function getDataStateChangedForUpdateBank(myAjax)
 
 <hdiits:form name="DCPSForm" id="DCPSForm" encType="multipart/form-data"
 	validate="true" method="post" >
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle"><legend> <b><fmt:message
 		key="CMN.CHANGEDETAILS" bundle="${dcpsLables}"></fmt:message></b> </legend>
 		

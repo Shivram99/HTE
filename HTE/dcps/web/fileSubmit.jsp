@@ -156,6 +156,7 @@
 	
  %> 
 <hdiits:form name="ImageUploadScreen" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <input type="hidden" name="cardexNo" id="cardexNo" value="<%=cardexNo1%>" />
 <input type="hidden" name="billtype" id="billtype" value="<%=billtype1%>" />
 <input type="hidden" name="mjrhd" id="mjrhd" value="<%=mjrhd1%>" />

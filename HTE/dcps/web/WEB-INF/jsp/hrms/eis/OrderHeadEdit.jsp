@@ -157,7 +157,7 @@ function beforeSubmit()
 </script>
 <hdiits:form name="orderHeadMaster" validate="true" method="POST"
 	action="javascript:beforeSubmit()" >
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b><fmt:message key="OM.orderheadEdit" bundle="${commonLables}"/></b></a></li>

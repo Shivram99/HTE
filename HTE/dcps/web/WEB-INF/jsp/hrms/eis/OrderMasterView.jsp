@@ -59,7 +59,7 @@ function filterByDDOCode(){
 
 <hdiits:form method="POST" name="orderMstView" validate="true"
 	id="orderMstView" action="./hrms.htm?viewName=orderMaster">
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">

@@ -28,6 +28,7 @@ try {
 <c:set value="1" var="i"></c:set>
 
 <hdiits:form name="frmAdminCrtLocation" validate="true" method="post" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b>

@@ -24,6 +24,7 @@
 </head>
 
 <hdiits:form name="frmPaybill" validate="true" method="post" action="ifms.htm?actionFlag=forwardConsolidatedBill">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu" style="width:150%">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected" ><a href="#" rel="tcontent1"><b>Forward consolidated Pay Bills</b></a></li>

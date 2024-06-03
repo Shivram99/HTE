@@ -513,7 +513,7 @@ function forwardContributionData()
 
 <hdiits:form name="DCPSOfflineEntryForm" id="DCPSOfflineEntryForm" encType="multipart/form-data"
 	validate="true" method="post" >
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<fieldset class="tabstyle"><legend> <b><fmt:message
 		key="CMN.INPUTDETAILSFORCONTRI" bundle="${dcpsLables}"></fmt:message></b> </legend>
 		

@@ -122,6 +122,7 @@ function revertData()
 </script>
 <body>
 <hdiits:form name="reverLoanScreen" validate="true" method="POST"	encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b>Revert Installments</b></a></li>

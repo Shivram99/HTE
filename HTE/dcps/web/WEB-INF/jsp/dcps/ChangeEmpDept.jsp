@@ -18,6 +18,7 @@
 <fmt:setBundle	basename="resources.dcps.dcpsLabels" var="DCPSLables" scope="request" />
 <hdiits:form name="frmChangeEmpDept" encType="multipart/form-data"
 	validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	
 <br/>
 

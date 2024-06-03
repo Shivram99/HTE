@@ -77,6 +77,7 @@ div#content {
 
 </style>
 <hdiits:form name="frmVacantPostDtls" action="" id="frmVacantPostDtls" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <c:if test="${VacantPostDtls != null && VacantPostDtls[0] != null}">
 <fieldset class="tabstyle" ><legend>Vacant Post Details</legend>
 	<div class="scrollablediv" >	

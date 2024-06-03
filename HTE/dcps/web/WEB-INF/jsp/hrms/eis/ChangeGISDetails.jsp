@@ -291,6 +291,7 @@ div#tcontent1 input, div#tcontent1 select {
 
 	<hdiits:form name="frmEmpGISDtls" validate="true" method="POST"
 		action="" encType="text/form-data">
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<%-- <hdiits:form name="empLoan" validate="true" method="POST"
 	action="./hrms.htm?actionFlag=insertEmpLoanDtls&edit=N" encType="text/form-data">	--%>
 

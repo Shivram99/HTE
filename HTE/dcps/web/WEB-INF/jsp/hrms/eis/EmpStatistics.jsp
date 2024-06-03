@@ -58,6 +58,7 @@ function printReport()
 }
 </script>
 <hdiits:form name="frmEmpStatistics" action="" id="frmEmpStatistics" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <c:if test="${lFlag != 'Y'}">
 <fieldset class="tabstyle">
 <table width="70%" align="center" >

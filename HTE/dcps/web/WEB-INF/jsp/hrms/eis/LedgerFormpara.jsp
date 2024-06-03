@@ -129,7 +129,7 @@ if (xmlHttp.readyState==complete_state)
 
 <hdiits:form name="frmledgerformPara" validate="true" method="POST"
 	action="javascript:beforeSubmit()" encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b><hdiits:caption captionid="Ledger Form" caption="Ledger Form Parameters"/> </b></a></li>

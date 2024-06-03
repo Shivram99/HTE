@@ -646,6 +646,7 @@ function displayOfficeList()
 <body onload="chckType();">
 <hdiits:form name="DCPSForwardedFormsList" id="DCPSForwardedFormsList"
 	encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	
 	<fieldset class="tabstyle"><legend> <b>Filter Institute</b> </legend>
 <table align="center">

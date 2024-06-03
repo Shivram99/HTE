@@ -514,7 +514,7 @@ div#content {
 	<tr align="center">
 		<hdiits:form name="ViewOuterFirst" id="ViewOuterFirst" validate="true" method="POST"
 			action="" encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 
 			<td align="center"><br></br>

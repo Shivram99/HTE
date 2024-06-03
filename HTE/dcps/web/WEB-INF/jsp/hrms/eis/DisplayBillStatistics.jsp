@@ -69,6 +69,7 @@ function ReturnLoginPage()
 
 <body>
 <hdiits:form name="frmBillStatistics" action="" id="frmBillStatistics" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle">
 <legend>
 	<b><fmt:message key="NG.BillGroup" bundle="${commonLables}"></fmt:message></b>

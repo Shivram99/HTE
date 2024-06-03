@@ -230,6 +230,7 @@ xmlHttp.send(url);
 	<b><fmt:message key="CMN.ATTACHEMPLOYEE" bundle="${dcpsLables}"></fmt:message></b>
 </legend>
 <hdiits:form name="frmDCPSAttachBill" action="" id="frmDCPSAttachBill" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <tr>&nbsp;</tr>
 <tr>&nbsp;</tr>
 <tr>&nbsp;</tr>

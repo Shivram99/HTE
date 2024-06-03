@@ -415,7 +415,7 @@ table.PayslipparaTb select {
 <hdiits:form name="frmPayslipPara" validate="true" method="POST"
 	action="./hrms.htm?actionFlag=generatePayslip"
 	encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b><hdiits:caption

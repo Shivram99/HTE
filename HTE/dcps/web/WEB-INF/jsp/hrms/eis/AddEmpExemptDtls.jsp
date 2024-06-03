@@ -197,6 +197,7 @@ function deleteRecord(currentRecord){
 
 <hdiits:form name="frmEmpExemptDtls" validate="true" method="POST"
 	action="./hrms.htm?actionFlag=insertUpdateEmpExemptData&edit=N" encType="text/form-data">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs" compact="compact">
 			<li class="selected"><a href="#" rel="tcontent1"><font size="2"><b><hdiits:caption captionid="empExemptAdd" bundle="${enLables}"></hdiits:caption></b></a></li>

@@ -964,6 +964,7 @@ border-bottom {
 
 			<hdiits:form name="ViewOuterFirst" validate="true" method="POST"
 							action="" encType="multipart/form-data">
+							<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 							<table align="center">
 					<tr>
 						

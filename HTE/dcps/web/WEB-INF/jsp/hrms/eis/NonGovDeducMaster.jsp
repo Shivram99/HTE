@@ -581,7 +581,7 @@ function beforeSubmit()
 
 
 <hdiits:form name="frmBF" validate="true" method="POST" action="javascript:beforeSubmit()" encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs" compact="compact">
 			<li class="selected"><a href="#" rel="tcontent1"><font size="2"><b><fmt:message key="NGD.insertNonGovDeductMaster" bundle="${enLables}"/></a></li>

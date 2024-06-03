@@ -33,6 +33,7 @@ if(cont=="No")
 }
 </script>
 <hdiits:form name="ApproveFileForm" method="POST" action="./hdiits.htm" encType="multipart/form-data" validate="true"  >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <hdiits:hidden name="reject"  default="${resValue.rejectflag}"/>
 <table>
 	<tr>

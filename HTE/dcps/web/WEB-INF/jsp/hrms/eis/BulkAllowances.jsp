@@ -975,7 +975,7 @@ table.BulkAllwoncesTb2 td select {
 
 		<hdiits:form name="frmBF" validate="true" method="POST" action=""
 			encType="multipart/form-data">
-
+			<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 
 			<table width="85%" align="center" border="1">
@@ -1109,7 +1109,7 @@ table.BulkAllwoncesTb2 td select {
 		<frame name="frm2">
 		<hdiits:form name="newBulkForm" validate="true" method="POST"
 			action="" encType="multipart/form-data">
-
+			<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 			<c:set var="counter" value="${0}" />
 			<c:set var="eTotal" value="${0}" />
 			<c:set var="nTotal" value="${0}" />

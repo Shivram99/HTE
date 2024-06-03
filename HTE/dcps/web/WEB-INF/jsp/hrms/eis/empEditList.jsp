@@ -463,7 +463,7 @@ function PANCardNo(Pan)
 
 <hdiits:form name="frmBF" validate="true" method="POST"
 	action="javascript:validateForm1()" encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b><fmt:message key="updateEmpMaster" bundle="${commonLables}"/></b></a></li>

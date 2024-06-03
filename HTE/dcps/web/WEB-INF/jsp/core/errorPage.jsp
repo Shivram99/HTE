@@ -35,7 +35,7 @@ function submitErrorForm()
 		<td valign="middle" align="center"></td>
 		<td height="100%">
 		<hdiits:form name="ePage" method="POST" validate="false" action="javascript:submitErrorForm();">
-		
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 			<fieldset style="width:100%; align: left" class="tabstyle">
 				<legend>Alert</legend>
 					<table border=0 width="100%" cellpadding="2">

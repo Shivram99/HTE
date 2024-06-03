@@ -1185,7 +1185,7 @@ function validateBasicPay(){
 </script>
 
 <hdiits:form name="frmChangePayDetails" encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <input type="hidden" id="hidDcpsId" value="${resValue.hidDcpsId}"/>
 <input type="hidden" id="hidEmpName" value="${resValue.hidEmpName}"/>
 <input type="hidden" id="hidBirthDate" value="${resValue.hidBirthDate}"/>

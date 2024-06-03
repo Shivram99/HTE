@@ -171,6 +171,7 @@ function submitForm()
 </script>
 <body>
 <hdiits:form name="ChangePostOfficeFrm" validate="true" method="POST"	encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <input type="hidden" name="allPostId" id="allPostId" value="" />
 <hdiits:hidden default="${newOffList}" id="newOffList" name="newOffList"></hdiits:hidden>
 <hdiits:hidden default="${newOffListSize}" id="newOffListSize" name="newOffListSize"></hdiits:hidden>

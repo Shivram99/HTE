@@ -164,6 +164,7 @@ function check4number(str, name)
 <hdiits:form name="frmViewEmployeeList" validate="true" method="POST" 
  action="./hrms.htm?actionFlag=getViewEmployeeList&searchFlg=N"
 encType="text/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/><input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 	
 			<ul id="maintab" class="shadetabs">

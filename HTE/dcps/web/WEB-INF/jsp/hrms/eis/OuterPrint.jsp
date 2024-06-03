@@ -128,6 +128,7 @@ Map loginDetailsMap =(Map)session.getAttribute("loginDetailsMap");
 <c:set var="budTypeSel" value="${resValue.budTypeSel}"/>
 <hdiits:form name="frmPrintOuter" validate="true" method="POST"
 	action="">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <%
 long totalExp=0;
 long totalRec=0;

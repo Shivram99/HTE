@@ -1819,6 +1819,7 @@ function datediff(date1, date2)
 
 	<hdiits:form name="formS1Form" id="formS1Form"
 		encType="multipart/form-data" validate="true" method="post" action="">
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<input type="hidden" id="hdnEmpSevarthId" name="hdnEmpSevarthId"
 			value="${EmpSevarthId}">
 		<input type="hidden" id="hdnDDOCode" name="hdnDDOCode"

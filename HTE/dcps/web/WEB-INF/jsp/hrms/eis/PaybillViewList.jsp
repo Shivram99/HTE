@@ -64,6 +64,7 @@ function forwardBill()
 
 
 <hdiits:form name="frmPaybillPara" validate="true" method="POST" action="./hrms.htm?actionFlag=deleteBill" >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b>Paybills</b></a></li>

@@ -15,6 +15,7 @@
 <c:set value="1" var="i"></c:set>
 
 <hdiits:form name="searchZpAdminOffice" validate="true" method="post" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <%--<hdiits:button name="btnCreate" type="button" classcss="bigbutton" captionid="ZPADMINOFFICE_ZPADMINOFFICECREATE" bundle="${ZpAdminOfficeLabels}" onclick="newZpAdminOfficeCreate();"></hdiits:button>--%>
 <%-- <fieldset class="tabstyle"><legend> 
 	                  <fmt:message key="ZPADMINOFFICE_SEARCHRESULT" bundle="${ZpAdminOfficeLabels}"></fmt:message></legend>

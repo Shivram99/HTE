@@ -33,7 +33,7 @@ try {
 <c:set var="strAppType" value="PROF-SERVICE-EXAM"></c:set>
 
 <hdiits:form name="ServiceExaminationDtls" validate="true" method="POST">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <!-- start of employee Service examination Details -->
 	<div id="tabmenu">
 		<%@ include file="ProfessionalDetailsTab.jsp"%>

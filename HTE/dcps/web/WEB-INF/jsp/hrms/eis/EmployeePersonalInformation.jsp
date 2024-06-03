@@ -74,6 +74,7 @@ try {
 </script>
 
 <hdiits:form name="frmBF" validate="true" method="POST" action="hrms.htm?actionFlag=addEditEmpInfo" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<c:choose>

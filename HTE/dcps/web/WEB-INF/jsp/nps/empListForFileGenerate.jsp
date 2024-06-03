@@ -33,6 +33,7 @@ p.mynote {
 
 <hdiits:form name="formNPSFileListSearch" id="formNPSFileListSearch"
 	encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset class="tabstyle">
 		<legend>Search Employee</legend>
 		<table width="80%">
@@ -250,6 +251,7 @@ p.mynote {
 </fieldset>
 <hdiits:form name="frmEmpFilegenerate" action="" id="frmEmpFilegenerate"
 	encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<hdiits:button id="btnExporttoExcel" name="btnExporttoExcel"
 		value="Export to Excel" classcss="bigbutton" type="button"
 		onclick="generateExcel()" />

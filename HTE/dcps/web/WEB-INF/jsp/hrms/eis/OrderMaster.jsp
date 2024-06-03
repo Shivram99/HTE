@@ -236,7 +236,7 @@ function checkAvailability()
 
 <hdiits:form name="frmOrderMaster" validate="true" method="POST" 
 	action="javascript:validateForm()" encType="multipart/form-data">
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	
 	<%--Added by roshan --%>
 	<fieldset class="tabstyle"><legend> <b>Filter Institute</b> </legend>

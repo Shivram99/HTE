@@ -217,7 +217,7 @@ else
 
 <hdiits:form name="empLeave" validate="true" method="POST"
 	action="javascript:submit()" encType="text/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs" compact="compact">
 			<li class="selected"><a href="#" rel="tcontent1"><font size="2"><b><fmt:message key="LEV.edit" bundle="${commonLables}"/></b></a></li>

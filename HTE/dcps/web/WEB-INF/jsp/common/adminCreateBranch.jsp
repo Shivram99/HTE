@@ -118,7 +118,9 @@ function saveData()
 </head>
 <body onkeypress="return checkSpecialCharacter(event)">
 <hdiits:form name="frmAdminCrtBranch" action="hrms.htm?actionFlag=SubmitAdminBranchData" method="post" validate="true" encType="multipart/form-data">
+
 	<div id="tabmenu">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<ul id="maintab" class="shadetabs" >
 		<c:if test="${langId == 1}">
 			<li class="selected" id="eng"><a href="#" rel="tcontent1" ><b>

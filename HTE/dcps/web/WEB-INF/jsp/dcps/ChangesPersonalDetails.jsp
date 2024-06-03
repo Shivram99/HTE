@@ -651,6 +651,7 @@ function getResponsePANNo(myAjax,panNo){
 
 <hdiits:form name="DCPSPersonalChangesForm" id="DCPSPersonalChangesForm" encType="multipart/form-data"
 	validate="true" method="post" >
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	
 <fieldset class="tabstyle"><legend> <b><fmt:message
 		key="CMN.EXISTINGDETAILS" bundle="${dcpsLables}"/></b> </legend>

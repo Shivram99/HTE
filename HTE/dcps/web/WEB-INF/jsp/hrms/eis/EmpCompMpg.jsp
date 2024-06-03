@@ -555,7 +555,7 @@ try {
 
 	<hdiits:form name="EmpCompMpgForm" validate="true" method="POST"
 		onload="settingvalue();" encType="multipart/form-data">
-
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<input type="hidden" id="DCPSorGPF" name="DCPSorGPF"
 			value="${DCPSorGPF}">
 		<!-- added by pandey 08-01-2021  -->

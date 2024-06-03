@@ -273,6 +273,7 @@ function checkPaybillStatus()
 
 <fmt:setBundle basename="resources.dcps.dcpsLabels" var="dcpsLables" scope="request" />
 <hdiits:form name="frmScheme" encType="multipart/form-data" validate="true" method="post" >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle" ><legend> <b><fmt:message key="CMN.SCHEMESOPERATED"
 				bundle="${dcpsLables}"/></b> </legend>
 

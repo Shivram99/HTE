@@ -22,7 +22,7 @@
 
 <hdiits:form name="DCPSOfflineEntryCorrectionForm" id="DCPSOfflineEntryCorrectionForm" encType="multipart/form-data"
 	validate="true" method="post" >
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset class="tabstyle">
 		
 		<table align="center" width="85%">

@@ -35,6 +35,7 @@ FIELDDEPT='<fmt:message key="DCPS.FIELDDEPT" bundle="${dcpsAlerts}"></fmt:messag
 
 
 <hdiits:form name="DDOInfoForm" id="DDOInfoForm" encType="multipart/form-data" validate="true" method="post"  >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset style="width:50%" class="tabstyle">
 <legend id="headingMsg">
 <b><fmt:message key="CMN.DDOPROFILEINFO" bundle="${dcpsLabels}"></fmt:message></b>

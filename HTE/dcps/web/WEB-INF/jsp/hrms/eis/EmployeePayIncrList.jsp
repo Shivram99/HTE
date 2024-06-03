@@ -1195,6 +1195,7 @@
 <body>
 	<hdiits:form name="EmpIncr" validate="true" method="POST"
 		encType="multipart/form-data">
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<table width="100%">
 			<tr>
 				<td><input type="hidden" id="empIdstoBeDetached"

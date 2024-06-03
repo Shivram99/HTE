@@ -345,7 +345,7 @@ function saveData()
 </head>
 <body onkeypress="return checkSpecialCharacter(event)">
 <hdiits:form name="createCity" action="" method="post" validate="true" encType="multipart/form-data" >
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<c:if test="${MULTI_LANG eq 'Y'}">	
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">

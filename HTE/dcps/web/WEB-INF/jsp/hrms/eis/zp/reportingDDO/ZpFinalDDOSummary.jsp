@@ -49,6 +49,7 @@ function ShowPayBill(ddoCode, id, value){
 </head>
 <body>
 <hdiits:form method="POST" name="frmSummaryPage" validate="true">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<input type="hidden" value='<c:out value="${schemecode}"/>'
 		name="schemeCode" id="schemeCode">
 	<input type="hidden" value='<c:out value="${paybillId}"/>'

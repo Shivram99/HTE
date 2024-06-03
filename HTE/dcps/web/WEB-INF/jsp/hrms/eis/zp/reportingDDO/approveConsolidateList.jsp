@@ -68,6 +68,7 @@ function approveConsPayBill() {
 	style="background-color: #E8E3E3; border-style: inset; border-color: #B24700; border-width: thin">
 
 <hdiits:form name="frmPaybill" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<table width="100%" border="1">
 

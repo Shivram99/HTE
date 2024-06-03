@@ -39,6 +39,7 @@ function window_new_update(url)
 
 <hdiits:form name="DCPSApprovedFormsList" id="DCPSApprovedFormsList" encType="multipart/form-data"
 	validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div align="center">
 
 <fieldset class="tabstyle"><legend> <b><fmt:message

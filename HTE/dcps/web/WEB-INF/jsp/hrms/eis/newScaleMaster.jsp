@@ -555,7 +555,7 @@
 	value="${scaleMstVO.scaleEffFromDt}" />
 <hdiits:form name="frmScaleMaster" validate="true" method="POST"
 	action="./hrms.htm?actionFlag=insertScaleData&edit=N">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b><fmt:message

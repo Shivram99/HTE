@@ -239,7 +239,7 @@ function updateEntry(flagC){
 </script>
 <hdiits:form name="TicketForm" id="TicketForm"
 	encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<fieldset class="tabstyle"><legend> <b>Raise
 	New Ticket</b> </legend>

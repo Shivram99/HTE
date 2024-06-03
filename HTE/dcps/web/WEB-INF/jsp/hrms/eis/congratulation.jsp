@@ -213,6 +213,7 @@ h3 {
 
 <hdiits:form name="pendingWork" action="" id="pendingWork"
 	encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<c:choose>
 		<c:when
 			test="${totalInstituteVerification != null || totalEmployeeForVerification != null || totalSchoolForVerification !=null || totalDDOForVerification != null}">

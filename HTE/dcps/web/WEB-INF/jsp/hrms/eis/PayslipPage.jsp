@@ -74,7 +74,7 @@ if(	payslipList!=null)
 
 <hdiits:form name="frmPayslip" validate="true" method="POST"
 	action="">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <c:forEach items="${lstPayslipCustomVO}" var="payslipCustomVO">
 <c:set var="paySlipArgsAllowList" value="${resValue.paySlipAgrsAllowList}" > </c:set>
 <c:set var="paySlipArgsDeducList" value="${resValue.paySlipAgrsDeducList}" > </c:set>

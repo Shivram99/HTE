@@ -473,7 +473,7 @@ var empName = document.getElementById("Employee_ID_EmpSearch").value;
 
 <hdiits:form name="empLeave" validate="true" method="POST"
 	action="javascript:callAction()" encType="text/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs" compact="compact">
 			<li class="selected"><a href="#" rel="tcontent1"><font size="2"><b><fmt:message key="LEV.master" bundle="${commonLables}"/></b></a></li>

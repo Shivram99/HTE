@@ -398,6 +398,7 @@ function onclosefunction()
 
 <body>
 <hdiits:form name="NonGovDeductionMaster" validate="true" method="POST"	encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tcontent1" style="background-color: #E8E3E3;border-style: inset;border-color:#B24700 ;border-width: thin" >
 	 <BR>
 	 <table width="85%" align="center" border="1">

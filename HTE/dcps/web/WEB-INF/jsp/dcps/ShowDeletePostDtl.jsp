@@ -501,7 +501,7 @@ span.pagelinks {
 	<c:set value="0" var="i"></c:set>
 	<hdiits:form name="frmAdminCrtPost" validate="true" method="post"
 		encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<br />
 		<br />
 		<fieldset class="tabstyle">

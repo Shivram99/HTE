@@ -242,6 +242,7 @@ function submitSearchEmp()
 </script>
 <hdiits:form name="formS1EditListForm" id="formS1EditListForm"
 	encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div style="text-align: center; color: green; font-weight: 800;">${msg}</div>
 
 	<fieldset class="tabstyle">

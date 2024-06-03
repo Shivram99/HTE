@@ -155,7 +155,8 @@ p.mynote {
 	scope="request" />
 <hdiits:form name="frmDCPSMatchedEntries" encType="multipart/form-data"
 	validate="true" method="post">
-${FileStatus }
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
+
 	<c:set var="resultObj" value="${result}"></c:set>
 	<c:set var="resValue" value="${resultObj.resultValue}" />
 	<c:set var="entries" value="${resValue.EntryList}" />

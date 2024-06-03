@@ -38,7 +38,7 @@
 
 <hdiits:form name="DCPSForm" id="DCPSForm" encType="multipart/form-data"
 	validate="true" method="post">
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu" align="left">
 	<ul id="maintab" >
 	

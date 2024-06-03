@@ -119,7 +119,7 @@ function  chkKey(e)
 
 <hdiits:form name="frmBF" validate="true" method="POST"
 	action="hrms.htm?actionFlag=insertGradeData" encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b><hdiits:caption captionid="eis.insertGrade_dtl" bundle="${enLables}"></hdiits:caption></b></a></li>

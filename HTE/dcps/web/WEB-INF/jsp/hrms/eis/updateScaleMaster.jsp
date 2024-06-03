@@ -47,7 +47,7 @@ function init()
 
 <hdiits:form name="frmScaleMaster" validate="true" method="POST"
 	action="./hrms.htm?actionFlag=insertScaleData" >
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1">Scale Master</a></li>

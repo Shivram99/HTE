@@ -1029,6 +1029,7 @@ function fillOrderDetails()
 <link rel="stylesheet"
 	href="<c:url value="/themes/hdiits/tabcontent.css"/>" type="text/css" />
 <hdiits:form name="frmNewEmpInfo" validate="true" method="POST" action="">	
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b>New Employee Configuration</b></a></li>

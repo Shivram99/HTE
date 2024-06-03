@@ -107,7 +107,7 @@ if('${msgFwd}'!= null && '${msgFwd}'!='')
 
 <hdiits:form name="TokenNumber" validate="true" method="POST"
 	action="javascript:validateForm1()">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b> <fmt:message

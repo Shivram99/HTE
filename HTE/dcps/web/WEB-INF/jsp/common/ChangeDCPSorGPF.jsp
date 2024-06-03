@@ -169,7 +169,7 @@ function getResponseUpdate(myAjax)
 </script>
 
 <hdiits:form name="FrmSetDCPSorGPF" encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle"><legend><fmt:message key="PPMT.EMPDTLS" bundle="${pensionLabels}"></fmt:message></legend>
 	<table width="100%">
 		<tr>		

@@ -687,7 +687,7 @@ function closeFunction()
 </script>
 
 <hdiits:form name="printAllReports" validate="true" method="POST" action=" ">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b>All Reports

@@ -113,6 +113,7 @@ table#tblBillDetl tr td:first-child, table#tblBillDetl tr td:nth-child(3)
 }
 </style>
 <hdiits:form name="frmDdoGroupBill" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <c:set var="space" value="   "></c:set>
 <fieldset class="tabstyle"><legend> 
 	                  <fmt:message key="CMN.ALREADYADDEDBILLGROUPS" bundle="${dcpsLables}"></fmt:message></legend>

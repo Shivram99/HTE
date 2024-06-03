@@ -10,6 +10,7 @@ try
 <fmt:setBundle basename="resources.workflow.FMS_TEMPLables" var="fmsTempLables" scope="request"/>
 
 <hdiits:form name="wfconfigmenu" validate="true" method="POST"	action="./hdiits.htm" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <br>
 <center><b><font size="3"><fmt:message key="WF.WfConfigDetails"  bundle="${fmsLables}"></fmt:message></font></b></center>
 <br>

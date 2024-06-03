@@ -866,6 +866,7 @@ function popDataFrmInteRecNumber(crtl){
  --%>
 <hdiits:form name="empLoan" validate="true" method="POST"
 	 action="javascript:submitForm()" encType="text/form-data">
+	 <input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs" compact="compact">
 			<li class="selected"><a href="#" rel="tcontent1"><font size="2"><fmt:message key="eis.updateloandtls" bundle="${commonLables}"/></b></a></li>

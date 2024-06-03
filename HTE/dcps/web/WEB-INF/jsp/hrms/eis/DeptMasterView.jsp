@@ -49,7 +49,7 @@ function init()
 </script>
 <hdiits:form name="deptMaster" validate="true" method="POST"
 	action="./hdiits.htm?viewName=DeptMaster" >
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#"  rel="tcontent2"><b> <hdiits:caption captionid="HR.EIS.DeptMaster" bundle="${commonLables}"/></b></a></li>

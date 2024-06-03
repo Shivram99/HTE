@@ -140,6 +140,7 @@ pageContext.setAttribute("listSize",size);
 
 	<hdiits:form name="LoanEmp" validate="true" method="POST"	action="./hrms.htm?actionFlag=getLoanValue" encType="text/form-data">
 		<c:set value="display:none" var="displayStyle"/>
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<c:if test="${empAllRec!='true'}">
 		<c:set value="display:show" var="displayStyle"/>
 	</c:if>

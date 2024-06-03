@@ -103,6 +103,7 @@ function submitFormAuto()
 
 	  <br>
 	<hdiits:form name="EmpInfo" validate="true" method="POST"	action="./hrms.htm?actionFlag=getEmpData" encType="text/form-data">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<c:set value="display:none" var="displayStyle"/>
 	<c:if test="${empAllRec!='true'}">
 		<c:set value="display:show" var="displayStyle"/>

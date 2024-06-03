@@ -56,6 +56,7 @@ function saveFileFunction()
 </script>
 
 <hdiits:form action="hrms.htm?actionFlag=getpayslip&elementId=300711" method="Post" name="GeneratePaySlip" validate="true" >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu" style="display: block;">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1">PaySlip</a></li>

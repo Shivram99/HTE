@@ -41,6 +41,7 @@ function filterByDDOCode(){
 
 <hdiits:form name="DCPSForwardedFormsList" id="DCPSForwardedFormsList" encType="multipart/form-data"
 	validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<input type="hidden" id="User" name="User" value="${resValue.User}"/>
 	<input type="hidden" id="Use" name="Use" value="${resValue.Use}"/>
 <div align="center">

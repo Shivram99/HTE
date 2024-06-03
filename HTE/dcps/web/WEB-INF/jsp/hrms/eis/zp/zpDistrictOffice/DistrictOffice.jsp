@@ -38,6 +38,7 @@ alert("done");
 	
 
 <hdiits:form name="frmDistrictOffice" action="" validate="true" method="post" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <hdiits:hidden name="" default="${distId}"/>
 <hdiits:hidden name="editFlag" default="${editFlag}"/>  
 

@@ -96,6 +96,7 @@ div#content {
 
 </style>
 <hdiits:form name="frmViewCreatedPostDtls" action="" id="frmViewCreatedPostDtls" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <c:if test="${ViewCreatedPostDtls != null && ViewCreatedPostDtls[0] != null}">
 <fieldset class="tabstyle" ><legend>View Created Post</legend>
 	<div class="scrollablediv" >	

@@ -87,6 +87,7 @@ function prindDoc(divName)
 </script>
 <div id="PrintPage">
 <hdiits:form name="ViewOuterFirst" validate="true" method="POST" action="" encType="multipart/form-data" >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <table cellpadding="0" cellspacing="0" border="0" frame="box" align="CENTER" width="100%">
 	<tr>
 		<td align="center">

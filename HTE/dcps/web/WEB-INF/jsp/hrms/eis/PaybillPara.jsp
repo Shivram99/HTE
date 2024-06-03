@@ -113,7 +113,7 @@ try {
 </script>
 <hdiits:form name="frmPaybillPara" id="frmPaybillPara" validate="true" method="POST" 
 	action="#" encType="text/form-data" >
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b>

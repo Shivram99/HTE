@@ -344,6 +344,8 @@ function saveData()
 </head>
 <body onkeypress="return checkSpecialCharacter(event)">
 <hdiits:form name="frmAdminCrtRole" action="hrms.htm?actionFlag=submitAdminRoleData" method="post" validate="true" encType="multipart/form-data">
+
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs" >
 		<c:if test="${langId == 1}">

@@ -199,6 +199,7 @@ function validateForm()
 
 <hdiits:form name="frmOrderMaster" validate="true" method="POST" 
 	action="./hrms.htm?actionFlag=AddOrderData&edit=Y&orderId=${actionList.orderId}" encType="multipart/form-data">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b><fmt:message key="OM.updateOrderMaster" bundle="${commonLables}"/></b></a></li>

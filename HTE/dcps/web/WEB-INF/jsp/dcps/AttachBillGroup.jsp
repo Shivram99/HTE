@@ -24,6 +24,7 @@
 
 <fmt:setBundle basename="resources.dcps.dcpsLabels" var="dcpsLables" scope="request" />
 <hdiits:form name="frmDCPSAttachBill" action="" id="frmDCPSAttachBill" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle">
 <legend>
 	<b><fmt:message key="CMN.BGDETAILS" bundle="${dcpsLables}"></fmt:message></b>

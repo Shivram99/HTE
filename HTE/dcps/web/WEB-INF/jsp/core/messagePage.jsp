@@ -20,6 +20,7 @@
 		<td valign="middle" align="center"></td>
 		<td height="100%">
 <hdiits:form name="homePage" method="POST" validate="false" action="javascript:submitMessageForm();" >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <hdiits:fieldGroup>
 		<table border=0 width="100%" cellpadding="5"><tr><td valign="middle" align="center">
 		<img src='<c:url value="/themes/${themename}/images/infoalert-01.png"/>'>

@@ -25,7 +25,7 @@
 <fieldset class="tabstyle"><legend> 
 	                  <fmt:message key="Forward consolidated Pay Bills" ></fmt:message></legend>
 <hdiits:form name="frmPaybill" validate="true" method="post" action="ifms.htm?actionFlag=rejectConsolidatedBill">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <table width="100%" border="1">
 
 <tr >

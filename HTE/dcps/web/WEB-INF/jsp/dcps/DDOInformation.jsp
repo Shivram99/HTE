@@ -24,6 +24,7 @@ input[type="button" i]:disabled {
 </style>
 
 <hdiits:form name="DDOInfo" id="DDOInfo" encType="multipart/form-data" validate="true" method="post"   >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <input type = "hidden" id = "cmbDdoCode" name="cmbDdoCode" value = "${resValue.cmbDdoCode }" />
 
 <fieldset class="tabstyle" >

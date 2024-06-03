@@ -23,7 +23,7 @@ try {
 <c:set var="empContactDtls" value="${resultVal.empContactDtls}" />
 
 <hdiits:form name="frmEditDispForm" validate="true" method="POST"  encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">

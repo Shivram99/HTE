@@ -34,6 +34,7 @@
 <script type="text/javascript" src="<c:url value="/script/exptracking/zp_admin_ofc/admin/zpAdminOffice.js"/>"></script>
 
 <hdiits:form name="ZpDDOOffice"  method="post" action="" validate="true" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<hdiits:hidden name="updateFlag"  default = "${updateFlag}"/>
 
 	

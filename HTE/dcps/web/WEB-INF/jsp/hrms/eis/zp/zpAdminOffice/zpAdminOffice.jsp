@@ -164,6 +164,7 @@ visibility: hidden;
   
  </script>
 <hdiits:form name="ZpAdminOffice"  method="post" action="ifms.htm?actionFlag=save_ZpAdminOffice" validate="true" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<hdiits:hidden name="updateFlag"  default = "${updateFlag}"/>
 	<hdiits:hidden name="currentDate" id="currentDate" default="${currentDateJs}"/>
 		

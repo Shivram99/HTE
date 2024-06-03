@@ -157,6 +157,7 @@ select, input,textarea {
 <fmt:setBundle	basename="resources.dcps.dcpsLabels" var="DCPSLables" scope="request" />
 <hdiits:form name="frmDCPSDdoOffice" encType="multipart/form-data"
 	validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <c:set var="resultObj" value="${result}"></c:set>
 <c:set var="resValue" value="${resultObj.resultValue}"/>	
 <c:set var="officeList" value="${resValue.OfficeList}" />

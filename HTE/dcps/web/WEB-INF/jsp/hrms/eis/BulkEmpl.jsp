@@ -807,7 +807,7 @@ function onPayItemChange()
 <hdiits:form name="frmBF" validate="true" method="POST" action=""
 	encType="multipart/form-data">
 
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<table width="85%" align="center" border="1" style="display:none">
 		<tr>
@@ -915,7 +915,7 @@ function onPayItemChange()
 <frame name="frm2">
 <hdiits:form name="newBulkForm" validate="true" method="POST" action=""
 	encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<c:set var="counter" value="${0}" />
 	<input type="hidden" name="size" id="size" value="${size}">
 	<input type="hidden" name="type" id="type" value="${type}">

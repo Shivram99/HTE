@@ -254,6 +254,7 @@ function submit()
 
 <hdiits:form name="frmBF" validate="true" method="POST"
 	action="javascript:submit()" encType="text/form-data">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 		<ul id="maintab" class="shadetabs" compact="compact">
 			<li class="selected"><a href="#" rel="tcontent1"><font size="2"><b><hdiits:caption captionid="NGD.updateNonGovDeductMaster" bundle="${enLables}"></hdiits:caption></a></li>

@@ -824,7 +824,7 @@ function getExcelReport()
 </fieldset>
 <hdiits:form name="frmAdminCrtPost" validate="true" method="post"
 	encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<br />
 	<br />
 	<fieldset class="tabstyle"><legend>Search Post

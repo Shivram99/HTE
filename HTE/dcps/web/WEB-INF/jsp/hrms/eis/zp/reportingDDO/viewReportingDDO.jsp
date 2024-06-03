@@ -144,6 +144,7 @@ function getSaveMsg(myAjax)
 </head>
 <body>
 <hdiits:form name="frmDReportingDDO" action="" validate="true" method="post" encType="multipart/form-data">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <hdiits:hidden name="locId" id="locId" default="${locId}"/> 
 	<div id="tabmenu" >
 	<ul id="maintab" class="shadetabs">

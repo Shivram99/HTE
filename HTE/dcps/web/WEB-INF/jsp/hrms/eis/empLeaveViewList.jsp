@@ -93,6 +93,7 @@ function submitFormAuto()
 	  <br>
 	  <br><br>
 	<hdiits:form name="Leaveview" validate="true" method="POST"	action="./hrms.htm?actionFlag=getEmpLeaveData" encType="text/form-data">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<c:if test="${empAllRec eq null and notAdminUser!=1}">
 	<table  width="85%" align="center">
 		<tr>

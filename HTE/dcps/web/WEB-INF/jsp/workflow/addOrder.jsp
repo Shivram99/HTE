@@ -26,6 +26,7 @@ var fileDescArr=new Array();
 
 
 <hdiits:form name="addOrderFrm" validate="true"  encType="multipart/form-data" method="POST" action="./hdiits.htm">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <hdiits:hidden name="hiddFileNo" default="${lfileNo}"/>
 <hdiits:hidden name="hiddlflag" default="${lflag}"/>
 	<table width="100%" border="0">

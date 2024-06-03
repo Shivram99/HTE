@@ -653,7 +653,7 @@ function goBackToChange()
 <c:set var="counter" value="0"></c:set>
 
 <hdiits:form name="DDOFormList" id="DDOFormList" encType="multipart/form-data" validate="true" method="post" >
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div style="display: none">
 <fieldset class="tabstyle">
 <table width="25%" align="right" cellpadding="4" cellspacing="4">

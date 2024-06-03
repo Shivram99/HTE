@@ -33,6 +33,7 @@
 
 
 <hdiits:form name="frmEmpDeputn" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <input type="hidden" name="hidString" id="hidString" value="${queryString}"></input>
 <fieldset class="tabstyle">
 <c:choose>

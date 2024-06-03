@@ -579,6 +579,7 @@
 <body>
 	<hdiits:form name="BrokenPeriod" validate="true" method="POST"
 		encType="multipart/form-data">
+		<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<fieldset class="tabstyle">
 			<legend>Search Employee</legend>
 

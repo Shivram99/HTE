@@ -17,7 +17,7 @@
 <fmt:setBundle	basename="resources.dcps.dcpsLabels" var="dcpsLabels" scope="request" />
 
 <hdiits:form name="changeParentDept" encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <input type="hidden" id="hidSelectedTreasuryCode" value="${resValue.treasuryCode}"/>
 <input type="hidden" id="hidSelectedDDOCode" value="${resValue.ddoCode}"/>
 

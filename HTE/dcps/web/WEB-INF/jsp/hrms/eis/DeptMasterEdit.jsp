@@ -121,7 +121,7 @@ function init()
 <body onload="init()">
 <hdiits:form name="deptMaster" validate="true" method="POST"
 	action="./hdiits.htm?actionFlag=AddDepartment&updateflag=true&deptId=${resultObj.resultValue.resultSet.deptId}"  encType="multipart/form-data">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a href="#" rel="tcontent1"><b><hdiits:caption captionid="HR.EIS.UpdateDeptMaster" bundle="${commonLables}"/></b></a></li>

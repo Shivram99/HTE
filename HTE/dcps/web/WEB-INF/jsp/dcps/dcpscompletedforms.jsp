@@ -452,7 +452,7 @@ function submitSearchDetails(criteriavalue)
 
 <hdiits:form name="DDOFormList" id="DDOFormList" encType="multipart/form-data" validate="true" method="post" >
 
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle">
 	<input type="hidden" id="ForwardToPost" name="ForwardToPost" value="${UserList[0]}"/>	
 	<div style="float: inherit; border:0px; background-color: transparent;width:100%; height:400px;  ">

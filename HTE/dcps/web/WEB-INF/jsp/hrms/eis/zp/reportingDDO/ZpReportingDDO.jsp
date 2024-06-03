@@ -123,7 +123,7 @@ function getDataStateChangedForPopUpSchemes(myAjax)
 </head>
 
 <hdiits:form name="frmReportingDDO" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<hdiits:hidden name="seladminDept" id="seladminDept" default="2" />
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">

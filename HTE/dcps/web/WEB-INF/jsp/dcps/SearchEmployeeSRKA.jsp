@@ -170,7 +170,7 @@ function clearAllfields()
 	scope="request" />
 <hdiits:form name="EmployeeSearchForm" id="EmployeeSearchForm"
 	encType="multipart/form-data" validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset class="tabstyle"><legend><b><fmt:message key="CMN.SEARCHEMPLOYEE" bundle="${dcpsLables}"></fmt:message></b></legend>
 
 		<table border="0" width="40%" align="left" cellpadding="4"

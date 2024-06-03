@@ -23,6 +23,7 @@
 
 
 <hdiits:form name="frmSavedDrafts" validate="true">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<div id="tabmenu">
 	<ul id="maintab" class="shadetabs">
 		<li class="selected"><a rel="tcontent1"> <hdiits:caption

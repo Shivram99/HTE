@@ -47,7 +47,7 @@ function selectValueOfPTApplicable()
 </script>
 
 <hdiits:form name="formNewRegPhyForm" encType="multipart/form-data"  validate="true" method="post">
-
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <table align="center">
 
 <tr>

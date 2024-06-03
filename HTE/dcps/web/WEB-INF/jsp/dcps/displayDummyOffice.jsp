@@ -32,6 +32,7 @@
 <c:set var="counter" value="1"></c:set>
 
 <hdiits:form name="dummyOfficeDsply" encType="multipart/form-data" validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle"><legend> 
 		<fmt:message key="CMN.DEPTNOFFICEMSTENTRY" bundle="${dcpsLables}"></fmt:message> </legend>
 			<input type="hidden" name="hdnCounter" id="hdnCounter" value="0"/>

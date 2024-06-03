@@ -38,6 +38,7 @@
 
 <hdiits:form name="frmReportingDDO" validate="true" method="post"
 	action="ifms.htm?actionFlag=fwdApprChangeStmt">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 
 	<hdiits:hidden name="seladminDept" id="seladminDept" default="2" />
 	<div id="tabmenu">

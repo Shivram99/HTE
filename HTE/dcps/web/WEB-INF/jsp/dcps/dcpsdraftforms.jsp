@@ -14,6 +14,7 @@
 
 
 <hdiits:form name="DCPSForm" id="DCPSForm" encType="multipart/form-data" validate="true" method="post"  >
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset class="tabstyle">
 	<table width="70%" align="center" cellpadding="0" cellspacing="0">
 		<tr>

@@ -82,6 +82,7 @@ function SaveDataUsingAjax()
 
 <fmt:setBundle	basename="resources.dcps.dcpsLabels" var="DCPSLables" scope="request" />
 <hdiits:form name="frmNoticeBoard" encType="multipart/form-data"validate="true" method="post">
+<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 <fieldset class="tabstyle">
 	<display:table list="${NoticeList}"  id="vo"   requestURI="" export="" style="width:90%"  pagesize="6">	
 

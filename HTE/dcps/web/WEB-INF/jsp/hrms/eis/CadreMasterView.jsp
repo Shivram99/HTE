@@ -22,7 +22,7 @@ try {
 
 
 <hdiits:form name="CadreMasterView" validate="true" method="POST" action="">
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 		<div id="tabmenu">
 		<ul id="maintab" class="shadetabs">
 			<li class="selected"><a href="#" rel="tcontent1"><b><hdiits:caption captionid="cm.CadreMaster" bundle="${commonLables}"/></b></a></li>

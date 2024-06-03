@@ -113,6 +113,7 @@
 </style>
 <hdiits:form name="DCPSChangesDraftForm" id="DCPSForm"
 	encType="multipart/form-data" validate="true" method="post">
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset class="tabstyle">
 		<legend>
 			<b><fmt:message key="CMN.CHANGESDRFATSINPUTDTLS"

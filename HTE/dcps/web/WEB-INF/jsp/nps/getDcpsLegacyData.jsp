@@ -45,7 +45,7 @@ div#displayData {
 </style>
 <hdiits:form name="DCPSForwardedFormsList" id="DCPSForwardedFormsList" encType="multipart/form-data"
 	validate="true" method="post">
-	
+	<input type="hidden" name="csrfToken" value="${csrfToken}"/>
 	<fieldset style="width: 100%" class="tabstyle"><legend
 		id="headingMsg"> <b><fmt:message
 		key="CMN.SEARCHEMP" bundle="${dcpsLabels}"></fmt:message></b> </legend>
