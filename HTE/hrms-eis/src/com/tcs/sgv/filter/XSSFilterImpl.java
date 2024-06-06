@@ -1,7 +1,9 @@
 package com.tcs.sgv.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.servlet.Filter;
@@ -50,6 +52,15 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 			HttpServletResponse paramHttpServletResponse, FilterChain paramFilterChain)
 			throws IOException, ServletException {
 
+		// Validate Host Header
+		String host = paramHttpServletRequest.getHeader("Host");
+		logger.info("Host name == "+host);
+		List<String> allowedHosts = Arrays.asList("localhost:8084", "customizedsevaarthaudit.mahaitgov.in");
+		if (host == null || !allowedHosts.contains(host)) {
+			paramHttpServletResponse.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Host Header");
+			return;
+		}
+
 		Cookie[] cookies = paramHttpServletRequest.getCookies();
 
 		if (cookies == null) {
@@ -63,10 +74,8 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 		String path = "/";
 		boolean isSecure = true;
 		boolean isHttpOnly = true;
-		// Integer maxAge=31536000;
 		Integer maxAge = 5000;
 		String comment = "custom cookie";
-
 		SameSite sameSite = SameSite.STRICT;
 
 		for (Cookie cookie : cookies) {
@@ -81,7 +90,7 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 			CookieHelper.createSetCookieHeader(paramHttpServletResponse, cookieName, cookieValue, domain, path,
 					sameSite, isSecure, isHttpOnly, maxAge, comment);
 		}
-		/* Added 14112022 */
+
 		paramHttpServletResponse.setHeader("HttpOnly", "true");
 		paramHttpServletResponse.setHeader("Secure", "true");
 		paramHttpServletResponse.setHeader("SameSite", "Strict");
@@ -90,9 +99,9 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 		paramHttpServletResponse.setHeader("X-Content-Type-Options", "nosniff");
 		paramHttpServletResponse.setHeader("X-XSS-Protection", "1; mode=block");
 		paramHttpServletResponse.setHeader("Content-Security-Policy",
-				"frame-ancestors 'none' connect-src 'self' font-src 'self'  img-src 'self'  default-src 'self' style-src 'self' *.https://unpkg.com/sweetalert/dist/sweetalert.min.js 'unsafe-inline' *.https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css *. https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js *. https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js *.https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js ");
+				"frame-ancestors 'none'; connect-src 'self'; font-src 'self'; img-src 'self'; default-src 'self'; style-src 'self' 'unsafe-inline' https://unpkg.com/sweetalert/dist/sweetalert.min.js https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css; script-src 'self' 'unsafe-inline' https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js;");
 		paramHttpServletResponse.setHeader("Pragma", "no-cache");
-		paramHttpServletResponse.setHeader("Cache-Control", " no-cache, no-store, must-revalidate");
+		paramHttpServletResponse.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
 		paramHttpServletResponse.setHeader("Expires", "0");
 		paramHttpServletResponse.setHeader("Referrer-Policy", "no-referrer");
 		paramHttpServletResponse.setHeader("Permissions-Policy", "FEATURE ORIGIN");
@@ -101,27 +110,22 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 
 		paramHttpServletResponse.setHeader("X-Frame-Options", "DENY");
 
-		/* Ended 14112022 */
-
-		// for data sanitazation
-		Enumeration localEnumeration = paramHttpServletRequest.getParameterNames();
+		Enumeration<String> localEnumeration = paramHttpServletRequest.getParameterNames();
 		String str1 = null;
 		while (localEnumeration.hasMoreElements()) {
-			String str2 = (String) localEnumeration.nextElement();
+			String str2 = localEnumeration.nextElement();
 			if (str2 != null) {
 				str1 = paramHttpServletRequest.getParameter(str2);
 
 				AESUtil aESUtil = new AESUtil();
-				if (str2 == "password") {
-
+				if ("password".equals(str2)) {
 					if (str1.length() == 160) {
 						str2 = aESUtil.decrypt("Message", str1);
 					}
-
 				}
 
-				if (!str2.equals("txtUIDNo1") || !str2.equals("txtUIDNo2") || !str2.equals("txtUIDNo3")
-						|| !str2.equals("txtPANNo")) {
+				if (!str2.equals("txtUIDNo1") && !str2.equals("txtUIDNo2") && !str2.equals("txtUIDNo3")
+						&& !str2.equals("txtPANNo")) {
 					String cleanedString = SecurityUtil.cleanIt(str1);
 					System.out.println("before clean" + str1);
 					paramHttpServletRequest.setAttribute(str2, cleanedString);
@@ -129,7 +133,6 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 				}
 			}
 		}
-		// ended
 
 		paramHttpServletRequest.setAttribute("_meta_char_filter_applied", Boolean.TRUE);
 		logger.info("Inside XSSFilter");
@@ -140,21 +143,17 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 
 		String str = null;
 		try {
-
 			if (this.multipartResolver.isMultipart(paramHttpServletRequest)) {
-
 				MultipartHttpServletRequest localMultipartHttpServletRequest = this.multipartResolver
 						.resolveMultipart(paramHttpServletRequest);
 				str = checkForSecurity(localMultipartHttpServletRequest, paramHttpServletResponse);
 				paramHttpServletRequest = localMultipartHttpServletRequest;
 			} else {
-
 				str = checkForSecurity(paramHttpServletRequest, paramHttpServletResponse);
 			}
 
 			if (paramHttpServletRequest.getAttribute("_meta_char_filter_applied") != null) {
 				paramFilterChain.doFilter(paramHttpServletRequest, paramHttpServletResponse);
-
 				return;
 			}
 
@@ -182,7 +181,6 @@ public class XSSFilterImpl extends MetaCharFilter implements Filter {
 		paramHttpServletResponse.setHeader("X-FRAME-OPTIONS", "DENY");
 
 		paramFilterChain.doFilter(paramHttpServletRequest, paramHttpServletResponse);
-
 	}
 
 	public CommonsMultipartResolver getMultipartResolver() {

@@ -1,6 +1,7 @@
 package com.tcs.sgv.filter.service;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -49,9 +50,19 @@ public class PriveledgeFilterImpl extends SpringSecurityFilter implements Applic
 
 	protected void doFilterHttp(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		 HttpSession session = request.getSession(); 
+
+		HttpSession session = request.getSession();
+
+		// Validate Host Header
+		String host = request.getHeader("Host");
+		logger.info("Host name == " + host);
+		List<String> allowedHosts = Arrays.asList("localhost:8084", "customizedsevaarthaudit.mahaitgov.in");
+		if (host == null || !allowedHosts.contains(host)) {
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Host Header");
+			return;
+		}
 		logger.info("session is : " + session);
-		
+
 		if (session != null) {
 			String userName = request.getParameter("j_username");
 			logger.info("userName is : " + userName);

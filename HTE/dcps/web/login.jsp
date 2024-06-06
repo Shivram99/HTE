@@ -61,6 +61,23 @@ response.setHeader("Location", "none");
 response.setHeader("X-Frame-Options", "DENY");
 %>
 
+<%
+String errorMessage = (String) request.getAttribute("errorMessage");
+String contextPath = request.getContextPath();
+String secureBaseURL = "customizedsevaarthaudit.mahaitgov.in" + contextPath;
+
+if ("POST".equalsIgnoreCase(request.getMethod())) {
+	String username = request.getParameter("username");
+	String password = request.getParameter("password");
+
+	// Dummy validation - replace with actual validation logic
+	if (secureBaseURL.equals(secureBaseURL)) {
+		response.sendRedirect(secureBaseURL + "/login.jsp");
+	} else {
+		request.setAttribute("errorMessage", "Invalid username or password");
+	}
+}
+%>
 <c:set value="<%=flag%>" var="flag"></c:set>
 <c:set value="<%=userName%>" var="userName"></c:set>
 <c:set value="<%=pwd%>" var="pwd"></c:set>
@@ -488,9 +505,7 @@ String notice = request.getParameter("n");
 		<c:if test="${notice == null}">
 
 			<center>
-				<br />
-				<br />
-				<br />
+				<br /> <br /> <br />
 				<fieldset class="tabstyle"
 					style="width: 85%; background-color: #E4E5ED;">
 					<table id="MainTable" width="100%" border="0">
@@ -565,9 +580,9 @@ String notice = request.getParameter("n");
 											</tr>
 											<tr>
 												<td><input type="hidden" name="capLength"
-													id="capLength"> <input type="hidden"
-													name="captcha" id="captcha"> <input type="hidden"
-													name="pass1" id="pass1"></td>
+													id="capLength"> <input type="hidden" name="captcha"
+													id="captcha"> <input type="hidden" name="pass1"
+													id="pass1"></td>
 											</tr>
 											<tr>
 
@@ -664,8 +679,7 @@ String notice = request.getParameter("n");
 								and Treasuries. It is the first step in the direction of
 								achieving the aim of paper less electronic payroll system i.e.
 								paybill generation, electronic submission, electronic audit and
-								electronic payment to employees along with e-payslips. <br />
-							<br />
+								electronic payment to employees along with e-payslips. <br /> <br />
 
 							</td>
 							<td style="width: 22%" bordercolor="#c06f20" valign="middle">
@@ -938,8 +952,8 @@ String notice = request.getParameter("n");
 								<!-- <td><img src="images/loginImg/Login_img_2_03.gif"
 									width="81" height="21" alt=""></td> -->
 								<td width="139" height="21"><input type="text"
-									value="<%=request.getParameter("userName")%>"
-									name="j_username" maxlength="18"
+									value="<%=request.getParameter("userName")%>" name="j_username"
+									maxlength="18"
 									style="width: 136px; height: 17px; border: none;"
 									onkeyup="javascript: checkEnter();"> <script
 										type="text/javascript" language="JavaScript">
