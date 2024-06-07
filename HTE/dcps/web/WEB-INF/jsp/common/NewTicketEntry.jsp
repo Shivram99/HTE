@@ -161,11 +161,7 @@ fieldset.tabstyle input:not([type='button']), fieldset.tabstyle select,
 		//alert(flagC);
 		var tid;
 		var answer = "";
-		tid = $
-		{
-			orgTicketMst.ticketId
-		}
-		;
+		tid = ${orgTicketMst.ticketId};
 		var User = document.getElementById("hdnUser").value;
 		var url;
 		//alert(User);
