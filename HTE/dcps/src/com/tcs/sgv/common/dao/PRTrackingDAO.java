@@ -7,25 +7,25 @@ import java.util.Map;
 import com.tcs.sgv.common.valueobject.OrgTicketMst;
 import com.tcs.sgv.core.dao.GenericDao;
 
-public interface PRTrackingDAO extends GenericDao
-{
+public interface PRTrackingDAO extends GenericDao {
 
-    List getScreenMaster();
+	List getScreenMaster();
 
-    void insertTicketMst(String title, Long screen, String desc, String credentials, Long contactNo, String emailId,
-            String userName, String ddoCode, Date acknowledgeDate, Map inputMap, Long fileId) throws Exception;
+	void insertTicketMst(String title, Long screen, String desc, String credentials, Long contactNo, String emailId,
+			String userName, String ddoCode, Date acknowledgeDate, Map inputMap, Long fileId) throws Exception;
 
-    void updateTicketMst(Long ticketId, Long status, /*Long priority,*/ String remarks, Map inputMap, String user, String prevRemarks, Long severity, Long rootCause,Long fileId) throws Exception;
+	void updateTicketMst(Long ticketId, Long status, /* Long priority, */ String remarks, Map inputMap, String user,
+			String prevRemarks, Long severity, Long rootCause, Long fileId) throws Exception;
 
-    String getRoleID(String postid);
+	String getRoleID(String postid);
 
-    List getLoadEmpTickets(long locId, String roleId, long status, String fromDate, String toDate);
+	List getLoadEmpTickets(long locId, String roleId, long status, String fromDate, String toDate);
 
-    String getPrevRemarks(Long ticketId);
+	String getPrevRemarks(Long ticketId);
 
 	/* void updateTicketFlag(Long ticketId); */
-    
-    void updateTicketFlag(Long ticketId,String loginName);
+
+	void updateTicketFlag(Long ticketId, String loginName);
 
 	void updateHistoryMst(OrgTicketMst orgTicketMst) throws Exception;
 
